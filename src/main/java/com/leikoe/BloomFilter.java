@@ -3,6 +3,7 @@ package com.leikoe;
 import java.util.List;
 import java.util.function.ToIntFunction;
 
+
 public class BloomFilter<T> implements IBloomFilter<T> {
     List<Boolean> bits;
     List<ToIntFunction<T>> hashFunctions;
