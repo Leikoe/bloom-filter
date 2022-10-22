@@ -1,7 +1,6 @@
 package com.leikoe.hash;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.function.ToIntFunction;
 
 
@@ -24,11 +23,8 @@ public class MurmurHash2<T> implements ToIntFunction<T> {
 
         int i = 0;
         while (data_len >= 4) {
-            // load 4 bytes into a buffer
-            byte[] buffer = Arrays.copyOfRange(data, i, i+4);
-
-            // convert the byte[4] buffer to an int
-            int k = ByteBuffer.wrap(buffer).getInt();
+            // convert 4 bytes to an int
+            int k = ByteBuffer.wrap(data, i, 4).getInt();
 
             k *= m;
             k ^= k >> r;

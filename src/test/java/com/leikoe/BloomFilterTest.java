@@ -8,7 +8,7 @@ public class BloomFilterTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        arrayListBloomFilter = Bencher.makeExampleArrayListBloomFilter(500, new int[]{12, 87, 43, 22, 8, 97});
+        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(12000, new int[]{12, 87, 43, 22, 8, 97});
     }
 
     @org.junit.After
@@ -29,9 +29,9 @@ public class BloomFilterTest {
         assertTrue(arrayListBloomFilter.mightContain(97));
 
 //        assertFalse(arrayListBloomFilter.mightContain(67));
-//        assertFalse(arrayListBloomFilter.mightContain(7));
-//        assertFalse(arrayListBloomFilter.mightContain(748));
-//        assertFalse(arrayListBloomFilter.mightContain(23));
-//        assertFalse(arrayListBloomFilter.mightContain(328));
+        assertFalse(arrayListBloomFilter.mightContain(7));
+        assertFalse(arrayListBloomFilter.mightContain(748));
+        assertFalse(arrayListBloomFilter.mightContain(23));
+        assertFalse(arrayListBloomFilter.mightContain(328));
     }
 }
