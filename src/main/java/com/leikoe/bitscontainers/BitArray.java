@@ -5,7 +5,7 @@ import com.leikoe.IBitsContainer;
 public class BitArray implements IBitsContainer {
     boolean[] bits;
 
-    BitArray(int capacity) {
+    public BitArray(int capacity) {
         bits = new boolean[capacity];
     }
 

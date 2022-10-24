@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class BitArrayList implements IBitsContainer {
     ArrayList<Boolean> bits;
 
-    BitArrayList(int capacity) {
+    public BitArrayList(int capacity) {
         bits = new ArrayList<>(capacity);
 
         for (int i=0; i<capacity; i++) {

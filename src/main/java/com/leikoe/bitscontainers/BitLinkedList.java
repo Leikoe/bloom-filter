@@ -8,7 +8,7 @@ public class BitLinkedList implements IBitsContainer {
 
     LinkedList<Boolean> bits;
 
-    BitLinkedList(int capacity) {
+    public BitLinkedList(int capacity) {
         bits = new LinkedList<>();
 
         for (int i=0; i<capacity; i++) {
