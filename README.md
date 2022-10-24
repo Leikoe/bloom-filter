@@ -10,7 +10,11 @@
 
 ## how to run
 ```bash
+// benchmarks
 mvn clean compile exec:java
+
+// unit tests
+mvn test -Dtest=BloomFilterTest
 ```
 
 ## hash functions implementation optimisations
@@ -19,15 +23,20 @@ mvn clean compile exec:java
 **4 bytes** to **int** conversion optimisation
 ```java
 // going from 
-int k = ByteBuffer.wrap(Arrays.copyOfRange(data, i, i+4));
+int k = ByteBuffer.wrap(Arrays.copyOfRange(data, i, i+4)).getInt();
 // to
 int k = ByteBuffer.wrap(data, i, 4);
-// i saw a x% speedup.
 ```
 ```txt
-Benchmark                                     Mode  Cnt     Score     Error  Units
-Bencher.measureArrayListBloomFilterContains   avgt    5  3677.043 ±  30.270  ns/op
-Bencher.measureLinkedListBloomFilterContains  avgt    5  5169.316 ± 461.229  ns/op
+Benchmark                                     Mode  Cnt  Score   Error  Units
+Bencher.measureArrayListBloomFilterContains   avgt    5  3.527 ± 0.047  us/op
+Bencher.measureLinkedListBloomFilterContains  avgt    5  7.945 ± 0.196  us/op
+```
+to
+```txt
+Benchmark                                     Mode  Cnt  Score   Error  Units
+Bencher.measureArrayListBloomFilterContains   avgt    5  2.891 ± 0.009  us/op
+Bencher.measureLinkedListBloomFilterContains  avgt    5  7.359 ± 0.013  us/op
 ```
 
 Then, tried to improve further by removing the allocation of a new ByteBuffer
@@ -41,9 +50,9 @@ int k = data[i]
         + data[i+3] << 24;
 ```
 ```txt
-Benchmark                                     Mode  Cnt     Score     Error  Units
-Bencher.measureArrayListBloomFilterContains   avgt    5  3828.091 ±   5.912  ns/op
-Bencher.measureLinkedListBloomFilterContains  avgt    5  5100.557 ± 528.067  ns/op
+Benchmark                                     Mode  Cnt  Score   Error  Units
+Bencher.measureArrayListBloomFilterContains   avgt    5  2.977 ± 0.016  us/op
+Bencher.measureLinkedListBloomFilterContains  avgt    5  6.403 ± 0.078  us/op
 ```
 
 ... only made it slower

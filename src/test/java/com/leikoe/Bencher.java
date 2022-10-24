@@ -20,7 +20,7 @@ public class Bencher {
     @Benchmark
     @Fork(value = 1, warmups = 0)
     @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
     public void measureArrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(arrayListBloomFilter.mightContain(i));
@@ -30,7 +30,7 @@ public class Bencher {
     @Benchmark
     @Fork(value = 1, warmups = 0)
     @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
     public void measureLinkedListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(linkedListBloomFilter.mightContain(i));
