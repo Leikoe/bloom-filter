@@ -1,12 +1,15 @@
 # Simple Bloom Filter implementation in java
-## references
+## References:
 - https://fr.wikipedia.org/wiki/Filtre_de_Bloom
 - https://llimllib.github.io/bloomfilter-tutorial/
 - https://fr.wikipedia.org/wiki/Fonction_de_hachage
-- https://www.baeldung.com/java-microbenchmark-harness
 - https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
-### hash functions references:
+### hash functions
 - https://sites.google.com/site/murmurhash/
+### micro benchmarking
+- https://stackoverflow.com/questions/51232809/performance-comparison-of-modulo-operator-and-bitwise-and
+- https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java
+- https://www.baeldung.com/java-microbenchmark-harness
 
 ## how to run
 ```bash
@@ -17,10 +20,10 @@ mvn clean compile exec:java
 mvn test -Dtest=BloomFilterTest
 ```
 
-## hash functions implementation optimisations
+## Optimisations
 ### murmurHash2
 
-**4 bytes** to **int** conversion optimisation
+Loading **4 bytes** into **int** optimisation
 ```java
 // going from 
 int k = ByteBuffer.wrap(Arrays.copyOfRange(data, i, i+4)).getInt();
