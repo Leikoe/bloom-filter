@@ -5,11 +5,11 @@ import java.util.function.ToIntFunction;
 
 
 public class BloomFilter<T> implements IBloomFilter<T> {
-    List<Boolean> bits;
+    IBitsContainer bits;
     List<ToIntFunction<T>> hashFunctions;
     int size;
 
-    public BloomFilter(List<Boolean> bitsContainer, List<ToIntFunction<T>> hashFunctions) {
+    public BloomFilter(IBitsContainer bitsContainer, List<ToIntFunction<T>> hashFunctions) {
         this.bits = bitsContainer;
         this.size = 0;
         this.hashFunctions = hashFunctions;
