@@ -20,7 +20,7 @@ public class BloomFilterTest {
     }
 
     @org.junit.Test
-    public void mightContain() {
+    public void mightContainTest() {
         assertTrue(arrayListBloomFilter.mightContain(12));
         assertTrue(arrayListBloomFilter.mightContain(87));
         assertTrue(arrayListBloomFilter.mightContain(43));
@@ -28,10 +28,12 @@ public class BloomFilterTest {
         assertTrue(arrayListBloomFilter.mightContain(8));
         assertTrue(arrayListBloomFilter.mightContain(97));
 
-//        assertFalse(arrayListBloomFilter.mightContain(67));
+        assertFalse(arrayListBloomFilter.mightContain(67));
         assertFalse(arrayListBloomFilter.mightContain(7));
         assertFalse(arrayListBloomFilter.mightContain(748));
         assertFalse(arrayListBloomFilter.mightContain(23));
         assertFalse(arrayListBloomFilter.mightContain(328));
     }
+
+
 }

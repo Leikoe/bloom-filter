@@ -8,15 +8,21 @@ import java.util.List;
 import java.util.function.ToIntFunction;
 
 public class TestUtils {
+    private static List<ToIntFunction<Integer>> makeExampleHashFunctionArrayList() {
+        List<ToIntFunction<Integer>> hashFunctions = new ArrayList<>();
+        hashFunctions.add(new MurmurHash2<Integer>(23792387));
+        hashFunctions.add(x -> (int) (Math.pow(x, 2) - 6));
+        hashFunctions.add(x -> (int) (Math.abs(x + 7) / 3));
+
+        return hashFunctions;
+    }
+
     public static BloomFilter<Integer> makeExampleArrayListBloomFilter(int capacity, int[] values) {
         List<Boolean> boolArrayList = new ArrayList<>(capacity);
         for (int i=0; i<capacity; i++)
             boolArrayList.add(false);
 
-        List<ToIntFunction<Integer>> hashFunctions = new ArrayList<>();
-        hashFunctions.add(new MurmurHash2<Integer>(23792387));
-
-        BloomFilter<Integer> arrayListBloomFilter = new BloomFilter<>(boolArrayList, hashFunctions);
+        BloomFilter<Integer> arrayListBloomFilter = new BloomFilter<>(boolArrayList, makeExampleHashFunctionArrayList());
         for (int i: values) {
             arrayListBloomFilter.add(i);
         }
@@ -31,7 +37,7 @@ public class TestUtils {
         List<ToIntFunction<Integer>> hashFunctions = new ArrayList<>();
         hashFunctions.add(new MurmurHash2<Integer>(23792387));
 
-        BloomFilter<Integer> arrayListBloomFilter = new BloomFilter<>(boolArrayList, hashFunctions);
+        BloomFilter<Integer> arrayListBloomFilter = new BloomFilter<>(boolArrayList, makeExampleHashFunctionArrayList());
         for (int i: values) {
             arrayListBloomFilter.add(i);
         }
