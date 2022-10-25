@@ -115,23 +115,23 @@ we got a lot faster.
 ## Full Benchmark
 
 ```text
-Benchmark                              (size)  Mode  Cnt    Score    Error  Units
-Bencher.arrayBloomFilterAdd                10  avgt    5    3.318 ±  0.282  us/op
-Bencher.arrayBloomFilterAdd              1000  avgt    5    3.354 ±  0.138  us/op
-Bencher.arrayBloomFilterAdd            100000  avgt    5    3.356 ±  0.165  us/op
-Bencher.arrayBloomFilterContains           10  avgt    5    3.387 ±  0.262  us/op
-Bencher.arrayBloomFilterContains         1000  avgt    5    3.417 ±  0.296  us/op
-Bencher.arrayBloomFilterContains       100000  avgt    5    3.399 ±  0.376  us/op
-Bencher.arrayListBloomFilterAdd            10  avgt    5    3.361 ±  0.130  us/op
-Bencher.arrayListBloomFilterAdd          1000  avgt    5    3.345 ±  0.185  us/op
-Bencher.arrayListBloomFilterAdd        100000  avgt    5    3.328 ±  0.399  us/op
-Bencher.arrayListBloomFilterContains       10  avgt    5    3.388 ±  0.226  us/op
-Bencher.arrayListBloomFilterContains     1000  avgt    5    3.412 ±  0.124  us/op
-Bencher.arrayListBloomFilterContains   100000  avgt    5    3.399 ±  0.318  us/op
-Bencher.linkedListBloomFilterAdd           10  avgt    5    3.390 ±  0.266  us/op
-Bencher.linkedListBloomFilterAdd         1000  avgt    5   10.526 ±  0.690  us/op
-Bencher.linkedListBloomFilterAdd       100000  avgt    5  735.690 ± 19.659  us/op
-Bencher.linkedListBloomFilterContains      10  avgt    5    3.430 ±  0.259  us/op
-Bencher.linkedListBloomFilterContains    1000  avgt    5   10.570 ±  0.654  us/op
-Bencher.linkedListBloomFilterContains  100000  avgt    5  726.056 ± 61.732  us/op
+Benchmark                              (size)  Mode  Cnt     Score     Error  Units
+Bencher.arrayBloomFilterAdd                10  avgt    5    13.375 ±   1.359  us/op
+Bencher.arrayBloomFilterAdd              1000  avgt    5    13.302 ±   0.866  us/op
+Bencher.arrayBloomFilterAdd            100000  avgt    5    13.414 ±   0.846  us/op
+Bencher.arrayBloomFilterContains           10  avgt    5    13.300 ±   0.813  us/op
+Bencher.arrayBloomFilterContains         1000  avgt    5    13.483 ±   0.825  us/op
+Bencher.arrayBloomFilterContains       100000  avgt    5    13.778 ±   0.681  us/op
+Bencher.arrayListBloomFilterAdd            10  avgt    5    13.259 ±   0.143  us/op
+Bencher.arrayListBloomFilterAdd          1000  avgt    5    13.220 ±   0.702  us/op
+Bencher.arrayListBloomFilterAdd        100000  avgt    5    13.381 ±   1.588  us/op
+Bencher.arrayListBloomFilterContains       10  avgt    5    13.582 ±   1.063  us/op
+Bencher.arrayListBloomFilterContains     1000  avgt    5    13.232 ±   0.734  us/op
+Bencher.arrayListBloomFilterContains   100000  avgt    5    13.707 ±   0.815  us/op
+Bencher.linkedListBloomFilterAdd           10  avgt    5    13.372 ±   0.600  us/op
+Bencher.linkedListBloomFilterAdd         1000  avgt    5    23.336 ±   1.909  us/op
+Bencher.linkedListBloomFilterAdd       100000  avgt    5  1717.116 ± 105.721  us/op
+Bencher.linkedListBloomFilterContains      10  avgt    5    13.561 ±   1.274  us/op
+Bencher.linkedListBloomFilterContains    1000  avgt    5    23.690 ±   1.069  us/op
+Bencher.linkedListBloomFilterContains  100000  avgt    5  1715.068 ± 191.743  us/op
 ```
