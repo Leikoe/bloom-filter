@@ -14,10 +14,10 @@
 ## how to run
 ```bash
 // benchmarks
-mvn clean compile exec:java
+mvn clean compile
 
 // unit tests
-mvn test -Dtest=BloomFilterTest
+mvn test 
 ```
 
 ## Optimisations

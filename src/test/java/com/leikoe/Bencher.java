@@ -1,11 +1,20 @@
 package com.leikoe;
 
+import org.junit.Test;
 import org.openjdk.jmh.annotations.*;
 
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
+@Threads(1)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
+@Warmup(iterations = 0, time = 1)
+@Measurement(iterations = 1, time = 1)
+@BenchmarkMode(Mode.All)
 public class Bencher {
+
+    @Param({"232","193","22", "12", "372", "90", "3972"})
+    public int value;
 
     BloomFilter<Integer> arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(500, values);
     BloomFilter<Integer> linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(500, values);
@@ -13,38 +22,34 @@ public class Bencher {
     static int[] values = {12, 372, 3972};
     static int[] testValues = {232, 193, 22, 12, 372, 90, 3972};
 
-
-    public static void main(String[] args) throws Exception {
-        org.openjdk.jmh.Main.main(args);
+    @Benchmark
+    public void arrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+        bh.consume(arrayListBloomFilter.mightContain(value));
     }
 
     @Benchmark
-    @Fork(value = 1, warmups = 0)
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    public void measureArrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
-        for (int i: testValues) {
-            bh.consume(arrayListBloomFilter.mightContain(i));
-        }
+    public void linkedListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+        bh.consume(linkedListBloomFilter.mightContain(value));
     }
 
     @Benchmark
-    @Fork(value = 1, warmups = 0)
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    public void measureLinkedListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
-        for (int i: testValues) {
-            bh.consume(linkedListBloomFilter.mightContain(i));
-        }
+    public void arrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+        bh.consume(arrayBloomFilter.mightContain(value));
     }
 
-    @Benchmark
-    @Fork(value = 1, warmups = 0)
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    public void measureArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
-        for (int i: testValues) {
-            bh.consume(arrayBloomFilter.mightContain(i));
-        }
+    @Setup(Level.Invocation)
+    public void setupInvokation() throws Exception {
+        // executed before each invocation of the benchmark
+    }
+
+    @Setup(Level.Iteration)
+    public void setupIteration() throws Exception {
+        // executed before each invocation of the iteration
+    }
+
+    @Test
+    public void benchmark() throws Exception {
+        String[] argv = {};
+        org.openjdk.jmh.Main.main(argv);
     }
 }

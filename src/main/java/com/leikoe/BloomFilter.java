@@ -9,6 +9,12 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     List<ToIntFunction<T>> hashFunctions;
     int size;
 
+    /**
+     * @param bitsContainer user provided bits container, all initialized to 0, must implement IBitsContainer
+     * @param hashFunctions a generic list of hash functions from T to int
+     *
+     *                      This creates a BloomFilter instance using the provided bits container and hash functions
+     */
     public BloomFilter(IBitsContainer bitsContainer, List<ToIntFunction<T>> hashFunctions) {
         this.bits = bitsContainer;
         this.size = 0;

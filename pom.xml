@@ -6,14 +6,16 @@
 
     <groupId>com.leikoe</groupId>
     <artifactId>bloom-filter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <exec.mainClass>com.leikoe.Bencher</exec.mainClass>
-        <classpathScope>test</classpathScope>
+
+<!--        <exec.mainClass>com.leikoe.Bencher</exec.mainClass>-->
+<!--        <classpathScope>test</classpathScope>-->
     </properties>
 
     <dependencies>
@@ -28,11 +30,19 @@
             <artifactId>jmh-generator-annprocess</artifactId>
             <version>1.35</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>RELEASE</version>
+            <version>4.13.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 
