@@ -4,11 +4,15 @@ import static org.junit.Assert.*;
 
 public class BloomFilterTest {
 
+    BloomFilter<Integer> arrayBloomFilter;
     BloomFilter<Integer> arrayListBloomFilter;
+    BloomFilter<Integer> linkedListBloomFilter;
 
     @org.junit.Before
     public void setUp() throws Exception {
+        arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(12000, new Integer[]{12, 87, 43, 22, 8, 97});
         arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(12000, new Integer[]{12, 87, 43, 22, 8, 97});
+        linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(12000, new Integer[]{12, 87, 43, 22, 8, 97});
     }
 
     @org.junit.After
@@ -17,6 +21,18 @@ public class BloomFilterTest {
 
     @org.junit.Test
     public void add() {
+        if (!arrayBloomFilter.mightContain(78)) {
+            arrayBloomFilter.add(78);
+            assertTrue(arrayBloomFilter.mightContain(78));
+        }
+        if (!arrayListBloomFilter.mightContain(78)) {
+            arrayListBloomFilter.add(78);
+            assertTrue(arrayListBloomFilter.mightContain(78));
+        }
+        if (!linkedListBloomFilter.mightContain(78)) {
+            linkedListBloomFilter.add(78);
+            assertTrue(linkedListBloomFilter.mightContain(78));
+        }
     }
 
     @org.junit.Test
