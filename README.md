@@ -4,6 +4,7 @@
 - https://llimllib.github.io/bloomfilter-tutorial/
 - https://fr.wikipedia.org/wiki/Fonction_de_hachage
 - https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
+- https://andybui01.github.io/bloom-filter/#implementation-and-benchmarks
 
 ### hash functions
 - https://sites.google.com/site/murmurhash/
