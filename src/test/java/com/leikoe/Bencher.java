@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 public class Bencher {
 
-    @Param({"10","1000","100000"})
+    @Param({"10", "100", "500", "1000", "10000", "250000", "500000", "750000", "1000000", "1250000", "1500000", "1750000", "2000000", "2250000", "2500000", "2750000", "3000000"})
     public int size;
 
     BloomFilter<Integer> arrayListBloomFilter;
