@@ -4,8 +4,11 @@
 - https://llimllib.github.io/bloomfilter-tutorial/
 - https://fr.wikipedia.org/wiki/Fonction_de_hachage
 - https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
+
 ### hash functions
 - https://sites.google.com/site/murmurhash/
+- https://gist.github.com/sgsfak/9ba382a0049f6ee885f68621ae86079b
+
 ### micro benchmarking
 - https://stackoverflow.com/questions/51232809/performance-comparison-of-modulo-operator-and-bitwise-and
 - https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java

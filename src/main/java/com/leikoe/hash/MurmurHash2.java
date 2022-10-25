@@ -13,9 +13,7 @@ public class MurmurHash2<T> implements ToIntFunction<T> {
         this.seed = seed;
     }
 
-    public int hash(T object) {
-        byte[] data = Utils.objectToBytes(object);
-
+    public int hash(byte[] data) {
         int m = 0x5db1e995;
         int r = 24;
 
@@ -25,12 +23,10 @@ public class MurmurHash2<T> implements ToIntFunction<T> {
         int i = 0;
         while (data_len >= 4) {
             // convert 4 bytes to an int
-            int k = ByteBuffer.wrap(Arrays.copyOfRange(data, i, i+4)).getInt();
-//            int k = ByteBuffer.wrap(data, i, 4).getInt();
-//            int k = data[i]
-//                    + data[i+1] << 8
-//                    + data[i+2] << 16
-//                    + data[i+3] << 24;
+            int k = data[i]
+                    + data[i+1] << 8
+                    + data[i+2] << 16
+                    + data[i+3] << 24;
 
             k *= m;
             k ^= k >> r;
@@ -44,7 +40,6 @@ public class MurmurHash2<T> implements ToIntFunction<T> {
         }
 
         // Handle the last few bytes of the input array
-
         switch(data_len)
         {
             case 3: h ^= data[2] << 16;
@@ -65,6 +60,7 @@ public class MurmurHash2<T> implements ToIntFunction<T> {
 
     @Override
     public int applyAsInt(T value) {
-        return hash(value);
+        byte[] data = Utils.objectToBytes(value);
+        return hash(data);
     }
 }

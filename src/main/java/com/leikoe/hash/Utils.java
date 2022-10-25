@@ -14,4 +14,11 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
+
+    public static int take4(byte[] bytes, int start) {
+        return bytes[start]
+                    + bytes[start+1] << 8
+                    + bytes[start+2] << 16
+                    + bytes[start+3] << 24;
+    }
 }
