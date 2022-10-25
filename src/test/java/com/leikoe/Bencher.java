@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Timeout(time = 10, timeUnit = TimeUnit.SECONDS)
 public class Bencher {
 
+    // n is the number of elements in the filter
     @Param({"10", "100", "500", "1000", "10000", "100000"})
     public int size;
 
