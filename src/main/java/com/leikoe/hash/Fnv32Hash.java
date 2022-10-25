@@ -14,7 +14,7 @@ public class Fnv32Hash<T> implements ToIntFunction<T> {
         int h = 0x811c9dc5; /* 2166136261 */
         for (int i= 0; i<data.length; i++) {
             /* xor the bottom with the current octet */
-            h ^= Utils.take4(data, i);
+            h ^= data[i];
             /* multiply by the 32 bit FNV magic prime mod 2^32 */
             h *= FNV_32_PRIME;
         }

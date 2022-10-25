@@ -12,7 +12,7 @@ public class JavaHash<T> implements ToIntFunction<T> {
     public int hash(byte[] data) {
         int h = 0;
         for (int i=0; i<data.length; i++) {
-            h = 31 * h + Utils.take4(data, i);
+            h = 31 * h + data[i];
         }
         return h;
     }

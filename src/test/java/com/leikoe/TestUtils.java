@@ -3,7 +3,10 @@ package com.leikoe;
 import com.leikoe.bitscontainers.BitArray;
 import com.leikoe.bitscontainers.BitArrayList;
 import com.leikoe.bitscontainers.BitLinkedList;
+import com.leikoe.hash.Fnv32Hash;
+import com.leikoe.hash.JavaHash;
 import com.leikoe.hash.MurmurHash2;
+import com.leikoe.hash.djb33Hash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +22,9 @@ public class TestUtils {
     private static <T> List<ToIntFunction<T>> makeExampleHashFunctionArrayList() {
         List<ToIntFunction<T>> hashFunctions = new ArrayList<>();
         hashFunctions.add(new MurmurHash2<T>(23792387));
-        hashFunctions.add(new MurmurHash2<T>(4256894));
-        hashFunctions.add(new MurmurHash2<T>(99623));
+        hashFunctions.add(new JavaHash<>());
+        hashFunctions.add(new djb33Hash<>());
+        hashFunctions.add(new Fnv32Hash<>());
 
         return hashFunctions;
     }

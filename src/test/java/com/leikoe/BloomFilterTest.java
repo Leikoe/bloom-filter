@@ -19,7 +19,7 @@ public class BloomFilterTest {
     public void add() {
     }
 
-//    @org.junit.Test
+    @org.junit.Test
     public void mightContainTest() {
         assertTrue(arrayListBloomFilter.mightContain(12));
         assertTrue(arrayListBloomFilter.mightContain(87));
@@ -35,7 +35,7 @@ public class BloomFilterTest {
         assertFalse(arrayListBloomFilter.mightContain(328));
     }
 
-    @org.junit.Test
+//    @org.junit.Test
     public void runBenchmarks() throws Exception {
         new Bencher().benchmark();
     }

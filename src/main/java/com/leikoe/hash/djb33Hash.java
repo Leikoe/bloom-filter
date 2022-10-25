@@ -16,7 +16,7 @@ public class djb33Hash<T> implements ToIntFunction<T> {
         for(int i = 0; i<data.length; i++) {
             /* h = 33 * h ^ s[i]; */
             h += (h << 5);
-            h ^= Utils.take4(data, i);
+            h ^= data[i];
         }
         return h;
     }
