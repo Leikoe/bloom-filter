@@ -7,6 +7,10 @@ import static com.leikoe.hash.Utils.positiveMod;
 
 
 public class BloomFilter<T> implements IBloomFilter<T> {
+
+    // we wish to have 1% or less
+    public static final double FALSE_POSITIVE_RATE = 0.01;
+
     IBitsContainer bits;
     List<ToIntFunction<T>> hashFunctions;
     int size;
@@ -42,6 +46,41 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         }
 
         return all_true;
+    }
+
+    /**
+     * Formulas from <a href="https://andybui01.github.io/bloom-filter/#implementation-and-benchmark">this paper</a>
+     * we use the ceil function because it's worse to have a smaller container than a bigger one for collisions
+     *
+     * @param n the number of elements to be inserted in the filter
+     * @param e the false positive rate
+     * @return the optimal bits container size
+     */
+    public static int getOptimalSize(int n, double e) {
+        return (int) Math.ceil((-n * Math.log(e)) / Math.pow(Math.log(2), 2));
+    }
+
+    /**
+     * Formulas from <a href="https://andybui01.github.io/bloom-filter/#implementation-and-benchmark">this paper</a>
+     * we use the ceil function because it's worse to have a smaller container than a bigger one for collisions
+     *
+     * @param n the number of elements to be inserted in the filter
+     * @return the optimal bits container size
+     */
+    public static int getOptimalSize(int n) {
+        return (int) Math.ceil((-n * Math.log(FALSE_POSITIVE_RATE)) / Math.pow(Math.log(2), 2));
+    }
+
+    /**
+     * Formulas from <a href="https://andybui01.github.io/bloom-filter/#implementation-and-benchmark">this paper</a>
+     * we use the ceil function because in case of a 0. result, we need to get atleast one hash function
+     *
+     * @param n the number of elements to be inserted in the filter
+     * @param m the size of the bits container
+     * @return the optimal number of hash functions
+     */
+    public static int getOptimalNumberOfHashFunctions(int n, int m) {
+        return (int) Math.ceil((m/(double) n) * Math.log(2));
     }
 
     @Override
