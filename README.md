@@ -11,13 +11,11 @@
 - https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java
 - https://www.baeldung.com/java-microbenchmark-harness
 - https://www.loicmathieu.fr/wordpress/informatique/introduction-a-jmh-java-microbenchmark-harness/
+- http://leogomes.github.io/assets/JMH_cheatsheet.pdf
 
 ## how to run
+Unit tests and Benchmarks
 ```bash
-// benchmarks
-mvn clean compile
-
-// unit tests
 mvn test 
 ```
 

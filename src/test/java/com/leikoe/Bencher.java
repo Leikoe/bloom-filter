@@ -1,6 +1,5 @@
 package com.leikoe;
 
-import org.junit.Test;
 import org.openjdk.jmh.annotations.*;
 
 import java.util.concurrent.TimeUnit;
@@ -84,7 +83,6 @@ public class Bencher {
         }
     }
 
-    @Test
     public void benchmark() throws Exception {
         String[] argv = {};
         org.openjdk.jmh.Main.main(argv);

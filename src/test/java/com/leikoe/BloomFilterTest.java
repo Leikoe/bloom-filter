@@ -35,5 +35,9 @@ public class BloomFilterTest {
         assertFalse(arrayListBloomFilter.mightContain(328));
     }
 
+    @org.junit.Test
+    public void runBenchmarks() throws Exception {
+        new Bencher().benchmark();
+    }
 
 }
