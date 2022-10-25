@@ -8,7 +8,7 @@ public class BloomFilterTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(12000, new int[]{12, 87, 43, 22, 8, 97});
+        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(12000, new Integer[]{12, 87, 43, 22, 8, 97});
     }
 
     @org.junit.After
