@@ -41,4 +41,9 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
         return all_true;
     }
+
+    @Override
+    public int size() {
+        return size;
+    }
 }

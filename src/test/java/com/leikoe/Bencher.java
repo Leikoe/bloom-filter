@@ -10,31 +10,58 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @Warmup(iterations = 0, time = 1)
 @Measurement(iterations = 1, time = 1)
-@BenchmarkMode(Mode.All)
+@BenchmarkMode(Mode.AverageTime)
 public class Bencher {
 
-    @Param({"232","193","22", "12", "372", "90", "3972"})
-    public int value;
+    @Param({"10","1000","100000"})
+    public int size;
 
-    BloomFilter<Integer> arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(500, values);
-    BloomFilter<Integer> linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(500, values);
-    BloomFilter<Integer> arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(500, values);
+    BloomFilter<Integer> arrayListBloomFilter;
+    BloomFilter<Integer> linkedListBloomFilter;
+    BloomFilter<Integer> arrayBloomFilter;
     static int[] values = {12, 372, 3972};
     static int[] testValues = {232, 193, 22, 12, 372, 90, 3972};
 
     @Benchmark
     public void arrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
-        bh.consume(arrayListBloomFilter.mightContain(value));
+        for (int i: testValues) {
+            bh.consume(arrayListBloomFilter.mightContain(i));
+        }
     }
 
     @Benchmark
     public void linkedListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
-        bh.consume(linkedListBloomFilter.mightContain(value));
+        for (int i: testValues) {
+            bh.consume(linkedListBloomFilter.mightContain(i));
+        }
     }
 
     @Benchmark
     public void arrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
-        bh.consume(arrayBloomFilter.mightContain(value));
+        for (int i: testValues) {
+            bh.consume(arrayBloomFilter.mightContain(i));
+        }
+    }
+
+    @Benchmark
+    public void arrayListBloomFilterAdd(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            arrayListBloomFilter.add(i);
+        }
+    }
+
+    @Benchmark
+    public void linkedListBloomFilterAdd(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            linkedListBloomFilter.add(i);
+        }
+    }
+
+    @Benchmark
+    public void arrayBloomFilterAdd(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            arrayBloomFilter.add(i);
+        }
     }
 
     @Setup(Level.Invocation)
@@ -45,6 +72,16 @@ public class Bencher {
     @Setup(Level.Iteration)
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
+
+        if (arrayBloomFilter == null || arrayListBloomFilter.size() != values.length) {
+            arrayBloomFilter = TestUtils.makeExampleArrayListBloomFilter(size, values);
+        }
+        if (arrayListBloomFilter == null || arrayListBloomFilter.size() != values.length) {
+            arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(size, values);
+        }
+        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != values.length) {
+            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(size, values);
+        }
     }
 
     @Test

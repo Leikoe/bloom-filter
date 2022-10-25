@@ -10,6 +10,7 @@
 - https://stackoverflow.com/questions/51232809/performance-comparison-of-modulo-operator-and-bitwise-and
 - https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java
 - https://www.baeldung.com/java-microbenchmark-harness
+- https://www.loicmathieu.fr/wordpress/informatique/introduction-a-jmh-java-microbenchmark-harness/
 
 ## how to run
 ```bash
