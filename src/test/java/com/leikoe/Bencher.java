@@ -44,21 +44,21 @@ public class Bencher {
     }
 
     @Benchmark
-    public void arrayListBloomFilterAdd(org.openjdk.jmh.infra.Blackhole bh) {
+    public void arrayListBloomFilterAdd() {
         for (int i: testValues) {
             arrayListBloomFilter.add(i);
         }
     }
 
     @Benchmark
-    public void linkedListBloomFilterAdd(org.openjdk.jmh.infra.Blackhole bh) {
+    public void linkedListBloomFilterAdd() {
         for (int i: testValues) {
             linkedListBloomFilter.add(i);
         }
     }
 
     @Benchmark
-    public void arrayBloomFilterAdd(org.openjdk.jmh.infra.Blackhole bh) {
+    public void arrayBloomFilterAdd() {
         for (int i: testValues) {
             arrayBloomFilter.add(i);
         }
