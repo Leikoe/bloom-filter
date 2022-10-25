@@ -23,6 +23,9 @@ mvn test
 ```
 
 ## Optimisations
+> Benchmarks are all done with the same haashFunctions arrayList, but it might not be 
+> the same as the one currently pushed on the repo. 
+
 ### murmurHash2
 
 Loading **4 bytes** into **int** optimisation
