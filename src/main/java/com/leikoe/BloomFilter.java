@@ -3,6 +3,8 @@ package com.leikoe;
 import java.util.List;
 import java.util.function.ToIntFunction;
 
+import static com.leikoe.hash.Utils.positiveMod;
+
 
 public class BloomFilter<T> implements IBloomFilter<T> {
     IBitsContainer bits;
@@ -25,7 +27,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     public void add(T value) {
         for (ToIntFunction<T> hashFunction: this.hashFunctions) {
             int pos = hashFunction.applyAsInt(value);
-            bits.set(pos% bits.size(), true);
+            bits.set(positiveMod(pos, bits.size()), true);
         }
         this.size++;
     }
@@ -35,7 +37,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         boolean all_true = true;
         for (ToIntFunction<T> hashFunction: this.hashFunctions) {
             int pos = hashFunction.applyAsInt(value);
-            boolean v = bits.get(pos % bits.size());
+            boolean v = bits.get(positiveMod(pos, bits.size()));
             all_true = all_true && v;
         }
 

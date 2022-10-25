@@ -15,10 +15,14 @@ public class Utils {
         }
     }
 
-    public static int take4(byte[] bytes, int start) {
+    public static int get4(byte[] bytes, int start) {
         return bytes[start]
                     + bytes[start+1] << 8
                     + bytes[start+2] << 16
                     + bytes[start+3] << 24;
+    }
+
+    public static int positiveMod(int x, int m) {
+        return (x < 0) ? (x % m) + m : x % m;
     }
 }
