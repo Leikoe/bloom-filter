@@ -18,8 +18,8 @@ public class Bencher {
     BloomFilter<Integer> arrayListBloomFilter;
     BloomFilter<Integer> linkedListBloomFilter;
     BloomFilter<Integer> arrayBloomFilter;
-    static int[] values = {12, 372, 3972};
-    static int[] testValues = {232, 193, 22, 12, 372, 90, 3972};
+    static Integer[] values = {12, 372, 3972};
+    static Integer[] testValues = {232, 193, 22, 12, 372, 90, 3972};
 
     @Benchmark
     public void arrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
