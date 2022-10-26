@@ -3,6 +3,7 @@ package com.leikoe.hash;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 
 
 public class Utils {
@@ -13,6 +14,26 @@ public class Utils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Gets the byte array representation from an object.
+     * Credits to <a href="https://github.com/sangupta/bloomfilter/blob/5c7769f7ed19cc0eb2860cc0e1d4c0159830cd9e/src/main/java/com/sangupta/bloomfilter/decompose/DefaultDecomposer.java">https://github.com/sangupta/bloomfilter</a>
+     *
+     * @param object the object to get the bytes representation from
+     * @return the byte representation
+     */
+    public static byte[] objectToStringToBytes(Object object) {
+        if(object == null) {
+            return new byte[]{}; // null is represented by an empty byte array
+        }
+
+        // no need for .toString() when object is already a String
+        if(object instanceof String) {
+            return ((String) object).getBytes(StandardCharsets.UTF_8);
+        }
+
+        return object.toString().getBytes(StandardCharsets.UTF_8);
     }
 
     public static int get4(byte[] bytes, int start) {

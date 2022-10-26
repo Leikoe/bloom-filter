@@ -27,6 +27,46 @@ mvn test
 > Benchmarks are all done with the same haashFunctions arrayList, but it might not be 
 > the same as the one currently pushed on the repo. 
 
+### From Object to byte[]
+At first, I used a stack overflow answer to go from an Object to byte[], this is the code in Utils.objectToBytes().
+```java
+public static byte[] objectToBytes(Object object) {
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        oos.writeObject(object);
+        return bos.toByteArray();
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+}
+```
+but, after doing the BloomFilter benchmarks, I found that I was much slower than java's HashSet, even when only using one hash function, 
+the same one used in the HashSet, so it couldn't be my hash functions fault. After some more digging, this is the implementation most java BloomFilters use.
+```java
+public static byte[] objectToStringToBytes(Object object) {
+    if(object == null) {
+        return new byte[]{}; // null is represented by an empty byte array
+    }
+
+    // no need for .toString() when object is already a String
+    if(object instanceof String) {
+        return ((String) object).getBytes(StandardCharsets.UTF_8);
+    }
+
+    return object.toString().getBytes(StandardCharsets.UTF_8);
+}
+```
+This proved to be much faster, about a 10x speedup.
+
+```text
+Benchmark                                         Mode  Cnt  Score   Error  Units
+ObjectToByteArrayBenchmark.serilizationDouble     avgt    5  0.647 ± 0.019  us/op
+ObjectToByteArrayBenchmark.serilizationInteger    avgt    5  0.640 ± 0.020  us/op
+ObjectToByteArrayBenchmark.serilizationString     avgt    5  0.452 ± 0.015  us/op
+ObjectToByteArrayBenchmark.stringGetBytesDouble   avgt    5  0.098 ± 0.005  us/op
+ObjectToByteArrayBenchmark.stringGetBytesInteger  avgt    5  0.055 ± 0.005  us/op
+ObjectToByteArrayBenchmark.stringGetBytesString   avgt    5  0.072 ± 0.006  us/op
+```
+
 ### murmurHash2 Optimizations
 
 Loading **4 bytes** into **int** optimisation
