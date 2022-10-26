@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class Bencher {
 
     // n is the number of elements in the filter
-    @Param({"10", "100", "500", "1000", "10000", "100000"})
+    @Param({"10", "100", "500", "1000", "10000"})
     public int size;
 
     static Random random = new Random();
