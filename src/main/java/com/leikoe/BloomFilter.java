@@ -35,7 +35,6 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     }
 
 
-
     @Override
     public void add(T value) {
         long[] hashes = new long[]{0, 0};
