@@ -57,6 +57,7 @@ public class BloomFilterTest {
     @org.junit.Test
     public void runBenchmarks() throws Exception {
         new Bencher().benchmark();
+        new ObjectToByteArrayBenchmark().benchmark();
     }
 
 }
