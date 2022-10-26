@@ -182,13 +182,16 @@ public boolean mightContain(T value) {
 ```
 This provided a 20% performance boost across the board. (baseline is hashset contains from java's collections)
 
-![before](./images/mightContain_v0_vs_hashsetContains)
-![after](./images/mightContain_v1_vs_hashsetContains)
+![before](./images/mightContain_v0_vs_hashsetContains.png)
+![after](./images/mightContain_v1_vs_hashsetContains.png)
 
 C style for loops tend to be faster than iterator based ones, 
 this could explain the performance gain but i don't think it's the only factor here.
 
 ## Full Benchmark
+
+![add](./images/add_v2_vs_hashsetAdd.png)
+![contains](./images/mightContain_v2_vs_hashsetContains.png)
 
 ```text
 Benchmark                              (items)  Mode  Cnt         Score         Error  Units
