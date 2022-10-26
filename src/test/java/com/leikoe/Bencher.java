@@ -18,7 +18,7 @@ public class Bencher {
 
     // n is the number of elements in the filter
     @Param({"10", "100", "500", "1000", "10000"})
-    public int size;
+    public int items;
 
     static Random random = new Random();
 
@@ -104,17 +104,17 @@ public class Bencher {
 
         // clear all arrays Which are supposed to be empty (only if they're not clean)
         if (arrayBloomFilterEmpty == null || arrayBloomFilterEmpty.size() != 0) {
-            arrayBloomFilterEmpty = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(size));
+            arrayBloomFilterEmpty = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
         }
         if (arrayListBloomFilterEmpty == null || arrayListBloomFilterEmpty.size() != 0) {
-            arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(size));
+            arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
         }
         if (linkedListBloomFilterEmpty == null || linkedListBloomFilterEmpty.size() != 0) {
-            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(size));
+            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
         }
 
         if (hashsetEmpty == null || hashsetEmpty.size() != 0) {
-            hashsetEmpty = new HashSet<>(size);
+            hashsetEmpty = new HashSet<>(items);
         }
     }
 
@@ -124,32 +124,32 @@ public class Bencher {
 
         // add test values
         testValues = new ArrayList<>();
-        for(int i=0; i<size; i++) {
+        for(int i = 0; i< items; i++) {
             testValues.add(random.nextInt());
         }
 
         // clear all arrays (only if they don't only contain the test values) and add half the values so half correct checks
-        if (arrayBloomFilter == null || arrayBloomFilter.size() != size/2) {
-           arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(size));
+        if (arrayBloomFilter == null || arrayBloomFilter.size() != items /2) {
+           arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
            for (int i = 0; i<testValues.size()/2; i++) {
                 arrayBloomFilter.add(testValues.get(i));
            }
         }
-        if (arrayListBloomFilter == null || arrayListBloomFilter.size() != size/2) {
-            arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(size));
+        if (arrayListBloomFilter == null || arrayListBloomFilter.size() != items /2) {
+            arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
             for (int i = 0; i<testValues.size()/2; i++) {
                 arrayListBloomFilter.add(testValues.get(i));
             }
         }
-        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != size/2) {
-            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(size));
+        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != items /2) {
+            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
             for (int i = 0; i<testValues.size()/2; i++) {
                 linkedListBloomFilter.add(testValues.get(i));
             }
         }
 
-        if (hashset == null || hashset.size() != size/2) {
-            hashset = new HashSet<>(size);
+        if (hashset == null || hashset.size() != items /2) {
+            hashset = new HashSet<>(items);
             for (int i=0; i<testValues.size()/2; i++) {
                 hashset.add(testValues.get(i));
             }

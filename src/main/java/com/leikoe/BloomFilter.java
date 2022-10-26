@@ -39,10 +39,10 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     @Override
     public boolean mightContain(T value) {
         boolean all_true = true;
-        for (ToIntFunction<T> hashFunction: this.hashFunctions) {
+        for (int i=0; all_true && i<this.hashFunctions.size(); i++) {
+            ToIntFunction<T> hashFunction = this.hashFunctions.get(i);
             int pos = hashFunction.applyAsInt(value);
-            boolean v = bits.get(positiveMod(pos, bits.size()));
-            all_true = all_true && v;
+            all_true = bits.get(positiveMod(pos, bits.size()));
         }
 
         return all_true;

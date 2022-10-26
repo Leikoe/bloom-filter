@@ -21,16 +21,17 @@ public class TestUtils {
      */
     private static <T> List<ToIntFunction<T>> makeExampleHashFunctionArrayList(int n) {
         List<ToIntFunction<T>> hashFunctions = new ArrayList<>();
-        hashFunctions.add(new MurmurHash2<T>(23792387));
-        if (n > 1) {
-            hashFunctions.add(new JavaHash<>());
-        }
-        if (n > 2) {
-            hashFunctions.add(new djb33Hash<>());
-        }
-        if (n > 3) {
-            hashFunctions.add(new Fnv32Hash<>());
-        }
+//        hashFunctions.add(new MurmurHash2<T>(23792387));
+//        if (n > 1) {
+//            hashFunctions.add(new JavaHash<>());
+//        }
+//        if (n > 2) {
+//            hashFunctions.add(new djb33Hash<>());
+//        }
+//        if (n > 3) {
+//            hashFunctions.add(new Fnv32Hash<>());
+//        }
+        hashFunctions.add(Object::hashCode);
 
         return hashFunctions;
     }

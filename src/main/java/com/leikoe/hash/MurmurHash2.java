@@ -23,10 +23,7 @@ public class MurmurHash2<T> implements ToIntFunction<T> {
         int i = 0;
         while (data_len >= 4) {
             // convert 4 bytes to an int
-            int k = data[i]
-                    + data[i+1] << 8
-                    + data[i+2] << 16
-                    + data[i+3] << 24;
+            int k = Utils.get4(data, i);
 
             k *= m;
             k ^= k >> r;

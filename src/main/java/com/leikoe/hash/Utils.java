@@ -16,10 +16,12 @@ public class Utils {
     }
 
     public static int get4(byte[] bytes, int start) {
-        return bytes[start]
+        int i = 0;
+        i += bytes[start]
                     + bytes[start+1] << 8
                     + bytes[start+2] << 16
                     + bytes[start+3] << 24;
+        return i;
     }
 
     public static int positiveMod(int x, int m) {
