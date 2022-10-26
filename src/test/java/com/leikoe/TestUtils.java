@@ -51,30 +51,21 @@ public class TestUtils {
     public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitArray bc = new BitArray(optimalSize);
-        BloomFilter<T> arrayBloomFilter = new BloomFilter<>(bc, makeExampleHashFunctionArrayList(
-                BloomFilter.getOptimalNumberOfHashFunctions(capacity, optimalSize)
-        ));
 
-        return arrayBloomFilter;
+        return new BloomFilter<>(bc, capacity);
     }
 
     public static <T> BloomFilter<T> makeExampleArrayListBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitArray bc = new BitArray(optimalSize);
-        BloomFilter<T> arrayListBloomFilter = new BloomFilter<>(bc, makeExampleHashFunctionArrayList(
-                BloomFilter.getOptimalNumberOfHashFunctions(capacity, optimalSize)
-        ));
 
-        return arrayListBloomFilter;
+        return new BloomFilter<>(bc, capacity);
     }
 
     public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitLinkedList bc = new BitLinkedList(optimalSize);
-        BloomFilter<T> linkedListBloomFilter = new BloomFilter<>(bc, makeExampleHashFunctionArrayList(
-                BloomFilter.getOptimalNumberOfHashFunctions(capacity, optimalSize)
-        ));
 
-        return linkedListBloomFilter;
+        return new BloomFilter<>(bc, capacity);
     }
 }

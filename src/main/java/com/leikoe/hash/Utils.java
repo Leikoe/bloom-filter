@@ -28,4 +28,9 @@ public class Utils {
         int r = x % m;
         return (r < 0) ? r + m : r;
     }
+
+    public static int positiveMod(long x, int m) {
+        int r = (int) x % m;
+        return (r < 0) ? r + m : r;
+    }
 }

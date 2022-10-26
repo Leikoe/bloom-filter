@@ -1,6 +1,8 @@
 package com.leikoe;
 
-import java.util.List;
+import com.leikoe.hash.HashMapHash;
+import com.leikoe.hash.JavaHash;
+
 import java.util.function.ToIntFunction;
 
 import static com.leikoe.hash.Utils.positiveMod;
@@ -8,44 +10,65 @@ import static com.leikoe.hash.Utils.positiveMod;
 
 public class BloomFilter<T> implements IBloomFilter<T> {
 
-    // we wish to have 1% or less
+
+    // we wish to have 1% or less false positives
     public static final double FALSE_POSITIVE_RATE = 0.01;
 
     IBitsContainer bits;
-    List<ToIntFunction<T>> hashFunctions;
-    int size;
+    ToIntFunction<T>[] hashFunctions;
+    int n;
+    int k;
 
     /**
-     * @param bitsContainer user provided bits container, all initialized to 0, must implement IBitsContainer
-     * @param hashFunctions a generic list of hash functions from T to int
+     * This creates a BloomFilter instance using the provided bits container
      *
-     *                      This creates a BloomFilter instance using the provided bits container and hash functions
+     * @param bitsContainer user provided bits container, all initialized to 0, must implement IBitsContainer
      */
-    public BloomFilter(IBitsContainer bitsContainer, List<ToIntFunction<T>> hashFunctions) {
+    public BloomFilter(IBitsContainer bitsContainer, int capacity) {
         this.bits = bitsContainer;
-        this.size = 0;
-        this.hashFunctions = hashFunctions;
+        this.n = 0;
+        this.k = getOptimalNumberOfHashFunctions(capacity, bits.size());
+        this.hashFunctions = new ToIntFunction[] {
+                Object::hashCode,
+                new HashMapHash<T>()
+        };
     }
+
+
 
     @Override
     public void add(T value) {
-        for (ToIntFunction<T> hashFunction: this.hashFunctions) {
-            int pos = hashFunction.applyAsInt(value);
+        long[] hashes = new long[]{0, 0};
+
+        for (int i=0; i<k; i++) {
+            long pos = hash(hashes, value, i);
             bits.set(positiveMod(pos, bits.size()), true);
         }
-        this.size++;
+        this.n++;
     }
 
     @Override
     public boolean mightContain(T value) {
+        long[] hashes = new long[]{0, 0};
+
         boolean all_true = true;
-        for (int i=0; all_true && i<this.hashFunctions.size(); i++) {
-            ToIntFunction<T> hashFunction = this.hashFunctions.get(i);
-            int pos = hashFunction.applyAsInt(value);
+        for (int i=0; all_true && i<this.k; i++) {
+            long pos = hash(hashes, value, i);
             all_true = bits.get(positiveMod(pos, bits.size()));
         }
 
         return all_true;
+    }
+
+    // from https://github.com/jedisct1/rust-bloom-filter/blob/master/src/lib.rs bloom_hash function
+    private long hash(long[] hashes, T value, int k) {
+        if (k < 2) {
+            long hash = this.hashFunctions[k].applyAsInt(value);
+            hashes[k] = hash;
+            return hash;
+        } else {
+            return hashes[0] + (k * hashes[1]) % 0xffffffc5;
+        }
     }
 
     /**
@@ -85,6 +108,6 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
     @Override
     public int size() {
-        return size;
+        return n;
     }
 }
