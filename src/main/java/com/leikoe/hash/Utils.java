@@ -23,6 +23,7 @@ public class Utils {
     }
 
     public static int positiveMod(int x, int m) {
-        return (x < 0) ? ((x % m) + m) % m : x % m;
+        int r = x % m;
+        return (r < 0) ? r + m : r;
     }
 }

@@ -10,9 +10,12 @@ public class BloomFilterTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(12000), new Integer[]{12, 87, 43, 22, 8, 97});
-        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(12000), new Integer[]{12, 87, 43, 22, 8, 97});
-        linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(12000), new Integer[]{12, 87, 43, 22, 8, 97});
+        arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(12000));
+        TestUtils.fillBloomFilter(arrayBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
+        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(12000));
+        TestUtils.fillBloomFilter(arrayListBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
+        linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(12000));
+        TestUtils.fillBloomFilter(linkedListBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
     }
 
     @org.junit.After

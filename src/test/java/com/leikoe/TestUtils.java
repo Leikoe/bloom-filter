@@ -19,12 +19,18 @@ public class TestUtils {
      *
      * @return an example arrayList of hashFunctions
      */
-    private static <T> List<ToIntFunction<T>> makeExampleHashFunctionArrayList() {
+    private static <T> List<ToIntFunction<T>> makeExampleHashFunctionArrayList(int n) {
         List<ToIntFunction<T>> hashFunctions = new ArrayList<>();
         hashFunctions.add(new MurmurHash2<T>(23792387));
-        hashFunctions.add(new JavaHash<>());
-        hashFunctions.add(new djb33Hash<>());
-        hashFunctions.add(new Fnv32Hash<>());
+        if (n > 1) {
+            hashFunctions.add(new JavaHash<>());
+        }
+        if (n > 2) {
+            hashFunctions.add(new djb33Hash<>());
+        }
+        if (n > 3) {
+            hashFunctions.add(new Fnv32Hash<>());
+        }
 
         return hashFunctions;
     }
@@ -35,31 +41,39 @@ public class TestUtils {
      * @param bloomFilter the bloom filter to fill up
      * @param values an array of values
      */
-    private static <T> void fillBloomFilter(BloomFilter<T> bloomFilter, T[] values) {
+     public static <T> void fillBloomFilter(BloomFilter<T> bloomFilter, T[] values) {
         for (T i: values) {
             bloomFilter.add(i);
         }
     }
 
-    public static <T> BloomFilter<T> makeExampleArrayListBloomFilter(int capacity, T[] values) {
-        BloomFilter<T> arrayListBloomFilter = new BloomFilter<>(new BitArrayList(capacity), makeExampleHashFunctionArrayList());
-        fillBloomFilter(arrayListBloomFilter, values);
+    public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity) {
+        int optimalSize = BloomFilter.getOptimalSize(capacity);
+        BitArray bc = new BitArray(optimalSize);
+        BloomFilter<T> arrayBloomFilter = new BloomFilter<>(bc, makeExampleHashFunctionArrayList(
+                BloomFilter.getOptimalNumberOfHashFunctions(capacity, optimalSize)
+        ));
+
+        return arrayBloomFilter;
+    }
+
+    public static <T> BloomFilter<T> makeExampleArrayListBloomFilter(int capacity) {
+        int optimalSize = BloomFilter.getOptimalSize(capacity);
+        BitArray bc = new BitArray(optimalSize);
+        BloomFilter<T> arrayListBloomFilter = new BloomFilter<>(bc, makeExampleHashFunctionArrayList(
+                BloomFilter.getOptimalNumberOfHashFunctions(capacity, optimalSize)
+        ));
 
         return arrayListBloomFilter;
     }
 
-
-    public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int capacity, T[] values) {
-        BloomFilter<T> linkedListBloomFilter = new BloomFilter<>(new BitLinkedList(capacity), makeExampleHashFunctionArrayList());
-        fillBloomFilter(linkedListBloomFilter, values);
+    public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int capacity) {
+        int optimalSize = BloomFilter.getOptimalSize(capacity);
+        BitLinkedList bc = new BitLinkedList(optimalSize);
+        BloomFilter<T> linkedListBloomFilter = new BloomFilter<>(bc, makeExampleHashFunctionArrayList(
+                BloomFilter.getOptimalNumberOfHashFunctions(capacity, optimalSize)
+        ));
 
         return linkedListBloomFilter;
-    }
-
-    public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity, T[] values) {
-        BloomFilter<T> arrayBloomFilter = new BloomFilter<>(new BitArray(capacity), makeExampleHashFunctionArrayList());
-        fillBloomFilter(arrayBloomFilter, values);
-
-        return arrayBloomFilter;
     }
 }
