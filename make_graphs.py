@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+from math import log
 
 data = """
 Benchmark                              (items)  Mode  Cnt         Score         Error  Units
@@ -165,6 +166,9 @@ results = map(
     results
 )
 
+def size_to_optimal_bit_array_size(n):
+    return -n * log(0.01) / (log(2)**2)
+
 results = list(results)
 for op_group in results:
     # get the list of names
@@ -183,6 +187,10 @@ for op_group in results:
         )
         # unzip measurements
         xs, ys = zip(*measurements)
+        # xs, ys = xs[:-1], ys[:-1]
+        #
+        # change x to size of the bit array (bit => byte = lambda x: x/8)
+        # xs = list(map(lambda x: size_to_optimal_bit_array_size(x)/8000, xs))
 
         print(name)
         print(measurements)
@@ -191,6 +199,7 @@ for op_group in results:
 
     plt.yscale('linear')
     plt.ylabel("us/op")
+    # plt.xlabel("BitArray size (KB)")
     plt.xlabel("items")
     plt.legend()
     plt.show()
