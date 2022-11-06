@@ -199,7 +199,8 @@ for op_group in results:
     names.sort()
     for name in names:
         if "linked" in name:
-            continue
+            # continue
+            pass
 
         # keep only name, size, time
         measurements = list(

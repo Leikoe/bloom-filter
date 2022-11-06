@@ -19,7 +19,16 @@
 - https://github.com/guozheng/jmh-tutorial // for the jar build
 
 ## how to run
-Unit tests and Benchmarks
+
+run benchmarks
+```bash
+java -jar target/benchmarks.jar # for all benchmarks
+# or
+java -jar target/benchmarks.jar com.leikoe.Bencher # for only bloom filter benchmarks
+java -jar target/benchmarks.jar com.leikoe.ObjectToByte # for only ObjectToBytes benchmarks
+```
+
+Unit tests
 ```bash
 mvn test 
 ```
