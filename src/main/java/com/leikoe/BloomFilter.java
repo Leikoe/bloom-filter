@@ -30,8 +30,8 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         this.n = 0;
         this.k = getOptimalNumberOfHashFunctions(capacity, bits.size());
         this.hashFunctions = new ToIntFunction[] {
-                new MurmurHash2<T>(0x2538238),//Object::hashCode,
-                new MurmurHash2<T>(0x53287), // new HashMapHash<T>()
+                Object::hashCode,
+                new HashMapHash<T>()
         };
     }
 
