@@ -1,5 +1,8 @@
 package com.leikoe;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import static org.junit.Assert.*;
 
 public class BloomFilterTest {
@@ -54,10 +57,34 @@ public class BloomFilterTest {
         assertFalse(arrayListBloomFilter.mightContain(328));
     }
 
-//    @org.junit.Test
-//    public void runBenchmarks() throws Exception {
-//        new Bencher().benchmark();
-////        new ObjectToByteArrayBenchmark().benchmark();
-//    }
+    @org.junit.Test
+    public void testError() {
+        Random random = new Random();
+        final int NUMBER_OF_TEST_ITEMS = 100_000;
+        final int ITEM_MAX_VALUE = 1_000_000;
+        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleArrayListBloomFilter(NUMBER_OF_TEST_ITEMS);
+        ArrayList<Integer> testNumbers = new ArrayList<>();
+        for (int i=0; i<NUMBER_OF_TEST_ITEMS; i++) {
+            Integer rndInt = random.nextInt(ITEM_MAX_VALUE);
+            testNumbers.add(rndInt);
+            bloomFilter.add(rndInt);
+        }
+
+        int false_postives = 0;
+        int true_negatives = 0;
+        for (Integer i=0; i<ITEM_MAX_VALUE; i++) {
+            if (bloomFilter.mightContain(i)) {
+                if (!testNumbers.contains(i)) {
+                    false_postives++;
+                }
+            } else {
+                true_negatives++;
+            }
+        }
+
+        double observeredFalsePositiveRate = false_postives/(double) (false_postives + true_negatives);
+        System.out.println("Observed a false positive rate of " + observeredFalsePositiveRate + ", expected was " + BloomFilter.FALSE_POSITIVE_RATE);
+//        assertTrue(observeredFalsePositiveRate < BloomFilter.FALSE_POSITIVE_RATE);
+    }
 
 }

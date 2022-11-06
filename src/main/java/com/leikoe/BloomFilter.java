@@ -1,7 +1,6 @@
 package com.leikoe;
 
 import com.leikoe.hash.HashMapHash;
-import com.leikoe.hash.JavaHash;
 import com.leikoe.hash.MurmurHash2;
 
 import java.util.function.ToIntFunction;
@@ -30,7 +29,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         this.n = 0;
         this.k = getOptimalNumberOfHashFunctions(capacity, bits.size());
         this.hashFunctions = new ToIntFunction[] {
-                Object::hashCode,
+                new MurmurHash2(92308320), //Object::hashCode,
                 new HashMapHash<T>()
         };
     }

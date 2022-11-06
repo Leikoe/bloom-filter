@@ -200,8 +200,10 @@ this could explain the performance gain but i don't think it's the only factor h
 
 ## BitsContainer optimizations
 
+according to https://stackoverflow.com/questions/605226/boolean-vs-bitset-which-is-more-efficient
 > After some research, it appears that java's boolean type is more than a bit wide, java's solution is poviding us with a BitSet, which internally uses longs to store bits without wasting space.
 > Taking advantage of this, I implemented NativeBitSet which implements IBitsContainer
+
 
 ## Full Benchmark
 
