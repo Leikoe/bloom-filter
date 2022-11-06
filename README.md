@@ -4,7 +4,7 @@
 - https://llimllib.github.io/bloomfilter-tutorial/
 - https://fr.wikipedia.org/wiki/Fonction_de_hachage
 - https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
-- https://andybui01.github.io/bloom-filter/#implementation-and-benchmarks
+- https://andybui01.github.io/bloom-filter/#implementation-and-benchmarks // for formulas
 
 ### hash functions
 - https://sites.google.com/site/murmurhash/
@@ -16,6 +16,7 @@
 - https://www.baeldung.com/java-microbenchmark-harness
 - https://www.loicmathieu.fr/wordpress/informatique/introduction-a-jmh-java-microbenchmark-harness/
 - http://leogomes.github.io/assets/JMH_cheatsheet.pdf
+- https://github.com/guozheng/jmh-tutorial // for the jar build
 
 ## how to run
 Unit tests and Benchmarks
