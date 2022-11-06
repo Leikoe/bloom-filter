@@ -25,7 +25,7 @@ public class JavaHash<T> implements ToIntFunction<T> {
      */
     @Override
     public int applyAsInt(T value) {
-       byte[] data = Utils.objectToBytes(value);
+       byte[] data = Utils.objectToStringToBytes(value);
        return hash(data);
     }
 }
