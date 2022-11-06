@@ -74,8 +74,8 @@ public class ObjectToByteArrayBenchmark {
         // executed before each invocation of the iteration
     }
 
-    public void benchmark() throws Exception {
-        String[] argv = {};
-        org.openjdk.jmh.Main.main(argv);
-    }
+//    public void benchmark() throws Exception {
+//        String[] argv = {};
+//        org.openjdk.jmh.Main.main(argv);
+//    }
 }

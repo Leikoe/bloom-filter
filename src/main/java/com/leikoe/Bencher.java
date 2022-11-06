@@ -1,6 +1,10 @@
 package com.leikoe;
 
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -181,8 +185,20 @@ public class Bencher {
         }
     }
 
-    public void benchmark() throws Exception {
-        String[] argv = {};
-        org.openjdk.jmh.Main.main(argv);
+    /**
+     * To run this benchmark class:
+     *
+     * java -cp target/benchmarks.jar com.leikoe.Bencher
+     *
+     * @param args
+     * @throws RunnerException
+     */
+    public static void main(String[] args) throws RunnerException {
+        Options options = new OptionsBuilder()
+                .include(Bencher.class.getSimpleName())
+                .forks(1)
+                .build();
+
+        new Runner(options).run();
     }
 }
