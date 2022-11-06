@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Bencher {
 
     // n is the number of elements in the filter
-    @Param({"2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384"})
+    @Param({"2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"})
     public int items;
 
     static Random random = new Random();
@@ -25,10 +25,12 @@ public class Bencher {
     BloomFilter<Integer> arrayListBloomFilter;
     BloomFilter<Integer> linkedListBloomFilter;
     BloomFilter<Integer> arrayBloomFilter;
+    BloomFilter<Integer> nativeBitSetBloomFilter;
 
     BloomFilter<Integer> arrayListBloomFilterEmpty;
     BloomFilter<Integer> linkedListBloomFilterEmpty;
     BloomFilter<Integer> arrayBloomFilterEmpty;
+    BloomFilter<Integer> nativeBitSetBloomFilterEmpty;
 
     HashSet<Integer> hashsetEmpty;
     HashSet<Integer> hashset;
@@ -39,6 +41,13 @@ public class Bencher {
     public void arrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(arrayBloomFilter.mightContain(i));
+        }
+    }
+
+    @Benchmark
+    public void nativeBitSetBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            bh.consume(nativeBitSetBloomFilter.mightContain(i));
         }
     }
 
@@ -68,6 +77,13 @@ public class Bencher {
     public void arrayBloomFilterAdd() {
         for (int i: testValues) {
             arrayBloomFilterEmpty.add(i);
+        }
+    }
+
+    @Benchmark
+    public void nativeBitSetBloomFilterAdd() {
+        for (int i: testValues) {
+            nativeBitSetBloomFilterEmpty.add(i);
         }
     }
 
@@ -106,6 +122,9 @@ public class Bencher {
         if (arrayBloomFilterEmpty == null || arrayBloomFilterEmpty.size() != 0) {
             arrayBloomFilterEmpty = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
         }
+        if (nativeBitSetBloomFilterEmpty == null || nativeBitSetBloomFilterEmpty.size() != 0) {
+            nativeBitSetBloomFilterEmpty = TestUtils.makeExampleNativeBitSetBloomFilter(BloomFilter.getOptimalSize(items));
+        }
         if (arrayListBloomFilterEmpty == null || arrayListBloomFilterEmpty.size() != 0) {
             arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
         }
@@ -133,6 +152,12 @@ public class Bencher {
            arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
            for (int i = 0; i<testValues.size()/2; i++) {
                 arrayBloomFilter.add(testValues.get(i));
+           }
+        }
+        if (nativeBitSetBloomFilter == null || nativeBitSetBloomFilter.size() != items /2) {
+           nativeBitSetBloomFilter = TestUtils.makeExampleNativeBitSetBloomFilter(BloomFilter.getOptimalSize(items));
+           for (int i = 0; i<testValues.size()/2; i++) {
+                nativeBitSetBloomFilter.add(testValues.get(i));
            }
         }
         if (arrayListBloomFilter == null || arrayListBloomFilter.size() != items /2) {

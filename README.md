@@ -188,6 +188,11 @@ This provided a 20% performance boost across the board. (baseline is hashset con
 C style for loops tend to be faster than iterator based ones, 
 this could explain the performance gain but i don't think it's the only factor here.
 
+## BitsContainer optimizations
+
+> After some research, it appears that java's boolean type is more than a bit wide, java's solution is poviding us with a BitSet, which internally uses longs to store bits without wasting space.
+> Taking advantage of this, I implemented NativeBitSet which implements IBitsContainer
+
 ## Full Benchmark
 
 ![add](./images/add_v2_vs_hashsetAdd.png)

@@ -3,6 +3,7 @@ package com.leikoe;
 import com.leikoe.bitscontainers.BitArray;
 import com.leikoe.bitscontainers.BitArrayList;
 import com.leikoe.bitscontainers.BitLinkedList;
+import com.leikoe.bitscontainers.NativeBitSet;
 import com.leikoe.hash.Fnv32Hash;
 import com.leikoe.hash.JavaHash;
 import com.leikoe.hash.MurmurHash2;
@@ -51,6 +52,13 @@ public class TestUtils {
     public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitArray bc = new BitArray(optimalSize);
+
+        return new BloomFilter<>(bc, capacity);
+    }
+
+    public static <T> BloomFilter<T> makeExampleNativeBitSetBloomFilter(int capacity) {
+        int optimalSize = BloomFilter.getOptimalSize(capacity);
+        NativeBitSet bc = new NativeBitSet(optimalSize);
 
         return new BloomFilter<>(bc, capacity);
     }
