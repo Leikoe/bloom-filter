@@ -63,6 +63,8 @@ public class BloomFilterTest {
         final int NUMBER_OF_TEST_ITEMS = 100_000;
         final int ITEM_MAX_VALUE = 1_000_000;
         BloomFilter<Integer> bloomFilter = TestUtils.makeExampleArrayListBloomFilter(NUMBER_OF_TEST_ITEMS);
+        System.out.println("BloomFilter's inner BitsContainer has size m=" + bloomFilter.bits.size()
+                + ", using n=" + NUMBER_OF_TEST_ITEMS + ", and e=" + BloomFilter.FALSE_POSITIVE_RATE);
         ArrayList<Integer> testNumbers = new ArrayList<>();
         for (int i=0; i<NUMBER_OF_TEST_ITEMS; i++) {
             Integer rndInt = random.nextInt(ITEM_MAX_VALUE);
@@ -84,7 +86,7 @@ public class BloomFilterTest {
 
         double observeredFalsePositiveRate = false_postives/(double) (false_postives + true_negatives);
         System.out.println("Observed a false positive rate of " + observeredFalsePositiveRate + ", expected was " + BloomFilter.FALSE_POSITIVE_RATE);
-//        assertTrue(observeredFalsePositiveRate < BloomFilter.FALSE_POSITIVE_RATE);
+        assertTrue(observeredFalsePositiveRate < BloomFilter.FALSE_POSITIVE_RATE);
     }
 
 }

@@ -29,7 +29,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         this.n = 0;
         this.k = getOptimalNumberOfHashFunctions(capacity, bits.size());
         this.hashFunctions = new ToIntFunction[] {
-                new MurmurHash2(92308320), //Object::hashCode,
+                Object::hashCode,
                 new HashMapHash<T>()
         };
     }
@@ -90,7 +90,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      * @return the optimal bits container size
      */
     public static int getOptimalSize(int n) {
-        return (int) Math.ceil((-n * Math.log(FALSE_POSITIVE_RATE)) / Math.pow(Math.log(2), 2));
+        return (int) Math.ceil((-n * Math.log(FALSE_POSITIVE_RATE)) / Math.pow(Math.log(2.), 2.));
     }
 
     /**
