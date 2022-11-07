@@ -1,6 +1,7 @@
 package com.leikoe;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -59,34 +60,60 @@ public class BloomFilterTest {
 
     @org.junit.Test
     public void testError() {
+        int[] testCases = {
+                250_000,
+                500_000,
+                750_000,
+                1_000_000,
+                1_250_000,
+                1_500_000,
+                1_750_000,
+                2_000_000,
+                2_250_000,
+                2_500_000,
+                2_750_000,
+                3_000_000
+        };
+
+        System.out.println("n   false-positives   false-positive-rate");
+        for (int n: testCases) {
+            int falsePositives = getObservedFalsePositives(n);
+            double observedFalsePositiveRate = falsePositives / (double) n;
+//            System.out.format("%1$10d %1$10d %1$10d", n, falsePositives, observedFalsePositiveRate);
+            System.out.println(n + "   " + falsePositives + "   " + observedFalsePositiveRate);
+        }
+    }
+
+    public int getObservedFalsePositives(int n) {
         Random random = new Random();
-        final int NUMBER_OF_TEST_ITEMS = 100_000;
-        final int ITEM_MAX_VALUE = 1_000_000;
-        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleArrayListBloomFilter(NUMBER_OF_TEST_ITEMS);
-        System.out.println("BloomFilter's inner BitsContainer has size m=" + bloomFilter.bits.size()
-                + ", using n=" + NUMBER_OF_TEST_ITEMS + ", and e=" + BloomFilter.FALSE_POSITIVE_RATE);
-        ArrayList<Integer> testNumbers = new ArrayList<>();
-        for (int i=0; i<NUMBER_OF_TEST_ITEMS; i++) {
-            Integer rndInt = random.nextInt(ITEM_MAX_VALUE);
-            testNumbers.add(rndInt);
+        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleArrayListBloomFilter(n);
+//        System.out.println("BloomFilter's inner BitsContainer has size m=" + bloomFilter.bits.size()
+//                + ", using n=" + n + ", and e=" + BloomFilter.FALSE_POSITIVE_RATE + ", k=" + bloomFilter.k);
+
+        HashSet<Integer> addedItems = new HashSet<>();
+        for (int i=0; i<n; i++) {
+            Integer rndInt = random.nextInt();
+            addedItems.add(rndInt);
             bloomFilter.add(rndInt);
         }
 
+        ArrayList<Integer> notAddedItems = new ArrayList<>();
+        for (int i=0; i<n; i++) {
+            int rndInt = random.nextInt();
+            while (addedItems.contains(rndInt)) {
+                rndInt = random.nextInt();
+            }
+            notAddedItems.add(rndInt);
+        }
+
         int false_postives = 0;
-        int true_negatives = 0;
-        for (Integer i=0; i<ITEM_MAX_VALUE; i++) {
+        for (Integer i: notAddedItems) {
             if (bloomFilter.mightContain(i)) {
-                if (!testNumbers.contains(i)) {
-                    false_postives++;
-                }
-            } else {
-                true_negatives++;
+                false_postives++;
             }
         }
 
-        double observeredFalsePositiveRate = false_postives/(double) (false_postives + true_negatives);
-        System.out.println("Observed a false positive rate of " + observeredFalsePositiveRate + ", expected was " + BloomFilter.FALSE_POSITIVE_RATE);
-        assertTrue(observeredFalsePositiveRate < BloomFilter.FALSE_POSITIVE_RATE);
+        return false_postives;
     }
 
 }

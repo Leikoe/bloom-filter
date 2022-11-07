@@ -5,6 +5,9 @@
 - https://fr.wikipedia.org/wiki/Fonction_de_hachage
 - https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
 - https://andybui01.github.io/bloom-filter/#implementation-and-benchmarks // for formulas
+- https://github.com/andybui01/Bloom/blob/main/include/bloom/bloom.h
+- https://github.com/eugenp/tutorials/blob/master/guava-modules/guava-utilities/src/test/java/com/baeldung/guava/bloomfilter/BloomFilterUnitTest.java # usage of guava's bloom filter
+- https://github.com/google/guava/blob/master/guava/src/com/google/common/hash/BloomFilterStrategies.java # guava's bloom filter's strategies
 
 ### hash functions
 - https://sites.google.com/site/murmurhash/
@@ -204,6 +207,12 @@ according to https://stackoverflow.com/questions/605226/boolean-vs-bitset-which-
 > After some research, it appears that java's boolean type is more than a bit wide, java's solution is poviding us with a BitSet, which internally uses longs to store bits without wasting space.
 > Taking advantage of this, I implemented NativeBitSet which implements IBitsContainer
 
+## Tests optimizations
+
+When using getObservedFalsePositives() in my tests, i noticed it was way slower than expected,
+I initially thought it was my bloom filter being slow when checking if a given items belongs in it, but no.
+It was the array list used to accumulate added values, found that out using the profiler, cpu was using 90% of it's time traversing the array list for the .contains calls.
+Replaced it by an hashset and now its blazingly fast :speed: .
 
 ## Full Benchmark
 

@@ -90,7 +90,8 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      * @return the optimal bits container size
      */
     public static int getOptimalSize(int n) {
-        return (int) Math.ceil((-n * Math.log(FALSE_POSITIVE_RATE)) / Math.pow(Math.log(2.), 2.));
+        double size = -(n * Math.log(FALSE_POSITIVE_RATE)) / Math.pow(Math.log(2.), 2.);
+        return (int) Math.ceil(size);
     }
 
     /**
