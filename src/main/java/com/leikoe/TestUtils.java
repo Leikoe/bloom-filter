@@ -1,9 +1,6 @@
 package com.leikoe;
 
-import com.leikoe.bitscontainers.BitArray;
-import com.leikoe.bitscontainers.BitArrayList;
-import com.leikoe.bitscontainers.BitLinkedList;
-import com.leikoe.bitscontainers.NativeBitSet;
+import com.leikoe.bitscontainers.*;
 import com.leikoe.hash.Fnv32Hash;
 import com.leikoe.hash.JavaHash;
 import com.leikoe.hash.MurmurHash2;
@@ -70,6 +67,13 @@ public class TestUtils {
         return new BloomFilter<>(bc, capacity);
     }
 
+
+    public static <T> BloomFilter<T> makeExampleGuavaLockFreeBitArrayBloomFilter(int capacity) {
+        int optimalSize = BloomFilter.getOptimalSize(capacity);
+        GuavaLockFreeBitArray bc = new GuavaLockFreeBitArray(optimalSize);
+
+        return new BloomFilter<>(bc, capacity);
+    }
     public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitLinkedList bc = new BitLinkedList(optimalSize);

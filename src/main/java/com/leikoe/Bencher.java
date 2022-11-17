@@ -31,10 +31,14 @@ public class Bencher {
     BloomFilter<Integer> arrayBloomFilter;
     BloomFilter<Integer> nativeBitSetBloomFilter;
 
+    BloomFilter<Integer> guavaLockFreeBitArrayBloomFilter;
+
     BloomFilter<Integer> arrayListBloomFilterEmpty;
     BloomFilter<Integer> linkedListBloomFilterEmpty;
     BloomFilter<Integer> arrayBloomFilterEmpty;
     BloomFilter<Integer> nativeBitSetBloomFilterEmpty;
+
+    BloomFilter<Integer> guavaLockFreeBitArrayBloomFilterEmpty;
 
     HashSet<Integer> hashsetEmpty;
     HashSet<Integer> hashset;
@@ -52,6 +56,13 @@ public class Bencher {
     public void nativeBitSetBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(nativeBitSetBloomFilter.mightContain(i));
+        }
+    }
+
+    @Benchmark
+    public void guavaLockFreeBitArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            bh.consume(guavaLockFreeBitArrayBloomFilter.mightContain(i));
         }
     }
 
@@ -88,6 +99,13 @@ public class Bencher {
     public void nativeBitSetBloomFilterAdd() {
         for (int i: testValues) {
             nativeBitSetBloomFilterEmpty.add(i);
+        }
+    }
+
+    @Benchmark
+    public void guavaLockFreeBitArrayBloomFilterAdd() {
+        for (int i: testValues) {
+            guavaLockFreeBitArrayBloomFilterEmpty.add(i);
         }
     }
 
@@ -129,6 +147,9 @@ public class Bencher {
         if (nativeBitSetBloomFilterEmpty == null || nativeBitSetBloomFilterEmpty.size() != 0) {
             nativeBitSetBloomFilterEmpty = TestUtils.makeExampleNativeBitSetBloomFilter(BloomFilter.getOptimalSize(items));
         }
+        if (guavaLockFreeBitArrayBloomFilterEmpty == null || guavaLockFreeBitArrayBloomFilterEmpty.size() != 0) {
+            guavaLockFreeBitArrayBloomFilterEmpty = TestUtils.makeExampleGuavaLockFreeBitArrayBloomFilter(BloomFilter.getOptimalSize(items));
+        }
         if (arrayListBloomFilterEmpty == null || arrayListBloomFilterEmpty.size() != 0) {
             arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
         }
@@ -162,6 +183,12 @@ public class Bencher {
            nativeBitSetBloomFilter = TestUtils.makeExampleNativeBitSetBloomFilter(BloomFilter.getOptimalSize(items));
            for (int i = 0; i<testValues.size()/2; i++) {
                 nativeBitSetBloomFilter.add(testValues.get(i));
+           }
+        }
+        if (guavaLockFreeBitArrayBloomFilter == null || guavaLockFreeBitArrayBloomFilter.size() != items /2) {
+           guavaLockFreeBitArrayBloomFilter = TestUtils.makeExampleGuavaLockFreeBitArrayBloomFilter(BloomFilter.getOptimalSize(items));
+           for (int i = 0; i<testValues.size()/2; i++) {
+                guavaLockFreeBitArrayBloomFilter.add(testValues.get(i));
            }
         }
         if (arrayListBloomFilter == null || arrayListBloomFilter.size() != items /2) {
