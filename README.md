@@ -214,10 +214,19 @@ I initially thought it was my bloom filter being slow when checking if a given i
 It was the array list used to accumulate added values, found that out using the profiler, cpu was using 90% of it's time traversing the array list for the .contains calls.
 Replaced it by an hashset and now its blazingly fast :speed: .
 
-## Full Benchmark
+## Full Benchmarks
 
-![add](./images/add_v2_vs_hashsetAdd.png)
-![contains](./images/mightContain_v2_vs_hashsetContains.png)
+![add](./images/add_v3.png)
+![contains](./images/contains_v3.png)
+
+**and without linked list**
+
+![add - no linked list](./images/add_v3_-_no_linked_list.png)
+![contains - no linked list](./images/contains_v3_-_no_linked_list.png)
+
+When we look at the charts without the linked list, we can clearly see lines, which indicate a complexity of O(n), but when we add the linked list to the chart, it's a curve ! This indicates O(n^2), and the other lines look flat compared to it, even tho they are O(n).
+What's weird is, we know from textbooks that linked list random access is O(n), and array/array list random access is O(1), why are we getting O(n^2) and O(n) ?
+The answer is simple, since for each benchmark, we insert n elements, the compexity is multiplied by n. This gives results which explain perfectly the curves we are seeing on the charts.
 
 ```text
 Benchmark                              (items)  Mode  Cnt         Score         Error  Units
