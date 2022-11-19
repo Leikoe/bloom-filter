@@ -19,6 +19,8 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     int n;
     int k;
 
+    long[] hashes;
+
     /**
      * This creates a BloomFilter instance using the provided bits container
      *
@@ -32,12 +34,14 @@ public class BloomFilter<T> implements IBloomFilter<T> {
                 Object::hashCode,
                 new HashMapHash<T>()
         };
+        hashes = new long[]{0, 0};
     }
 
 
     @Override
     public void add(T value) {
-        long[] hashes = new long[]{0, 0};
+        hashes[0] = 0;
+        hashes[1] = 0;
 
         for (int i=0; i<k; i++) {
             long pos = hash(hashes, value, i);
@@ -48,7 +52,8 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
     @Override
     public boolean mightContain(T value) {
-        long[] hashes = new long[]{0, 0};
+        hashes[0] = 0;
+        hashes[1] = 0;
 
         boolean all_true = true;
         for (int i=0; all_true && i<this.k; i++) {
