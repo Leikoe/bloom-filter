@@ -40,9 +40,6 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
     @Override
     public void add(T value) {
-        hashes[0] = 0;
-        hashes[1] = 0;
-
         for (int i=0; i<k; i++) {
             long pos = hash(hashes, value, i);
             bits.set(positiveMod(pos, bits.size()), true);
@@ -52,9 +49,6 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
     @Override
     public boolean mightContain(T value) {
-        hashes[0] = 0;
-        hashes[1] = 0;
-
         boolean all_true = true;
         for (int i=0; all_true && i<this.k; i++) {
             long pos = hash(hashes, value, i);

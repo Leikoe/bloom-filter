@@ -248,6 +248,23 @@ Bencher.arrayBloomFilterContains                     8192  avgt    5        93.3
 ```
 about a 2x speedup.
 
+Then, removed the hashes long array reset in each call, because it was overriden by the first and second hash() calls before being used.
+
+```text
+Bencher.arrayBloomFilterAdd                          8192  avgt    5       308.701 ±     35.437  us/op
+Bencher.arrayBloomFilterContains                     8192  avgt    5        93.384 ±     60.560  us/op
+```
+to
+```text
+Bencher.arrayBloomFilterAdd                          8192  avgt    5  297.222 ±  9.343  us/op
+Bencher.arrayBloomFilterContains                     8192  avgt    5   88.677 ± 30.999  us/op
+```
+
+This provided little improvement across the board for all benchmarks.
+
+
+
+
 ## BitsContainer optimizations
 
 according to https://stackoverflow.com/questions/605226/boolean-vs-bitset-which-is-more-efficient
