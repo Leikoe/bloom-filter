@@ -50,8 +50,8 @@ public class Utils {
         return (r < 0) ? r + m : r;
     }
 
-    public static int positiveMod(long x, int m) {
-        int r = (int) x % m;
-        return (r < 0) ? r + m : r;
+    public static long positiveMod(long x, int m) {
+        long r;
+        return (r = x % m) < 0 ? r + m : r;
     }
 }

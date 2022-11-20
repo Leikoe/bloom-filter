@@ -41,8 +41,8 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     @Override
     public void add(T value) {
         for (int i=0; i<k; i++) {
-            long pos = hash(hashes, value, i);
-            bits.set(positiveMod(pos, bits.size()), true);
+            long pos = hash(value, i);
+            bits.set((int) positiveMod(pos, bits.size()), true);
         }
         this.n++;
     }
@@ -50,22 +50,24 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     @Override
     public boolean mightContain(T value) {
         boolean all_true = true;
+
         for (int i=0; all_true && i<this.k; i++) {
-            long pos = hash(hashes, value, i);
-            all_true = bits.get(positiveMod(pos, bits.size()));
+            long pos = hash(value, i);
+            all_true = bits.get((int) positiveMod(pos, bits.size()));
         }
 
         return all_true;
     }
 
     // from https://github.com/jedisct1/rust-bloom-filter/blob/master/src/lib.rs bloom_hash function
-    private long hash(long[] hashes, T value, int k) {
-        if (k < 2) {
-            long hash = this.hashFunctions[k].applyAsInt(value);
-            hashes[k] = hash;
-            return hash;
+    private long hash(T value, int k) {
+        if (k == 0) {
+            return (hashes[0] = value.hashCode());
+        } else if (k == 1) {
+            // inlined HashMapHash using object::hashcode from k == 1 (last hash() call)
+            return hashes[1] = (hashes[1] = hashes[0]) ^ (hashes[0] >> 16);
         } else {
-            return hashes[0] + (k * hashes[1]) % 0xffffffc5;
+                return hashes[0] + (k * hashes[1]) % 0xffffffc5;
         }
     }
 

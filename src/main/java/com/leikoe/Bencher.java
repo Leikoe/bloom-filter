@@ -14,14 +14,37 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @Threads(1)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-@Warmup(iterations = 0, time = 1)
-@Measurement(iterations = 1, time = 1)
+@Warmup(iterations = 5, time = 1)
+@Measurement(iterations = 5, time = 1)
 @BenchmarkMode(Mode.AverageTime)
 @Timeout(time = 10, timeUnit = TimeUnit.SECONDS)
 public class Bencher {
 
     // n is the number of elements in the filter
-    @Param({"2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"})
+    @Param({
+//            "2",
+//            "4",
+//            "8",
+//            "16",
+//            "32",
+//            "64",
+//            "128",
+//            "256",
+//            "512",
+//            "1024",
+//            "2048",
+//            "4096",
+//            "8192",
+//            "16384",
+//            "32768",
+//            "65536"
+            "100",
+            "1000",
+            "10000",
+            "100000",
+//            "1000000",
+//            "10000000"
+    })
     public int items;
 
     static Random random = new Random();
@@ -73,7 +96,7 @@ public class Bencher {
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void linkedListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(linkedListBloomFilter.mightContain(i));
@@ -116,7 +139,7 @@ public class Bencher {
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void linkedListBloomFilterAdd() {
         for (int i: testValues) {
             linkedListBloomFilterEmpty.add(i);
@@ -153,9 +176,9 @@ public class Bencher {
         if (arrayListBloomFilterEmpty == null || arrayListBloomFilterEmpty.size() != 0) {
             arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
         }
-        if (linkedListBloomFilterEmpty == null || linkedListBloomFilterEmpty.size() != 0) {
-            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
-        }
+//        if (linkedListBloomFilterEmpty == null || linkedListBloomFilterEmpty.size() != 0) {
+//            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
+//        }
 
         if (hashsetEmpty == null || hashsetEmpty.size() != 0) {
             hashsetEmpty = new HashSet<>(items);
@@ -197,12 +220,12 @@ public class Bencher {
                 arrayListBloomFilter.add(testValues.get(i));
             }
         }
-        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != items /2) {
-            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
-            for (int i = 0; i<testValues.size()/2; i++) {
-                linkedListBloomFilter.add(testValues.get(i));
-            }
-        }
+//        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != items /2) {
+//            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
+//            for (int i = 0; i<testValues.size()/2; i++) {
+//                linkedListBloomFilter.add(testValues.get(i));
+//            }
+//        }
 
         if (hashset == null || hashset.size() != items /2) {
             hashset = new HashSet<>(items);
