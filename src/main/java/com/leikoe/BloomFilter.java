@@ -60,7 +60,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     }
 
     // from https://github.com/jedisct1/rust-bloom-filter/blob/master/src/lib.rs bloom_hash function
-    private long hash(T value, int k) {
+    long hash(T value, int k) {
         if (k == 0) {
             return (hashes[0] = value.hashCode());
         } else if (k == 1) {

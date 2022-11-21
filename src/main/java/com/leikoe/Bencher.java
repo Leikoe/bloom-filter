@@ -49,6 +49,8 @@ public class Bencher {
 
     static Random random = new Random();
 
+
+    VectorizedBloomFilter<Integer> vectorizedArrayBloomFilter;
     BloomFilter<Integer> arrayListBloomFilter;
     BloomFilter<Integer> linkedListBloomFilter;
     BloomFilter<Integer> arrayBloomFilter;
@@ -56,6 +58,8 @@ public class Bencher {
 
     BloomFilter<Integer> guavaLockFreeBitArrayBloomFilter;
 
+
+    VectorizedBloomFilter<Integer> vectorizedArrayBloomFilterEmpty;
     BloomFilter<Integer> arrayListBloomFilterEmpty;
     BloomFilter<Integer> linkedListBloomFilterEmpty;
     BloomFilter<Integer> arrayBloomFilterEmpty;
@@ -67,6 +71,12 @@ public class Bencher {
     HashSet<Integer> hashset;
     ArrayList<Integer> testValues;
 
+    @Benchmark
+    public void vectoziedArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            bh.consume(vectorizedArrayBloomFilter.mightContain(i));
+        }
+    }
 
     @Benchmark
     public void arrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
@@ -112,6 +122,13 @@ public class Bencher {
 
 
     @Benchmark
+    public void vectorizedArrayBloomFilterAdd() {
+        for (int i: testValues) {
+            vectorizedArrayBloomFilterEmpty.add(i);
+        }
+    }
+
+    @Benchmark
     public void arrayBloomFilterAdd() {
         for (int i: testValues) {
             arrayBloomFilterEmpty.add(i);
@@ -153,7 +170,7 @@ public class Bencher {
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void hashsetAddAll() {
         hashsetEmpty.addAll(testValues);
     }
@@ -164,6 +181,10 @@ public class Bencher {
         // executed before each invocation of the benchmark
 
         // clear all arrays Which are supposed to be empty (only if they're not clean)
+        if (vectorizedArrayBloomFilterEmpty == null || vectorizedArrayBloomFilterEmpty.size() != 0) {
+            vectorizedArrayBloomFilterEmpty = TestUtils.makeExampleVectorizedArrayBloomFilter(BloomFilter.getOptimalSize(items));
+        }
+
         if (arrayBloomFilterEmpty == null || arrayBloomFilterEmpty.size() != 0) {
             arrayBloomFilterEmpty = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
         }
@@ -196,6 +217,13 @@ public class Bencher {
         }
 
         // clear all arrays (only if they don't only contain the test values) and add half the values so half correct checks
+        if (vectorizedArrayBloomFilter == null || vectorizedArrayBloomFilter.size() != items /2) {
+           vectorizedArrayBloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(BloomFilter.getOptimalSize(items));
+           for (int i = 0; i<testValues.size()/2; i++) {
+                vectorizedArrayBloomFilter.add(testValues.get(i));
+           }
+        }
+
         if (arrayBloomFilter == null || arrayBloomFilter.size() != items /2) {
            arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
            for (int i = 0; i<testValues.size()/2; i++) {

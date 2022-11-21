@@ -46,6 +46,13 @@ public class TestUtils {
         }
     }
 
+    public static <T> VectorizedBloomFilter<T> makeExampleVectorizedArrayBloomFilter(int capacity) {
+        int optimalSize = BloomFilter.getOptimalSize(capacity);
+        BitArray bc = new BitArray(optimalSize);
+
+        return new VectorizedBloomFilter<>(bc, capacity);
+    }
+
     public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitArray bc = new BitArray(optimalSize);

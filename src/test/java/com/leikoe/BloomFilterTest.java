@@ -1,6 +1,10 @@
 package com.leikoe;
 
+import jdk.incubator.vector.IntVector;
+import jdk.incubator.vector.VectorSpecies;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -56,6 +60,18 @@ public class BloomFilterTest {
         assertFalse(arrayListBloomFilter.mightContain(748));
         assertFalse(arrayListBloomFilter.mightContain(23));
         assertFalse(arrayListBloomFilter.mightContain(328));
+    }
+
+    @org.junit.Test
+    public void testSimdModulo() {
+        VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
+        int[] values = new int[]{2, 3, 4, 5};
+        IntVector v_v = IntVector.fromArray(SPECIES, values, 0);
+
+        System.out.println(v_v);
+
+        IntVector v_vm = VectorizedBloomFilter.modulus(v_v, IntVector.broadcast(SPECIES, 3));
+        System.out.println(v_vm);
     }
 
     @org.junit.Test
