@@ -116,7 +116,7 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
             // Flip all the bits if it's negative (guaranteed positive number)
             VectorMask<Integer> mask = v_combinedHash.lt(0);
             v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
-//            v_combinedHash = modulus(v_combinedHash, v_m);
+//            v_combinedHash = modulus(v_combinedHash, v_m); // this is slow as shit don't use it
 
             for (int j = 0; j<SPECIES.length(); j++) {
                 int pos = v_combinedHash.lane(j) % bits.size();
@@ -127,7 +127,10 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         // process the rest
         for (; i<=k; i++) {
             int pos = hash1 + (i * hash2);
-            bits.set(positiveMod(pos, bits.size()), true);
+            if (pos < 0) {
+                pos = ~pos;
+            }
+            bits.set(pos % bits.size(), true);
         }
         this.n++;
     }
@@ -148,31 +151,36 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        boolean all_true = true;
         int i = 1;
-        for (; all_true && i <= upperBound; i += SPECIES.length()) {
+        for (; i <= upperBound; i += SPECIES.length()) {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
             // Flip all the bits if it's negative (guaranteed positive number)
             VectorMask<Integer> mask = v_combinedHash.lt(0);
             v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
-//            v_combinedHash = modulus(v_combinedHash, v_m);
+//            v_combinedHash = modulus(v_combinedHash, v_m); // this is slow as shit don't use it
 
-            for (int j = 0; all_true && j<SPECIES.length(); j++) {
+            for (int j = 0; j<SPECIES.length(); j++) {
                 int pos = v_combinedHash.lane(j) % bits.size();
-                all_true = bits.get(pos);
+                if (!bits.get(pos)) {
+                    return false;
+                }
             }
         }
 
         // process the rest
-        for (; all_true && i<=k; i++) {
+        for (; i<=k; i++) {
             int pos = hash1 + (i * hash2);
-            all_true = bits.get(positiveMod(pos, bits.size()));
+            if (pos < 0) {
+                pos = ~pos;
+            }
+            if (!bits.get(pos % bits.size())) {
+                return false;
+            }
         }
 
-        // process the rest
-        return all_true;
+        return true;
     }
 
     /**

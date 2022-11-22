@@ -2,6 +2,30 @@ from matplotlib import pyplot as plt
 from math import log
 
 data = """
+Benchmark                              (items)  Mode  Cnt      Score       Error  Units
+Bencher.arrayBloomFilterAdd                100  avgt    5      1.488 ±     0.050  us/op
+Bencher.arrayBloomFilterAdd               1000  avgt    5     24.732 ±     3.037  us/op
+Bencher.arrayBloomFilterAdd              10000  avgt    5    329.489 ±     1.774  us/op
+Bencher.arrayBloomFilterAdd             100000  avgt    5   3530.797 ±   177.013  us/op
+Bencher.arrayBloomFilterAdd            1000000  avgt    5  74544.906 ± 36687.561  us/op
+Bencher.hashsetAdd                         100  avgt    5      0.913 ±     0.084  us/op
+Bencher.hashsetAdd                        1000  avgt    5     14.884 ±     2.528  us/op
+Bencher.hashsetAdd                       10000  avgt    5    130.938 ±     5.155  us/op
+Bencher.hashsetAdd                      100000  avgt    5   5202.726 ±   851.013  us/op
+Bencher.hashsetAdd                     1000000  avgt    5  84358.900 ± 21503.731  us/op
+Bencher.nativeBitSetBloomFilterAdd         100  avgt    5      3.690 ±     0.065  us/op
+Bencher.nativeBitSetBloomFilterAdd        1000  avgt    5     39.521 ±    28.240  us/op
+Bencher.nativeBitSetBloomFilterAdd       10000  avgt    5    391.273 ±     1.102  us/op
+Bencher.nativeBitSetBloomFilterAdd      100000  avgt    5   4002.848 ±    35.404  us/op
+Bencher.nativeBitSetBloomFilterAdd     1000000  avgt    5  76105.251 ± 24330.483  us/op
+Bencher.vectorizedArrayBloomFilterAdd      100  avgt    5      1.347 ±     0.032  us/op
+Bencher.vectorizedArrayBloomFilterAdd     1000  avgt    5     13.591 ±     1.116  us/op
+Bencher.vectorizedArrayBloomFilterAdd    10000  avgt    5    149.081 ±     1.115  us/op
+Bencher.vectorizedArrayBloomFilterAdd   100000  avgt    5   1564.842 ±    14.060  us/op
+Bencher.vectorizedArrayBloomFilterAdd  1000000  avgt    5  34446.752 ± 13601.624  us/op
+"""
+
+"""
 Benchmark                                  (items)  Mode  Cnt     Score      Error  Units
 Bencher.arrayBloomFilterAdd                    100  avgt    5     1.478 ±    0.034  us/op
 Bencher.arrayBloomFilterAdd                   1000  avgt    5    24.436 ±    3.887  us/op
