@@ -64,7 +64,7 @@ public class BloomFilterTest {
     @org.junit.Test
     public void testUFBF() {
         UFBF<Integer> ufbf = TestUtils.makeExampleUFBF(100);
-        ufbf.add(12);
+//        ufbf.add(12);
     }
 
     @org.junit.Test

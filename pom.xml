@@ -65,6 +65,12 @@
                             <version>1.35</version>
                         </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>--add-exports=java.base/sun.net.util=ALL-UNNAMED</arg>
+                        <arg>--add-exports=java.management/sun.management=ALL-UNNAMED</arg>
+                        <arg>--add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED</arg>
+                        <arg>--add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED</arg>
+                    </compilerArgs>
                     <compilerArgs>--add-modules=jdk.incubator.vector</compilerArgs>
                 </configuration>
             </plugin>
