@@ -1,18 +1,10 @@
 package com.leikoe;
 
-import static com.leikoe.hash.Utils.positiveMod;
-
+import com.leikoe.bitscontainers.BlockBitSet;
 import com.leikoe.hash.Murmur64;
-import com.leikoe.hash.Utils;
 import jdk.incubator.vector.*;
 
-import java.util.Set;
-
-/**
- * WARNING: REQUIRES JAVA 18+
- */
-
-public class VectorizedBloomFilter<T> extends BloomFilter<T> {
+public class UFBF<T> extends BloomFilter<T> {
 
     VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
 
@@ -20,45 +12,30 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
     int upperBound;
 
     int[] ks;
-    IntVector v_m;
+    IBitsBlocksContainer bits;
 
     /**
      * This creates a BloomFilter instance using the provided bits container
      *
-     * @param bitsContainer user provided bits container, all initialized to 0, must implement IBitsContainer
      * @param capacity
      */
-    public VectorizedBloomFilter(IBitsContainer bitsContainer, int capacity) {
-        super(bitsContainer, capacity);
-//        assert(isPowerof2(bitsContainer.size()));
-        ks = new int[k];
+    public UFBF(int capacity) {
+        super(
+                new BlockBitSet(
+                        getOptimalSize(capacity),
+                        getOptimalNumberOfHashFunctions(capacity, getOptimalSize(capacity))
+                ),
+                capacity
+        );
 
-        // init array with k values except for the 2 first elements
+        ks = new int[k];
         for (int i=0; i<k; i++) {
             ks[i] = i;
         }
 
         upperBound = SPECIES.loopBound(k);
-        v_m = IntVector.broadcast(SPECIES, bits.size());
+        this.bits = (IBitsBlocksContainer) super.bits;
     }
-
-    public static boolean isPowerof2(int v) {
-        return v != 0 && ((v & (v - 1)) == 0);
-    }
-
-
-
-    // this is too slow, switching to fast range
-    public static IntVector modulus(IntVector x, IntVector m) {
-        IntVector v_q = x.div(m);
-        return x.sub(m.mul(v_q));
-    }
-
-    // fast range by daniel lemire https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
-//    int reduce(uint32_t x, uint32_t N) {
-//        return ((uint64_t) x * (uint64_t) N) >> 32 ;
-//    }
-
 
     /**
      * from "Less Hashing, Same Performance: Building a Better Bloom Filter" by Adam Kirsch
@@ -71,6 +48,10 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
+        int[] block = bits.getBlock(hash1);
+
+        System.out.println(block);
+
         int i = 1;
         for (; i <= upperBound; i += SPECIES.length()) {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
@@ -79,12 +60,28 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
             // Flip all the bits if it's negative (guaranteed positive number)
             VectorMask<Integer> mask = v_combinedHash.lt(0);
             v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
-//            v_combinedHash = modulus(v_combinedHash, v_m); // this is slow as shit don't use it
 
-            for (int j = 0; j<SPECIES.length(); j++) {
-                int pos = v_combinedHash.lane(j) % bits.size();
-                bits.set(pos, true);
-            }
+            IntVector vr_val = v_combinedHash;
+            IntVector vr_a = IntVector.broadcast(SPECIES, 1);
+            vr_a = vr_a.lanewise(VectorOperators.LSHL, vr_val);
+
+            System.out.println("\nDEBUG");
+            System.out.println(vr_val);
+            System.out.println(vr_a);
+
+            vr_a.intoArray(block, i);
+
+//
+//
+//            IntVector vr_b = IntVector.fromArray(SPECIES, block, i);
+//            vr_b = vr_b.not();
+//
+//            VectorMask<Integer> vr_test = vr_a.compare(VectorOperators.EQ, vr_b);
+//
+//            for (int j = 0; j<; j += SPECIES.length()) {
+//                int pos = v_combinedHash.lane(j) % bits.size();
+//                bits.set(pos, true);
+//            }
         }
 
         // process the rest
@@ -95,6 +92,8 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
             }
             bits.set(pos % bits.size(), true);
         }
+
+//        bits.setBlock(hash1, block); // useless
         this.n++;
     }
 
@@ -134,15 +133,5 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         }
 
         return true;
-    }
-
-    /**
-     * wrapper of BloomFilter.getOptimalSize(int n), which returns the next power of 2 optimal size
-     *
-     * @param n the number of elements to be inserted in the filter
-     * @return the optimal bits container size
-     */
-    public static int getOptimalSize(int n) {
-        return Utils.nextPowerOf2(BloomFilter.getOptimalSize(n));
     }
 }

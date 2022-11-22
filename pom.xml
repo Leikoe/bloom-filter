@@ -42,7 +42,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -99,6 +99,7 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <argLine>--add-modules=jdk.incubator.vector</argLine>
+<!--                    <redirectTestOutputToFile>true</redirectTestOutputToFile>-->
                 </configuration>
             </plugin>
             <plugin>

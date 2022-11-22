@@ -4,7 +4,6 @@ import jdk.incubator.vector.IntVector;
 import jdk.incubator.vector.VectorSpecies;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -60,6 +59,12 @@ public class BloomFilterTest {
         assertFalse(arrayListBloomFilter.mightContain(748));
         assertFalse(arrayListBloomFilter.mightContain(23));
         assertFalse(arrayListBloomFilter.mightContain(328));
+    }
+
+    @org.junit.Test
+    public void testUFBF() {
+        UFBF<Integer> ufbf = TestUtils.makeExampleUFBF(100);
+        ufbf.add(12);
     }
 
     @org.junit.Test

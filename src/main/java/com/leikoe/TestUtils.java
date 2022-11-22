@@ -53,6 +53,12 @@ public class TestUtils {
         return new VectorizedBloomFilter<>(bc, capacity);
     }
 
+    public static <T> UFBF<T> makeExampleUFBF(int capacity) {
+        int optimalSize = UFBF.getOptimalSize(capacity);
+
+        return new UFBF<>(capacity);
+    }
+
     public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity) {
         int optimalSize = BloomFilter.getOptimalSize(capacity);
         BitArray bc = new BitArray(optimalSize);
