@@ -294,6 +294,8 @@ v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
 this works and is the direct translation of the following in simd:
 ```java
 // from google's guava hash implementation
+
+// Flip all the bits if it's negative (guaranteed positive number)
 if (combinedHash < 0) {
   combinedHash = ~combinedHash;
 }
@@ -301,8 +303,15 @@ if (combinedHash < 0) {
 I noticed in the debugger that flipping all the bits like this gets the absolute value of the hash, which is a lot faster in smd than my implementation
 So I came up with this:
 ```java
-
+v_combineHash = v_combineHash.abs();
 ```
+This gave the following results when benchmarked (SimdBenchmark):
+
+| mask + blend | 12.8 ns/op |
+|--------------|------------|
+| abs()        | 12.2 ns/op |
+
+abs() runs just as fast and allocates less, while being clearer to read.
 
 ## BitsContainer optimizations
 

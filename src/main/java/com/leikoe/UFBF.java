@@ -62,17 +62,13 @@ public class UFBF<T> extends BloomFilter<T> {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
-            // Flip all the bits if it's negative (guaranteed positive number)
-            VectorMask<Integer> mask = v_combinedHash.lt(0);
-            v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
-
-            IntVector vr_val = v_combinedHash;
+            IntVector vr_val = v_combinedHash.abs();
             IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);
 
             vr_a.intoArray(block, i);
         }
 
-        // process the rest
+        // process the rest in scalar code
         for (; i<k; i++) {
             int pos = hash1 + ((i+1) * hash2);
             if (pos < 0) {
@@ -102,11 +98,7 @@ public class UFBF<T> extends BloomFilter<T> {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
-            // Flip all the bits if it's negative (guaranteed positive number)
-            VectorMask<Integer> mask = v_combinedHash.lt(0);
-            v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
-
-            IntVector vr_val = v_combinedHash;
+            IntVector vr_val = v_combinedHash.abs();
             IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);
 
             // compare with block
@@ -119,7 +111,7 @@ public class UFBF<T> extends BloomFilter<T> {
             }
         }
 
-        // process the rest
+        // process the rest in scalar code
         for (; i<k; i++) {
             int pos = hash1 + ((i+1) * hash2);
             if (pos < 0) {
