@@ -13,19 +13,20 @@ public class UFBF<T> extends BloomFilter<T> {
 
     int[] ks;
     IBitsBlocksContainer bits;
+    IntVector vr_unit;
 
     /**
      * This creates a BloomFilter instance using the provided bits container
      *
-     * @param capacity
+     * @param expectedInsertCount
      */
-    public UFBF(int capacity) {
+    public UFBF(int expectedInsertCount) {
         super(
                 new BlockBitSet(
-                        getOptimalSize(capacity),
-                        getOptimalNumberOfHashFunctions(capacity, getOptimalSize(capacity))
+                        getOptimalSize(expectedInsertCount),
+                        getOptimalNumberOfHashFunctions(expectedInsertCount, getOptimalSize(expectedInsertCount))
                 ),
-                capacity
+                expectedInsertCount
         );
         k = ((IBitsBlocksContainer) super.bits).blockSize();
         ks = new int[k];
@@ -35,6 +36,9 @@ public class UFBF<T> extends BloomFilter<T> {
 
         upperBound = SPECIES.loopBound(k);
         this.bits = (IBitsBlocksContainer) super.bits;
+
+
+        vr_unit = IntVector.broadcast(SPECIES, 1);
     }
 
     /**
@@ -63,8 +67,7 @@ public class UFBF<T> extends BloomFilter<T> {
             v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
 
             IntVector vr_val = v_combinedHash;
-            IntVector vr_a = IntVector.broadcast(SPECIES, 1);
-            vr_a = vr_a.lanewise(VectorOperators.LSHL, vr_val);
+            IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);
 
             vr_a.intoArray(block, i);
         }
@@ -104,8 +107,7 @@ public class UFBF<T> extends BloomFilter<T> {
             v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
 
             IntVector vr_val = v_combinedHash;
-            IntVector vr_a = IntVector.broadcast(SPECIES, 1);
-            vr_a = vr_a.lanewise(VectorOperators.LSHL, vr_val);
+            IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);
 
             // compare with block
             IntVector vr_b = IntVector.fromArray(SPECIES, block, i);

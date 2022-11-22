@@ -46,51 +46,49 @@ public class TestUtils {
         }
     }
 
-    public static <T> VectorizedBloomFilter<T> makeExampleVectorizedArrayBloomFilter(int capacity) {
-        int optimalSize = BloomFilter.getOptimalSize(capacity);
+    public static <T> VectorizedBloomFilter<T> makeExampleVectorizedArrayBloomFilter(int expectedInsertCount) {
+        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
         BitArray bc = new BitArray(optimalSize);
 
-        return new VectorizedBloomFilter<>(bc, capacity);
+        return new VectorizedBloomFilter<>(bc, expectedInsertCount);
     }
 
-    public static <T> UFBF<T> makeExampleUFBF(int capacity) {
-        int optimalSize = UFBF.getOptimalSize(capacity);
-
-        return new UFBF<>(capacity);
+    public static <T> UFBF<T> makeExampleUFBF(int expectedInsertCount) {
+        return new UFBF<>(expectedInsertCount);
     }
 
-    public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int capacity) {
-        int optimalSize = BloomFilter.getOptimalSize(capacity);
+    public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int expectedInsertCount) {
+        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
         BitArray bc = new BitArray(optimalSize);
 
-        return new BloomFilter<>(bc, capacity);
+        return new BloomFilter<>(bc, expectedInsertCount);
     }
 
-    public static <T> BloomFilter<T> makeExampleNativeBitSetBloomFilter(int capacity) {
-        int optimalSize = BloomFilter.getOptimalSize(capacity);
+    public static <T> BloomFilter<T> makeExampleNativeBitSetBloomFilter(int expectedInsertCount) {
+        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
         NativeBitSet bc = new NativeBitSet(optimalSize);
 
-        return new BloomFilter<>(bc, capacity);
+        return new BloomFilter<>(bc, expectedInsertCount);
     }
 
-    public static <T> BloomFilter<T> makeExampleArrayListBloomFilter(int capacity) {
-        int optimalSize = BloomFilter.getOptimalSize(capacity);
+    public static <T> BloomFilter<T> makeExampleArrayListBloomFilter(int expectedInsertCount) {
+        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
         BitArray bc = new BitArray(optimalSize);
 
-        return new BloomFilter<>(bc, capacity);
+        return new BloomFilter<>(bc, expectedInsertCount);
     }
 
 
-    public static <T> BloomFilter<T> makeExampleGuavaLockFreeBitArrayBloomFilter(int capacity) {
-        int optimalSize = BloomFilter.getOptimalSize(capacity);
+    public static <T> BloomFilter<T> makeExampleGuavaLockFreeBitArrayBloomFilter(int expectedInsertCount) {
+        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
         GuavaLockFreeBitArray bc = new GuavaLockFreeBitArray(optimalSize);
 
-        return new BloomFilter<>(bc, capacity);
+        return new BloomFilter<>(bc, expectedInsertCount);
     }
-    public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int capacity) {
-        int optimalSize = BloomFilter.getOptimalSize(capacity);
+    public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int expectedInsertCount) {
+        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
         BitLinkedList bc = new BitLinkedList(optimalSize);
 
-        return new BloomFilter<>(bc, capacity);
+        return new BloomFilter<>(bc, expectedInsertCount);
     }
 }

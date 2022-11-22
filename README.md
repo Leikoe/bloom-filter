@@ -279,6 +279,11 @@ to provided a ~35% speedup for Add() and ~15% speedup for Contains().
 
 At this point, the bloomfilter is beating java's standard library's HashSet.
 
+## UltraFastBloomFilter
+
+- broadcast optimization
+- 
+
 ## BitsContainer optimizations
 
 according to https://stackoverflow.com/questions/605226/boolean-vs-bitset-which-is-more-efficient

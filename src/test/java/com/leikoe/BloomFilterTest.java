@@ -17,11 +17,11 @@ public class BloomFilterTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(12000));
+        arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(12000);
         TestUtils.fillBloomFilter(arrayBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
-        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(12000));
+        arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(12000);
         TestUtils.fillBloomFilter(arrayListBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
-        linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(12000));
+        linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(12000);
         TestUtils.fillBloomFilter(linkedListBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
     }
 
@@ -109,8 +109,6 @@ public class BloomFilterTest {
     public int getObservedFalsePositives(int n) {
         Random random = new Random();
         BloomFilter<Integer> bloomFilter = TestUtils.makeExampleUFBF(n);
-//        System.out.println("BloomFilter's inner BitsContainer has size m=" + bloomFilter.bits.size()
-//                + ", using n=" + n + ", and e=" + BloomFilter.FALSE_POSITIVE_RATE + ", k=" + bloomFilter.k);
 
         HashSet<Integer> addedItems = new HashSet<>();
         for (int i=0; i<n; i++) {

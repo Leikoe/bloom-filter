@@ -51,6 +51,7 @@ public class Bencher {
     static Random random = new Random();
 
 
+    UFBF<Integer> ufbf;
     VectorizedBloomFilter<Integer> vectorizedArrayBloomFilter;
     BloomFilter<Integer> arrayListBloomFilter;
     BloomFilter<Integer> linkedListBloomFilter;
@@ -60,6 +61,8 @@ public class Bencher {
     BloomFilter<Integer> guavaLockFreeBitArrayBloomFilter;
 
 
+
+    UFBF<Integer> ufbfEmpty;
     VectorizedBloomFilter<Integer> vectorizedArrayBloomFilterEmpty;
     BloomFilter<Integer> arrayListBloomFilterEmpty;
     BloomFilter<Integer> linkedListBloomFilterEmpty;
@@ -73,7 +76,13 @@ public class Bencher {
     ArrayList<Integer> testValues;
 
     @Benchmark
-    public void vectoziedArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
+    public void ubfbContains(org.openjdk.jmh.infra.Blackhole bh) {
+        for (int i: testValues) {
+            bh.consume(ufbf.mightContain(i));
+        }
+    }
+    @Benchmark
+    public void vectorizedArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(vectorizedArrayBloomFilter.mightContain(i));
         }
@@ -122,6 +131,12 @@ public class Bencher {
     }
 
 
+    @Benchmark
+    public void ufbfAdd() {
+        for (int i: testValues) {
+            ufbfEmpty.add(i);
+        }
+    }
     @Benchmark
     public void vectorizedArrayBloomFilterAdd() {
         for (int i: testValues) {
@@ -182,24 +197,27 @@ public class Bencher {
         // executed before each invocation of the benchmark
 
         // clear all arrays Which are supposed to be empty (only if they're not clean)
+        if (ufbfEmpty == null || ufbfEmpty.size() != 0) {
+            ufbfEmpty = TestUtils.makeExampleUFBF(items);
+        }
         if (vectorizedArrayBloomFilterEmpty == null || vectorizedArrayBloomFilterEmpty.size() != 0) {
-            vectorizedArrayBloomFilterEmpty = TestUtils.makeExampleVectorizedArrayBloomFilter(BloomFilter.getOptimalSize(items));
+            vectorizedArrayBloomFilterEmpty = TestUtils.makeExampleVectorizedArrayBloomFilter(items);
         }
 
         if (arrayBloomFilterEmpty == null || arrayBloomFilterEmpty.size() != 0) {
-            arrayBloomFilterEmpty = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
+            arrayBloomFilterEmpty = TestUtils.makeExampleArrayBloomFilter(items);
         }
         if (nativeBitSetBloomFilterEmpty == null || nativeBitSetBloomFilterEmpty.size() != 0) {
-            nativeBitSetBloomFilterEmpty = TestUtils.makeExampleNativeBitSetBloomFilter(BloomFilter.getOptimalSize(items));
+            nativeBitSetBloomFilterEmpty = TestUtils.makeExampleNativeBitSetBloomFilter(items);
         }
         if (guavaLockFreeBitArrayBloomFilterEmpty == null || guavaLockFreeBitArrayBloomFilterEmpty.size() != 0) {
-            guavaLockFreeBitArrayBloomFilterEmpty = TestUtils.makeExampleGuavaLockFreeBitArrayBloomFilter(BloomFilter.getOptimalSize(items));
+            guavaLockFreeBitArrayBloomFilterEmpty = TestUtils.makeExampleGuavaLockFreeBitArrayBloomFilter(items);
         }
         if (arrayListBloomFilterEmpty == null || arrayListBloomFilterEmpty.size() != 0) {
-            arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
+            arrayListBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(items);
         }
 //        if (linkedListBloomFilterEmpty == null || linkedListBloomFilterEmpty.size() != 0) {
-//            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
+//            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(items);
 //        }
 
         if (hashsetEmpty == null || hashsetEmpty.size() != 0) {
@@ -218,39 +236,45 @@ public class Bencher {
         }
 
         // clear all arrays (only if they don't only contain the test values) and add half the values so half correct checks
+        if (ufbf == null || ufbf.size() != items /2) {
+           ufbf = TestUtils.makeExampleUFBF(items);
+           for (int i = 0; i<testValues.size()/2; i++) {
+                ufbf.add(testValues.get(i));
+           }
+        }
         if (vectorizedArrayBloomFilter == null || vectorizedArrayBloomFilter.size() != items /2) {
-           vectorizedArrayBloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(BloomFilter.getOptimalSize(items));
+           vectorizedArrayBloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(items);
            for (int i = 0; i<testValues.size()/2; i++) {
                 vectorizedArrayBloomFilter.add(testValues.get(i));
            }
         }
 
         if (arrayBloomFilter == null || arrayBloomFilter.size() != items /2) {
-           arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(BloomFilter.getOptimalSize(items));
+           arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(items);
            for (int i = 0; i<testValues.size()/2; i++) {
                 arrayBloomFilter.add(testValues.get(i));
            }
         }
         if (nativeBitSetBloomFilter == null || nativeBitSetBloomFilter.size() != items /2) {
-           nativeBitSetBloomFilter = TestUtils.makeExampleNativeBitSetBloomFilter(BloomFilter.getOptimalSize(items));
+           nativeBitSetBloomFilter = TestUtils.makeExampleNativeBitSetBloomFilter(items);
            for (int i = 0; i<testValues.size()/2; i++) {
                 nativeBitSetBloomFilter.add(testValues.get(i));
            }
         }
         if (guavaLockFreeBitArrayBloomFilter == null || guavaLockFreeBitArrayBloomFilter.size() != items /2) {
-           guavaLockFreeBitArrayBloomFilter = TestUtils.makeExampleGuavaLockFreeBitArrayBloomFilter(BloomFilter.getOptimalSize(items));
+           guavaLockFreeBitArrayBloomFilter = TestUtils.makeExampleGuavaLockFreeBitArrayBloomFilter(items);
            for (int i = 0; i<testValues.size()/2; i++) {
                 guavaLockFreeBitArrayBloomFilter.add(testValues.get(i));
            }
         }
         if (arrayListBloomFilter == null || arrayListBloomFilter.size() != items /2) {
-            arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(BloomFilter.getOptimalSize(items));
+            arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(items);
             for (int i = 0; i<testValues.size()/2; i++) {
                 arrayListBloomFilter.add(testValues.get(i));
             }
         }
 //        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != items /2) {
-//            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(BloomFilter.getOptimalSize(items));
+//            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(items);
 //            for (int i = 0; i<testValues.size()/2; i++) {
 //                linkedListBloomFilter.add(testValues.get(i));
 //            }

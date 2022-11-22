@@ -15,7 +15,6 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     public static final double FALSE_POSITIVE_RATE = 0.01;
 
     IBitsContainer bits;
-    ToIntFunction<T>[] hashFunctions;
     int n;
     int k;
 
@@ -26,14 +25,11 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      *
      * @param bitsContainer user provided bits container, all initialized to 0, must implement IBitsContainer
      */
-    public BloomFilter(IBitsContainer bitsContainer, int capacity) {
+    public BloomFilter(IBitsContainer bitsContainer, int expectedInsertCount) {
         this.bits = bitsContainer;
+        assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;
-        this.k = getOptimalNumberOfHashFunctions(capacity, bits.size());
-        this.hashFunctions = new ToIntFunction[] {
-                Object::hashCode,
-                new HashMapHash<T>()
-        };
+        this.k = getOptimalNumberOfHashFunctions(expectedInsertCount, bits.size());
         hashes = new long[]{0, 0};
     }
 
