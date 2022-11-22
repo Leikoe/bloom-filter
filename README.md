@@ -27,10 +27,10 @@ run benchmarks
 ```bash
 mvn clean install
 
-java -jar target/benchmarks.jar # for all benchmarks
+java --add-modules jdk.incubator.vector -jar target/benchmarks.jar # for all benchmarks
 # or
-java -jar target/benchmarks.jar com.leikoe.Bencher # for only bloom filter benchmarks
-java -jar target/benchmarks.jar com.leikoe.ObjectToByte # for only ObjectToBytes benchmarks
+java --add-modules jdk.incubator.vector -jar target/benchmarks.jar com.leikoe.Bencher # for only bloom filter benchmarks
+java --add-modules jdk.incubator.vector -jar target/benchmarks.jar com.leikoe.ObjectToByte # for only ObjectToBytes benchmarks
 ```
 
 Unit tests
