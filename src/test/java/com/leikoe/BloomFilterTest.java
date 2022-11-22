@@ -64,7 +64,8 @@ public class BloomFilterTest {
     @org.junit.Test
     public void testUFBF() {
         UFBF<Integer> ufbf = TestUtils.makeExampleUFBF(100);
-//        ufbf.add(12);
+        ufbf.add(12);
+        assertTrue(ufbf.mightContain(12));
     }
 
     @org.junit.Test
@@ -107,7 +108,7 @@ public class BloomFilterTest {
 
     public int getObservedFalsePositives(int n) {
         Random random = new Random();
-        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(n);
+        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleUFBF(n);
 //        System.out.println("BloomFilter's inner BitsContainer has size m=" + bloomFilter.bits.size()
 //                + ", using n=" + n + ", and e=" + BloomFilter.FALSE_POSITIVE_RATE + ", k=" + bloomFilter.k);
 

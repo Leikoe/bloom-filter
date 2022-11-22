@@ -11,7 +11,7 @@ public class BlockBitSet implements IBitsBlocksContainer {
 
     public BlockBitSet(long size, int blockSize) {
         assert (size > 0); // data length is zero!
-        assert (size % blockSize == 0);
+//        assert (size % blockSize == 0);
         this.BLOCK_SIZE = blockSize;
         this.BLOCK_BIT_SIZE = WORD_SIZE * this.BLOCK_SIZE;
         this.data = new int[(int) Math.ceil(size/((float) this.BLOCK_BIT_SIZE))][blockSize];
@@ -25,7 +25,7 @@ public class BlockBitSet implements IBitsBlocksContainer {
         }
 
         int blockIndex = bitIndex / BLOCK_BIT_SIZE;
-        int intIndex = (bitIndex >>> 5) % BLOCK_BIT_SIZE;
+        int intIndex = (bitIndex % BLOCK_BIT_SIZE) / WORD_SIZE;
         data[blockIndex][intIndex] |= (1 << bitIndex); // from java's BitSet
 
         // We turned the bit on, so increment bitCount.
@@ -36,11 +36,7 @@ public class BlockBitSet implements IBitsBlocksContainer {
     @Override
     public boolean get(int i) {
         int blockIndex = i / BLOCK_BIT_SIZE;
-        int intIndex = (i >>> 5) % BLOCK_BIT_SIZE;
-
-        System.out.println("BlockBitSet.length = " + data.length);
-        System.out.println("blockIndex = " + blockIndex);
-        System.out.println("intIndex = " + intIndex);
+        int intIndex = (i % BLOCK_BIT_SIZE) / WORD_SIZE;
 
         int word = data[blockIndex][intIndex];
         return (word & (1 << i)) != 0;
@@ -72,16 +68,26 @@ public class BlockBitSet implements IBitsBlocksContainer {
 
     @Override
     public int size() {
-        return dataLength() * 64;
+        return dataLength() * BLOCK_SIZE * WORD_SIZE;
     }
 
     @Override
     public int[] getBlock(int i) {
-        return data[i];
+        return data[i / BLOCK_BIT_SIZE];
     }
 
     @Override
     public void setBlock(int i, int[] block) {
         data[i] = block;
+    }
+
+    @Override
+    public int blockCount() {
+        return dataLength();
+    }
+
+    @Override
+    public int blockSize() {
+        return BLOCK_SIZE;
     }
 }

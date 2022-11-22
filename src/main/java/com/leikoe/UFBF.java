@@ -27,10 +27,10 @@ public class UFBF<T> extends BloomFilter<T> {
                 ),
                 capacity
         );
-
+        k = ((IBitsBlocksContainer) super.bits).blockSize();
         ks = new int[k];
-        for (int i=0; i<k; i++) {
-            ks[i] = i;
+        for (int i=1; i<=k; i++) {
+            ks[i-1] = i;
         }
 
         upperBound = SPECIES.loopBound(k);
@@ -48,12 +48,13 @@ public class UFBF<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        int[] block = bits.getBlock(hash1);
+        if (hash1 < 0) {
+            hash1 = ~hash1;
+        }
+        int[] block = bits.getBlock(hash1 % bits.blockCount());
 
-        System.out.println(block);
-
-        int i = 1;
-        for (; i <= upperBound; i += SPECIES.length()) {
+        int i = 0;
+        for (; i + SPECIES.length() <= upperBound; i += SPECIES.length()) {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
@@ -65,28 +66,12 @@ public class UFBF<T> extends BloomFilter<T> {
             IntVector vr_a = IntVector.broadcast(SPECIES, 1);
             vr_a = vr_a.lanewise(VectorOperators.LSHL, vr_val);
 
-            System.out.println("\nDEBUG");
-            System.out.println(vr_val);
-            System.out.println(vr_a);
-
             vr_a.intoArray(block, i);
-
-//
-//
-//            IntVector vr_b = IntVector.fromArray(SPECIES, block, i);
-//            vr_b = vr_b.not();
-//
-//            VectorMask<Integer> vr_test = vr_a.compare(VectorOperators.EQ, vr_b);
-//
-//            for (int j = 0; j<; j += SPECIES.length()) {
-//                int pos = v_combinedHash.lane(j) % bits.size();
-//                bits.set(pos, true);
-//            }
         }
 
         // process the rest
-        for (; i<=k; i++) {
-            int pos = hash1 + (i * hash2);
+        for (; i<k; i++) {
+            int pos = hash1 + ((i+1) * hash2);
             if (pos < 0) {
                 pos = ~pos;
             }
@@ -103,27 +88,38 @@ public class UFBF<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        int i = 1;
-        for (; i <= upperBound; i += SPECIES.length()) {
+
+        if (hash1 < 0) {
+            hash1 = ~hash1;
+        }
+        int[] block = bits.getBlock(hash1 % bits.blockCount());
+
+        int i = 0;
+        for (; i + SPECIES.length() <= upperBound; i += SPECIES.length()) {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
             // Flip all the bits if it's negative (guaranteed positive number)
             VectorMask<Integer> mask = v_combinedHash.lt(0);
             v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
-//            v_combinedHash = modulus(v_combinedHash, v_m); // this is slow as shit don't use it
 
-            for (int j = 0; j<SPECIES.length(); j++) {
-                int pos = v_combinedHash.lane(j) % bits.size();
-                if (!bits.get(pos)) {
-                    return false;
-                }
+            IntVector vr_val = v_combinedHash;
+            IntVector vr_a = IntVector.broadcast(SPECIES, 1);
+            vr_a = vr_a.lanewise(VectorOperators.LSHL, vr_val);
+
+            // compare with block
+            IntVector vr_b = IntVector.fromArray(SPECIES, block, i);
+//            vr_b = vr_b.not();
+
+            IntVector vr_test = vr_a.and(vr_b);
+            if (!vr_test.compare(VectorOperators.EQ, vr_a).allTrue()) {
+                return false;
             }
         }
 
         // process the rest
-        for (; i<=k; i++) {
-            int pos = hash1 + (i * hash2);
+        for (; i<k; i++) {
+            int pos = hash1 + ((i+1) * hash2);
             if (pos < 0) {
                 pos = ~pos;
             }
