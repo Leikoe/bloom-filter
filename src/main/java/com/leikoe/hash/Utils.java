@@ -54,4 +54,8 @@ public class Utils {
         long r;
         return (r = x % m) < 0 ? r + m : r;
     }
+
+    public static int nextPowerOf2(int x) {
+        return x == 0 ? 2 : 2 << (32 - Integer.numberOfLeadingZeros(x - 1));
+    }
 }

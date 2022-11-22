@@ -14,7 +14,8 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @Threads(1)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-@Warmup(iterations = 5, time = 1)
+@Fork(1)
+@Warmup(iterations = 2, time = 1)
 @Measurement(iterations = 5, time = 1)
 @BenchmarkMode(Mode.AverageTime)
 @Timeout(time = 10, timeUnit = TimeUnit.SECONDS)
@@ -92,14 +93,14 @@ public class Bencher {
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void guavaLockFreeBitArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(guavaLockFreeBitArrayBloomFilter.mightContain(i));
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void arrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(arrayListBloomFilter.mightContain(i));
@@ -142,14 +143,14 @@ public class Bencher {
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void guavaLockFreeBitArrayBloomFilterAdd() {
         for (int i: testValues) {
             guavaLockFreeBitArrayBloomFilterEmpty.add(i);
         }
     }
 
-    @Benchmark
+//    @Benchmark
     public void arrayListBloomFilterAdd() {
         for (int i: testValues) {
             arrayListBloomFilterEmpty.add(i);

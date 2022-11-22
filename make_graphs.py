@@ -2,6 +2,43 @@ from matplotlib import pyplot as plt
 from math import log
 
 data = """
+Benchmark                                  (items)  Mode  Cnt     Score      Error  Units
+Bencher.arrayBloomFilterAdd                    100  avgt    5     1.478 ±    0.034  us/op
+Bencher.arrayBloomFilterAdd                   1000  avgt    5    24.436 ±    3.887  us/op
+Bencher.arrayBloomFilterAdd                  10000  avgt    5   328.369 ±    2.707  us/op
+Bencher.arrayBloomFilterAdd                 100000  avgt    5  3517.604 ±   35.190  us/op
+Bencher.arrayBloomFilterContains               100  avgt    5     0.585 ±    0.074  us/op
+Bencher.arrayBloomFilterContains              1000  avgt    5     6.193 ±    0.259  us/op
+Bencher.arrayBloomFilterContains             10000  avgt    5    54.645 ±    9.124  us/op
+Bencher.arrayBloomFilterContains            100000  avgt    5  1161.220 ±   63.669  us/op
+Bencher.hashsetAdd                             100  avgt    5     0.932 ±    0.043  us/op
+Bencher.hashsetAdd                            1000  avgt    5    15.195 ±    1.473  us/op
+Bencher.hashsetAdd                           10000  avgt    5    96.553 ±    4.492  us/op
+Bencher.hashsetAdd                          100000  avgt    5  4603.830 ± 1697.956  us/op
+Bencher.hashsetContains                        100  avgt    5     0.443 ±    0.005  us/op
+Bencher.hashsetContains                       1000  avgt    5     4.188 ±    0.046  us/op
+Bencher.hashsetContains                      10000  avgt    5    42.362 ±   33.928  us/op
+Bencher.hashsetContains                     100000  avgt    5   907.511 ±   29.914  us/op
+Bencher.nativeBitSetBloomFilterAdd             100  avgt    5     3.545 ±    0.084  us/op
+Bencher.nativeBitSetBloomFilterAdd            1000  avgt    5    37.928 ±    1.735  us/op
+Bencher.nativeBitSetBloomFilterAdd           10000  avgt    5   374.142 ±    3.135  us/op
+Bencher.nativeBitSetBloomFilterAdd          100000  avgt    5  3999.398 ±   78.842  us/op
+Bencher.nativeBitSetBloomFilterContains        100  avgt    5     0.585 ±    0.063  us/op
+Bencher.nativeBitSetBloomFilterContains       1000  avgt    5     6.432 ±    0.581  us/op
+Bencher.nativeBitSetBloomFilterContains      10000  avgt    5    58.313 ±    1.963  us/op
+Bencher.nativeBitSetBloomFilterContains     100000  avgt    5   621.454 ±   15.033  us/op
+Bencher.vectorizedArrayBloomFilterAdd          100  avgt    5     1.333 ±    0.045  us/op
+Bencher.vectorizedArrayBloomFilterAdd         1000  avgt    5    13.542 ±    0.912  us/op
+Bencher.vectorizedArrayBloomFilterAdd        10000  avgt    5   148.714 ±    0.325  us/op
+Bencher.vectorizedArrayBloomFilterAdd       100000  avgt    5  1513.773 ±    8.718  us/op
+Bencher.vectoziedArrayBloomFilterContains      100  avgt    5     0.811 ±    0.180  us/op
+Bencher.vectoziedArrayBloomFilterContains     1000  avgt    5     8.154 ±    0.762  us/op
+Bencher.vectoziedArrayBloomFilterContains    10000  avgt    5    75.541 ±    2.582  us/op
+Bencher.vectoziedArrayBloomFilterContains   100000  avgt    5  1552.845 ±   15.208  us/op
+"""
+
+
+"""
 Benchmark                                         (items)  Mode  Cnt     Score     Error  Units
 Bencher.arrayBloomFilterAdd                           100  avgt   25     1.477 ±   0.012  us/op
 Bencher.arrayBloomFilterAdd                          1000  avgt   25    24.887 ±   0.088  us/op

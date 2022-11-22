@@ -102,7 +102,7 @@ public class BloomFilterTest {
 
     public int getObservedFalsePositives(int n) {
         Random random = new Random();
-        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleArrayBloomFilter(n);
+        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(n);
 //        System.out.println("BloomFilter's inner BitsContainer has size m=" + bloomFilter.bits.size()
 //                + ", using n=" + n + ", and e=" + BloomFilter.FALSE_POSITIVE_RATE + ", k=" + bloomFilter.k);
 
