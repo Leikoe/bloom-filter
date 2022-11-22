@@ -111,10 +111,10 @@ public class UFBF<T> extends BloomFilter<T> {
 
             // compare with block
             IntVector vr_b = IntVector.fromArray(SPECIES, block, i);
-//            vr_b = vr_b.not();
+            vr_b = vr_b.not();
 
             IntVector vr_test = vr_a.and(vr_b);
-            if (!vr_test.compare(VectorOperators.EQ, vr_a).allTrue()) {
+            if (vr_test.reduceLanes(VectorOperators.ADD) != 0) {
                 return false;
             }
         }

@@ -281,8 +281,28 @@ At this point, the bloomfilter is beating java's standard library's HashSet.
 
 ## UltraFastBloomFilter
 
-- broadcast optimization
-- 
+- broadcast optimization (moved unit array creation to constructor instead of each call since its not modified)
+- reducing compare operations, found out that they allocate. (using profiler)
+- lt, compare and not all allocate, need to find a workaround
+- the method I came up with to retain positive hash values allocates + is expensive
+
+### fixing the positive hash values
+```java
+VectorMask<Integer> mask = v_combinedHash.lt(0);
+v_combinedHash = v_combinedHash.blend(v_combinedHash.not(), mask);
+```
+this works and is the direct translation of the following in simd:
+```java
+// from google's guava hash implementation
+if (combinedHash < 0) {
+  combinedHash = ~combinedHash;
+}
+```
+I noticed in the debugger that flipping all the bits like this gets the absolute value of the hash, which is a lot faster in smd than my implementation
+So I came up with this:
+```java
+
+```
 
 ## BitsContainer optimizations
 
