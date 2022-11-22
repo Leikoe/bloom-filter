@@ -57,45 +57,7 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
 //    int reduce(uint32_t x, uint32_t N) {
 //        return ((uint64_t) x * (uint64_t) N) >> 32 ;
 //    }
-//
-//    public static IntVector fastRange(IntVector x, int n) {
-//        return
-//    }
 
-//    @Override
-//    public void add(T value) {
-//        result[0] = value.hashCode();
-//        result[1] = (result[1] = result[0]) ^ (result[0] >> 16);
-//
-//        IntVector v_res0 = IntVector.broadcast(SPECIES, result[0]);
-//        IntVector v_res1 = IntVector.broadcast(SPECIES, result[1]);
-//
-//        // init array with k values except for the 2 first elements
-//        for (int i=2; i<k; i++) {
-//            result[i] = i;
-//        }
-//
-//        int i = 2;
-//        int upperBound = SPECIES.loopBound(k-2);
-//
-//        for (; i < upperBound; i += SPECIES.length()) {
-//            IntVector chunk = IntVector.fromArray(SPECIES, result, i);
-//            IntVector res = chunk.mul(v_res1).add(v_res0).lanewise(VectorOperators.ASHR, 32 - 20);
-//            res.intoArray(result, i);
-//
-//            for (int j = 0; j<SPECIES.length(); j++) {
-//                int pos = result[i + j];
-//                bits.set(positiveMod(pos, bits.size()), true);
-//            }
-//        }
-//
-//        // process the rest
-//        for (; i<k; i++) {
-//            int pos = (i*result[0]+result[1]) >> (32 - 1);
-//            bits.set(positiveMod(pos, bits.size()), true);
-//        }
-//        this.n++;
-//    }
 
     /**
      * from "Less Hashing, Same Performance: Building a Better Bloom Filter" by Adam Kirsch
