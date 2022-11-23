@@ -34,8 +34,8 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         ks = new int[k];
 
         // init array with k values except for the 2 first elements
-        for (int i=0; i<k; i++) {
-            ks[i] = i;
+        for (int i=1; i<k; i++) {
+            ks[i-1] = i;
         }
 
         upperBound = SPECIES.loopBound(k);
@@ -71,8 +71,8 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        int i = 1;
-        for (; i <= upperBound; i += SPECIES.length()) {
+        int i = 0;
+        for (; i + SPECIES.length() <= upperBound; i += SPECIES.length()) {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
@@ -88,7 +88,7 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         }
 
         // process the rest
-        for (; i<=k; i++) {
+        for (; i<k; i++) {
             int pos = hash1 + (i * hash2);
             if (pos < 0) {
                 pos = ~pos;
@@ -104,8 +104,8 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        int i = 1;
-        for (; i <= upperBound; i += SPECIES.length()) {
+        int i = 0;
+        for (; i + SPECIES.length() <= upperBound; i += SPECIES.length()) {
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
             IntVector v_combinedHash = z.mul(hash2).add(hash1);
 
@@ -123,7 +123,7 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
         }
 
         // process the rest
-        for (; i<=k; i++) {
+        for (; i<k; i++) {
             int pos = hash1 + (i * hash2);
             if (pos < 0) {
                 pos = ~pos;

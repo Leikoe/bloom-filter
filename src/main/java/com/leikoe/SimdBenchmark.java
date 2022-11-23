@@ -20,16 +20,40 @@ public class SimdBenchmark {
     final VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
     Random random = new Random();
     IntVector vr_test;
+    int[] test;
 
     @Benchmark
-    public IntVector lt() {
+    public IntVector vectorLt() {
         VectorMask<Integer> mask = vr_test.lt(0);
         return vr_test.blend(vr_test.not(), mask);
     }
 
     @Benchmark
-    public IntVector abs() {
+    public IntVector vectorAbs() {
         return vr_test.abs();
+    }
+
+    @Benchmark
+    public int[] scalarAbs() {
+        int[] abss = new int[test.length];
+        for (int i=0; i<test.length; i++) {
+            abss[i] = Math.abs(test[i]);
+        }
+
+        return abss;
+    }
+
+    @Benchmark
+    public int[] scalarLt() {
+        int[] lts = new int[test.length];
+        for (int i=0; i<test.length; i++) {
+            lts[i] = Math.abs(test[i]);
+            if (test[i] < 0) {
+                lts[i] = ~lts[i];
+            }
+        }
+
+        return lts;
     }
 
     @Setup(Level.Invocation)
@@ -37,8 +61,8 @@ public class SimdBenchmark {
         // executed before each invocation of the benchmark
 //        System.out.println("Invokation");
 
-        int[] arr = new int[]{944675, 237898, 38823, 2324};
-        vr_test = IntVector.fromArray(SPECIES, arr, 0);
+        test = new int[]{random.nextInt(), random.nextInt(), random.nextInt(), random.nextInt()};
+        vr_test = IntVector.fromArray(SPECIES, test, 0);
     }
 
     @Setup(Level.Iteration)

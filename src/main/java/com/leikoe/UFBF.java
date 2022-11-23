@@ -52,9 +52,7 @@ public class UFBF<T> extends BloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        if (hash1 < 0) {
-            hash1 = ~hash1;
-        }
+        hash1 = Math.abs(hash1);
         int[] block = bits.getBlock(hash1 % bits.blockCount());
 
         int i = 0;
@@ -74,7 +72,8 @@ public class UFBF<T> extends BloomFilter<T> {
             if (pos < 0) {
                 pos = ~pos;
             }
-            bits.set(pos % bits.size(), true);
+            block[i] |= 1 << pos;
+//            bits.set(pos % bits.size(), true);
         }
 
 //        bits.setBlock(hash1, block); // useless
@@ -88,9 +87,7 @@ public class UFBF<T> extends BloomFilter<T> {
         int hash2 = (int) (hash64 >>> 32);
 
 
-        if (hash1 < 0) {
-            hash1 = ~hash1;
-        }
+        hash1 = Math.abs(hash1);
         int[] block = bits.getBlock(hash1 % bits.blockCount());
 
         int i = 0;
@@ -117,7 +114,7 @@ public class UFBF<T> extends BloomFilter<T> {
             if (pos < 0) {
                 pos = ~pos;
             }
-            if (!bits.get(pos % bits.size())) {
+            if ((block[i] & 1 << pos) == 0) {
                 return false;
             }
         }

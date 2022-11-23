@@ -15,14 +15,24 @@ public class BloomFilterTest {
     BloomFilter<Integer> arrayListBloomFilter;
     BloomFilter<Integer> linkedListBloomFilter;
 
+    BloomFilter<Integer> vectorizedBloomFilter;
+    UFBF<Integer> ufbf;
+
     @org.junit.Before
     public void setUp() throws Exception {
+        Integer[] nums = new Integer[]{12, 87, 43, 22, 8, 97};
+
         arrayBloomFilter = TestUtils.makeExampleArrayBloomFilter(12000);
-        TestUtils.fillBloomFilter(arrayBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
+        TestUtils.fillBloomFilter(arrayBloomFilter, nums);
         arrayListBloomFilter = TestUtils.makeExampleArrayListBloomFilter(12000);
-        TestUtils.fillBloomFilter(arrayListBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
+        TestUtils.fillBloomFilter(arrayListBloomFilter, nums);
         linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(12000);
-        TestUtils.fillBloomFilter(linkedListBloomFilter, new Integer[]{12, 87, 43, 22, 8, 97});
+        TestUtils.fillBloomFilter(linkedListBloomFilter, nums);
+
+        vectorizedBloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(12000);
+        TestUtils.fillBloomFilter(vectorizedBloomFilter, nums);
+        ufbf = TestUtils.makeExampleUFBF(12000);
+        TestUtils.fillBloomFilter(ufbf, nums);
     }
 
     @org.junit.After
@@ -42,6 +52,14 @@ public class BloomFilterTest {
         if (!linkedListBloomFilter.mightContain(78)) {
             linkedListBloomFilter.add(78);
             assertTrue(linkedListBloomFilter.mightContain(78));
+        }
+        if (!vectorizedBloomFilter.mightContain(78)) {
+            vectorizedBloomFilter.add(78);
+            assertTrue(vectorizedBloomFilter.mightContain(78));
+        }
+        if (!ufbf.mightContain(78)) {
+            ufbf.add(78);
+            assertTrue(ufbf.mightContain(78));
         }
     }
 

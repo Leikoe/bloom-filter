@@ -301,6 +301,8 @@ if (combinedHash < 0) {
 }
 ```
 I noticed in the debugger that flipping all the bits like this gets the absolute value of the hash, which is a lot faster in smd than my implementation
+> note: this might be architecture dependent
+ 
 So I came up with this:
 ```java
 v_combineHash = v_combineHash.abs();
