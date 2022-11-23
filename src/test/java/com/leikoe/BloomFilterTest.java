@@ -18,6 +18,8 @@ public class BloomFilterTest {
     BloomFilter<Integer> vectorizedBloomFilter;
     UFBF<Integer> ufbf;
 
+    Random rnd = new Random();
+
     @org.junit.Before
     public void setUp() throws Exception {
         Integer[] nums = new Integer[]{12, 87, 43, 22, 8, 97};
@@ -82,8 +84,11 @@ public class BloomFilterTest {
     @org.junit.Test
     public void testUFBF() {
         UFBF<Integer> ufbf = TestUtils.makeExampleUFBF(100);
-        ufbf.add(12);
-        assertTrue(ufbf.mightContain(12));
+        for (int i=0; i<100000; i++) {
+            int x = rnd.nextInt();
+            ufbf.add(x);
+            assertTrue(ufbf.mightContain(x));
+        }
     }
 
     @org.junit.Test

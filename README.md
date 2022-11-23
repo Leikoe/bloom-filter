@@ -315,6 +315,42 @@ This gave the following results when benchmarked (SimdBenchmark):
 
 abs() runs just as fast and allocates less, while being clearer to read.
 
+## UFBF, cache friendly
+
+during my benchmarks, ufbf was doing worse than vectorizedBloomFilter, which wasn't supposed to happen.
+after profiling, this part seemed to be the bottleneck
+```java
+ // process the rest in scalar code
+for (; i<k; i++) {
+    int pos = hash1 + ((i+1) * hash2);
+    if (pos < 0) {
+        pos = ~pos;
+    }
+//    block[i] |= 1 << pos;
+    bits.set(pos % bits.size(), true);
+}
+```
+
+bits.set was producing cache misses, I fixed it by reusing the block used by the vector loop above it
+```java
+// process the rest in scalar code
+// block is a block of k ints
+for (; i<k; i++) {
+    int pos = hash1 + ((i+1) * hash2);
+    if (pos < 0) {
+        pos = ~pos;
+    }
+    block[i] |= 1 << pos;
+}
+```
+
+this had a huge impact on performance
+
+| ufbf.add() (cache miss)     | 2771.778 us/op  |
+|-----------------------------|-----------------|
+| ufbf.add() (cache friendly) | 943.710 us/op   |
+
+
 ## BitsContainer optimizations
 
 according to https://stackoverflow.com/questions/605226/boolean-vs-bitset-which-is-more-efficient
