@@ -1,10 +1,6 @@
 package com.leikoe;
 
 import com.leikoe.bitscontainers.*;
-import com.leikoe.hash.Fnv32Hash;
-import com.leikoe.hash.JavaHash;
-import com.leikoe.hash.MurmurHash2;
-import com.leikoe.hash.djb33Hash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +36,14 @@ public class TestUtils {
      * @param bloomFilter the bloom filter to fill up
      * @param values an array of values
      */
-     public static <T> void fillBloomFilter(BloomFilter<T> bloomFilter, T[] values) {
+     public static <T> void fillBloomFilter(NaiveBloomFilter<T> bloomFilter, T[] values) {
         for (T i: values) {
             bloomFilter.add(i);
         }
     }
 
     public static <T> VectorizedBloomFilter<T> makeExampleVectorizedArrayBloomFilter(int expectedInsertCount) {
-        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
+        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
         BitArray bc = new BitArray(optimalSize);
 
         return new VectorizedBloomFilter<>(bc, expectedInsertCount);
@@ -57,38 +53,38 @@ public class TestUtils {
         return new UFBF<>(expectedInsertCount);
     }
 
-    public static <T> BloomFilter<T> makeExampleArrayBloomFilter(int expectedInsertCount) {
-        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
+    public static <T> NaiveBloomFilter<T> makeExampleArrayBloomFilter(int expectedInsertCount) {
+        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
         BitArray bc = new BitArray(optimalSize);
 
-        return new BloomFilter<>(bc, expectedInsertCount);
+        return new NaiveBloomFilter<>(bc, expectedInsertCount);
     }
 
-    public static <T> BloomFilter<T> makeExampleNativeBitSetBloomFilter(int expectedInsertCount) {
-        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
+    public static <T> NaiveBloomFilter<T> makeExampleNativeBitSetBloomFilter(int expectedInsertCount) {
+        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
         NativeBitSet bc = new NativeBitSet(optimalSize);
 
-        return new BloomFilter<>(bc, expectedInsertCount);
+        return new NaiveBloomFilter<>(bc, expectedInsertCount);
     }
 
-    public static <T> BloomFilter<T> makeExampleArrayListBloomFilter(int expectedInsertCount) {
-        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
+    public static <T> NaiveBloomFilter<T> makeExampleArrayListBloomFilter(int expectedInsertCount) {
+        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
         BitArray bc = new BitArray(optimalSize);
 
-        return new BloomFilter<>(bc, expectedInsertCount);
+        return new NaiveBloomFilter<>(bc, expectedInsertCount);
     }
 
 
-    public static <T> BloomFilter<T> makeExampleGuavaLockFreeBitArrayBloomFilter(int expectedInsertCount) {
-        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
+    public static <T> NaiveBloomFilter<T> makeExampleGuavaLockFreeBitArrayBloomFilter(int expectedInsertCount) {
+        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
         GuavaLockFreeBitArray bc = new GuavaLockFreeBitArray(optimalSize);
 
-        return new BloomFilter<>(bc, expectedInsertCount);
+        return new NaiveBloomFilter<>(bc, expectedInsertCount);
     }
-    public static <T> BloomFilter<T> makeExampleLinkedListBloomFilter(int expectedInsertCount) {
-        int optimalSize = BloomFilter.getOptimalSize(expectedInsertCount);
+    public static <T> NaiveBloomFilter<T> makeExampleLinkedListBloomFilter(int expectedInsertCount) {
+        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
         BitLinkedList bc = new BitLinkedList(optimalSize);
 
-        return new BloomFilter<>(bc, expectedInsertCount);
+        return new NaiveBloomFilter<>(bc, expectedInsertCount);
     }
 }

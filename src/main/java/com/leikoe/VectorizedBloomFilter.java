@@ -6,13 +6,11 @@ import com.leikoe.hash.Murmur64;
 import com.leikoe.hash.Utils;
 import jdk.incubator.vector.*;
 
-import java.util.Set;
-
 /**
  * WARNING: REQUIRES JAVA 18+
  */
 
-public class VectorizedBloomFilter<T> extends BloomFilter<T> {
+public class VectorizedBloomFilter<T> extends NaiveBloomFilter<T> {
 
     VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
 
@@ -143,6 +141,6 @@ public class VectorizedBloomFilter<T> extends BloomFilter<T> {
      * @return the optimal bits container size
      */
     public static int getOptimalSize(int n) {
-        return Utils.nextPowerOf2(BloomFilter.getOptimalSize(n));
+        return Utils.nextPowerOf2(NaiveBloomFilter.getOptimalSize(n));
     }
 }

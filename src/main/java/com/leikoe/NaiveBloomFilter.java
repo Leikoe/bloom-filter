@@ -1,14 +1,9 @@
 package com.leikoe;
 
-import com.leikoe.hash.HashMapHash;
-import com.leikoe.hash.MurmurHash2;
-
-import java.util.function.ToIntFunction;
-
 import static com.leikoe.hash.Utils.positiveMod;
 
 
-public class BloomFilter<T> implements IBloomFilter<T> {
+public class NaiveBloomFilter<T> implements IBloomFilter<T> {
 
 
     // we wish to have 1% or less false positives
@@ -25,7 +20,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      *
      * @param bitsContainer user provided bits container, all initialized to 0, must implement IBitsContainer
      */
-    public BloomFilter(IBitsContainer bitsContainer, int expectedInsertCount) {
+    public NaiveBloomFilter(IBitsContainer bitsContainer, int expectedInsertCount) {
         this.bits = bitsContainer;
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;

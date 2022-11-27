@@ -4,7 +4,7 @@ import com.leikoe.bitscontainers.BlockBitSet;
 import com.leikoe.hash.Murmur64;
 import jdk.incubator.vector.*;
 
-public class UFBF<T> extends BloomFilter<T> {
+public class UFBF<T> extends NaiveBloomFilter<T> {
 
     VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
 

@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
 
 public class BloomFilterTest {
 
-    BloomFilter<Integer> arrayBloomFilter;
-    BloomFilter<Integer> arrayListBloomFilter;
-    BloomFilter<Integer> linkedListBloomFilter;
+    NaiveBloomFilter<Integer> arrayBloomFilter;
+    NaiveBloomFilter<Integer> arrayListBloomFilter;
+    NaiveBloomFilter<Integer> linkedListBloomFilter;
 
-    BloomFilter<Integer> vectorizedBloomFilter;
+    NaiveBloomFilter<Integer> vectorizedBloomFilter;
     UFBF<Integer> ufbf;
 
     Random rnd = new Random();
@@ -131,7 +131,7 @@ public class BloomFilterTest {
 
     public int getObservedFalsePositives(int n) {
         Random random = new Random();
-        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleUFBF(n);
+        NaiveBloomFilter<Integer> bloomFilter = TestUtils.makeExampleUFBF(n);
 
         HashSet<Integer> addedItems = new HashSet<>();
         for (int i=0; i<n; i++) {
