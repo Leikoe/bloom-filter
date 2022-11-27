@@ -92,7 +92,7 @@ public final class GuavaLockFreeBitArray implements IBitsContainer {
     }
 
     @Override
-    public void set(int i, boolean b) {
+    public void set(int i) {
         set(i);
     }
 

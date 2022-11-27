@@ -16,8 +16,8 @@ public class BitArrayList implements IBitsContainer {
     }
 
     @Override
-    public void set(int i, boolean b) {
-        bits.set(i, b);
+    public void set(int i) {
+        bits.set(i, true);
     }
 
     @Override

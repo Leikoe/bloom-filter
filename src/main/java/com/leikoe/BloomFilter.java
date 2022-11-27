@@ -7,7 +7,6 @@ import static com.leikoe.NaiveBloomFilter.getOptimalNumberOfHashFunctions;
 import static com.leikoe.NaiveBloomFilter.getOptimalSize;
 
 public class BloomFilter<T> implements IBloomFilter<T> {
-
     IBitsBlocksContainer bits;
     private int n;
     private final int k;

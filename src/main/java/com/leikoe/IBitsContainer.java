@@ -1,7 +1,8 @@
 package com.leikoe;
 
+// TODO: javadoc
 public interface IBitsContainer {
-    void set(int i, boolean b);
+    void set(int i);
     boolean get(int i);
     int size();
 }

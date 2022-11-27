@@ -33,7 +33,7 @@ public class NaiveBloomFilter<T> implements IBloomFilter<T> {
     public void add(T value) {
         for (int i=0; i<k; i++) {
             long pos = hash(value, i);
-            bits.set((int) positiveMod(pos, bits.size()), true);
+            bits.set((int) positiveMod(pos, bits.size()));
         }
         this.n++;
     }

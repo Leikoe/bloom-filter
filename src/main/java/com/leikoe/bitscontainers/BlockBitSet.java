@@ -17,7 +17,7 @@ public class BlockBitSet implements IBitsBlocksContainer {
     }
 
     @Override
-    public void set(int bitIndex, boolean v) {
+    public void set(int bitIndex) {
         int blockIndex = bitIndex / BLOCK_BIT_SIZE;
         int intIndex = (bitIndex % BLOCK_BIT_SIZE) / WORD_SIZE;
         data[blockIndex][intIndex] |= (1 << bitIndex); // from java's BitSet

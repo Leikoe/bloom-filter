@@ -10,8 +10,8 @@ public class BitArray implements IBitsContainer {
     }
 
     @Override
-    public void set(int i, boolean b) {
-        bits[i] = b;
+    public void set(int i) {
+        bits[i] = true;
     }
 
     @Override
