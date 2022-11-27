@@ -51,28 +51,27 @@ public class Bencher {
     static Random random = new Random();
 
 
+    // instances dedicated to contains() benchmarks
     UFBF<Integer> ufbf;
     VectorizedBloomFilter<Integer> vectorizedArrayBloomFilter;
     NaiveBloomFilter<Integer> arrayListNaiveBloomFilter;
     NaiveBloomFilter<Integer> linkedListNaiveBloomFilter;
     NaiveBloomFilter<Integer> arrayNaiveBloomFilter;
     NaiveBloomFilter<Integer> nativeBitSetNaiveBloomFilter;
-
     NaiveBloomFilter<Integer> guavaLockFreeBitArrayNaiveBloomFilter;
+    HashSet<Integer> hashset;
 
 
-
+    // instances dedicated to add() benchmarks
     UFBF<Integer> ufbfEmpty;
     VectorizedBloomFilter<Integer> vectorizedArrayBloomFilterEmpty;
     NaiveBloomFilter<Integer> arrayListNaiveBloomFilterEmpty;
     NaiveBloomFilter<Integer> linkedListNaiveBloomFilterEmpty;
     NaiveBloomFilter<Integer> arrayNaiveBloomFilterEmpty;
     NaiveBloomFilter<Integer> nativeBitSetNaiveBloomFilterEmpty;
-
     NaiveBloomFilter<Integer> guavaLockFreeBitArrayNaiveBloomFilterEmpty;
-
     HashSet<Integer> hashsetEmpty;
-    HashSet<Integer> hashset;
+
     ArrayList<Integer> testValues;
 
     @Benchmark
@@ -87,42 +86,36 @@ public class Bencher {
             bh.consume(vectorizedArrayBloomFilter.mightContain(i));
         }
     }
-
     @Benchmark
     public void arrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(arrayNaiveBloomFilter.mightContain(i));
         }
     }
-
     @Benchmark
     public void nativeBitSetBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(nativeBitSetNaiveBloomFilter.mightContain(i));
         }
     }
-
 //    @Benchmark
     public void guavaLockFreeBitArrayBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(guavaLockFreeBitArrayNaiveBloomFilter.mightContain(i));
         }
     }
-
 //    @Benchmark
     public void arrayListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(arrayListNaiveBloomFilter.mightContain(i));
         }
     }
-
 //    @Benchmark
     public void linkedListBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(linkedListNaiveBloomFilter.mightContain(i));
         }
     }
-
     @Benchmark
     public void hashsetContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
@@ -143,49 +136,42 @@ public class Bencher {
             vectorizedArrayBloomFilterEmpty.add(i);
         }
     }
-
     @Benchmark
     public void arrayBloomFilterAdd() {
         for (int i: testValues) {
             arrayNaiveBloomFilterEmpty.add(i);
         }
     }
-
     @Benchmark
     public void nativeBitSetBloomFilterAdd() {
         for (int i: testValues) {
             nativeBitSetNaiveBloomFilterEmpty.add(i);
         }
     }
-
 //    @Benchmark
     public void guavaLockFreeBitArrayBloomFilterAdd() {
         for (int i: testValues) {
             guavaLockFreeBitArrayNaiveBloomFilterEmpty.add(i);
         }
     }
-
 //    @Benchmark
     public void arrayListBloomFilterAdd() {
         for (int i: testValues) {
             arrayListNaiveBloomFilterEmpty.add(i);
         }
     }
-
 //    @Benchmark
     public void linkedListBloomFilterAdd() {
         for (int i: testValues) {
             linkedListNaiveBloomFilterEmpty.add(i);
         }
     }
-
     @Benchmark
     public void hashsetAdd() {
         for (Integer i: testValues) {
             hashsetEmpty.add(i);
         }
     }
-
 //    @Benchmark
     public void hashsetAddAll() {
         hashsetEmpty.addAll(testValues);
@@ -216,10 +202,9 @@ public class Bencher {
         if (arrayListNaiveBloomFilterEmpty == null || arrayListNaiveBloomFilterEmpty.size() != 0) {
             arrayListNaiveBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(items);
         }
-//        if (linkedListBloomFilterEmpty == null || linkedListBloomFilterEmpty.size() != 0) {
-//            linkedListBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(items);
-//        }
-
+        if (linkedListNaiveBloomFilterEmpty == null || linkedListNaiveBloomFilterEmpty.size() != 0) {
+            linkedListNaiveBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(items);
+        }
         if (hashsetEmpty == null || hashsetEmpty.size() != 0) {
             hashsetEmpty = new HashSet<>(items);
         }
@@ -273,13 +258,12 @@ public class Bencher {
                 arrayListNaiveBloomFilter.add(testValues.get(i));
             }
         }
-//        if (linkedListBloomFilter == null || linkedListBloomFilter.size() != items /2) {
-//            linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(items);
-//            for (int i = 0; i<testValues.size()/2; i++) {
-//                linkedListBloomFilter.add(testValues.get(i));
-//            }
-//        }
-
+        if (linkedListNaiveBloomFilter == null || linkedListNaiveBloomFilter.size() != items /2) {
+            linkedListNaiveBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(items);
+            for (int i = 0; i<testValues.size()/2; i++) {
+                linkedListNaiveBloomFilter.add(testValues.get(i));
+            }
+        }
         if (hashset == null || hashset.size() != items /2) {
             hashset = new HashSet<>(items);
             for (int i=0; i<testValues.size()/2; i++) {
