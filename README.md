@@ -350,6 +350,11 @@ this had a huge impact on performance
 |-----------------------------|-----------------|
 | ufbf.add() (cache friendly) | 943.710 us/op   |
 
+## BloomFilter optimization
+
+after seeing the impact on performance of a cache friendly design, I decided to rename BloomFilter to NaiveBloomFilter, and make a new BloomFilter class, which would use the cache friendly design of UFBF for a scalar implementation.
+
+
 
 ## BitsContainer optimizations
 
