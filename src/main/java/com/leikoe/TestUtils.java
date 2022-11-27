@@ -9,28 +9,6 @@ import java.util.function.ToIntFunction;
 
 public class TestUtils {
     /**
-     * Creates and returns a Hashfunction arrayList
-     *
-     * @return an example arrayList of hashFunctions
-     */
-    private static <T> List<ToIntFunction<T>> makeExampleHashFunctionArrayList(int n) {
-        List<ToIntFunction<T>> hashFunctions = new ArrayList<>();
-//        hashFunctions.add(new MurmurHash2<T>(23792387));
-//        if (n > 1) {
-//            hashFunctions.add(new JavaHash<>());
-//        }
-//        if (n > 2) {
-//            hashFunctions.add(new djb33Hash<>());
-//        }
-//        if (n > 3) {
-//            hashFunctions.add(new Fnv32Hash<>());
-//        }
-        hashFunctions.add(Object::hashCode);
-
-        return hashFunctions;
-    }
-
-    /**
      * Fills up a bloom filter with a given array of values
      *
      * @param bloomFilter the bloom filter to fill up

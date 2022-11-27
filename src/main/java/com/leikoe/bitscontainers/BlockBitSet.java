@@ -38,15 +38,9 @@ public class BlockBitSet implements IBitsBlocksContainer {
         return (long) data.length * Long.SIZE;
     }
 
-
-    /** Returns the number of {@code long}s in the underlying long[]. */
-    int dataLength() {
-        return data.length;
-    }
-
     @Override
     public int size() {
-        return dataLength() * BLOCK_SIZE * WORD_SIZE;
+        return data.length * BLOCK_SIZE * WORD_SIZE;
     }
 
     @Override
@@ -59,9 +53,10 @@ public class BlockBitSet implements IBitsBlocksContainer {
         data[i] = block;
     }
 
+    /** Returns the number of {@code long}s in the underlying long[]. */
     @Override
     public int blockCount() {
-        return dataLength();
+        return data.length;
     }
 
     @Override

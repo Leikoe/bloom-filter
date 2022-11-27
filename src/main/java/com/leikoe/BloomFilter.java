@@ -37,7 +37,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      * @return IntVector of hash1 + seed * hash2
      */
     private int hash(int seed, int hash1, int hash2) {
-        return seed * hash2 + hash1;
+        return hash1 + (seed * hash2);
     }
 
     /**
