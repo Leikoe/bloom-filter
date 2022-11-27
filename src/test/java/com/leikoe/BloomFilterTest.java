@@ -15,7 +15,7 @@ public class BloomFilterTest {
     NaiveBloomFilter<Integer> arrayListBloomFilter;
     NaiveBloomFilter<Integer> linkedListBloomFilter;
 
-    NaiveBloomFilter<Integer> vectorizedBloomFilter;
+    BloomFilter<Integer> bloomFilter;
     UFBF<Integer> ufbf;
 
     Random rnd = new Random();
@@ -31,8 +31,8 @@ public class BloomFilterTest {
         linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(12000);
         TestUtils.fillBloomFilter(linkedListBloomFilter, nums);
 
-        vectorizedBloomFilter = TestUtils.makeExampleBloomFilter(12000);
-        TestUtils.fillBloomFilter(vectorizedBloomFilter, nums);
+        bloomFilter = TestUtils.makeExampleBloomFilter(12000);
+        TestUtils.fillBloomFilter(bloomFilter, nums);
         ufbf = TestUtils.makeExampleUFBF(12000);
         TestUtils.fillBloomFilter(ufbf, nums);
     }
@@ -55,9 +55,9 @@ public class BloomFilterTest {
             linkedListBloomFilter.add(78);
             assertTrue(linkedListBloomFilter.mightContain(78));
         }
-        if (!vectorizedBloomFilter.mightContain(78)) {
-            vectorizedBloomFilter.add(78);
-            assertTrue(vectorizedBloomFilter.mightContain(78));
+        if (!bloomFilter.mightContain(78)) {
+            bloomFilter.add(78);
+            assertTrue(bloomFilter.mightContain(78));
         }
         if (!ufbf.mightContain(78)) {
             ufbf.add(78);
@@ -89,18 +89,6 @@ public class BloomFilterTest {
             ufbf.add(x);
             assertTrue(ufbf.mightContain(x));
         }
-    }
-
-    @org.junit.Test
-    public void testSimdModulo() {
-        VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
-        int[] values = new int[]{2, 3, 4, 5};
-        IntVector v_v = IntVector.fromArray(SPECIES, values, 0);
-
-        System.out.println(v_v);
-
-        IntVector v_vm = VectorizedBloomFilter.modulus(v_v, IntVector.broadcast(SPECIES, 3));
-        System.out.println(v_vm);
     }
 
     @org.junit.Test

@@ -20,10 +20,10 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      */
     public BloomFilter(int expectedInsertCount) {
         int m = getOptimalSize(expectedInsertCount);
-        this.bits = new BlockBitSet(m, getOptimalNumberOfHashFunctions(n, m));
+        this.k = getOptimalNumberOfHashFunctions(expectedInsertCount, m);
+        this.bits = new BlockBitSet(m, k);
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;
-        this.k = getOptimalNumberOfHashFunctions(expectedInsertCount, bits.size());
     }
 
     /**

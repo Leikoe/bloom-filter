@@ -36,7 +36,7 @@ public class TestUtils {
      * @param bloomFilter the bloom filter to fill up
      * @param values an array of values
      */
-     public static <T> void fillBloomFilter(NaiveBloomFilter<T> bloomFilter, T[] values) {
+     public static <T> void fillBloomFilter(IBloomFilter<T> bloomFilter, T[] values) {
         for (T i: values) {
             bloomFilter.add(i);
         }
