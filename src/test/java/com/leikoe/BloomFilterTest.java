@@ -31,7 +31,7 @@ public class BloomFilterTest {
         linkedListBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(12000);
         TestUtils.fillBloomFilter(linkedListBloomFilter, nums);
 
-        vectorizedBloomFilter = TestUtils.makeExampleVectorizedArrayBloomFilter(12000);
+        vectorizedBloomFilter = TestUtils.makeExampleBloomFilter(12000);
         TestUtils.fillBloomFilter(vectorizedBloomFilter, nums);
         ufbf = TestUtils.makeExampleUFBF(12000);
         TestUtils.fillBloomFilter(ufbf, nums);

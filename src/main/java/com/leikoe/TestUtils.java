@@ -42,11 +42,8 @@ public class TestUtils {
         }
     }
 
-    public static <T> VectorizedBloomFilter<T> makeExampleVectorizedArrayBloomFilter(int expectedInsertCount) {
-        int optimalSize = NaiveBloomFilter.getOptimalSize(expectedInsertCount);
-        BitArray bc = new BitArray(optimalSize);
-
-        return new VectorizedBloomFilter<>(bc, expectedInsertCount);
+    public static <T> BloomFilter<T> makeExampleBloomFilter(int expectedInsertCount) {
+        return new BloomFilter<>(expectedInsertCount);
     }
 
     public static <T> UFBF<T> makeExampleUFBF(int expectedInsertCount) {
