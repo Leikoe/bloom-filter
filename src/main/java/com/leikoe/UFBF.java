@@ -21,7 +21,7 @@ public class UFBF<T> extends BloomFilter<T> {
      * @param expectedInsertCount the expected number of add() calls
      */
     public UFBF(int expectedInsertCount) {
-        super(expectedInsertCount);
+        super(expectedInsertCount, IntVector.SPECIES_PREFERRED.length());
         ks = new int[this.k];
         for (int i=1; i<=k; i++) {
             ks[i-1] = i;
@@ -59,9 +59,9 @@ public class UFBF<T> extends BloomFilter<T> {
         int hash2 = (int) (hash64 >>> 32);
 
         // hashes needs to be positive, this could be achieved by either bitwise not or abs()
+        // TODO: fix comment below
         // if h1 & h2 > 0 then For any k > 0, h2 + k * h1 > 0, and no need for an expensive abs call
         hash1 = Math.abs(hash1);
-        hash2 = Math.abs(hash2);
 
         // get the block of k ints
         int[] block = bits.getBlock(hash1 % bits.blockCount());
@@ -76,6 +76,10 @@ public class UFBF<T> extends BloomFilter<T> {
 
             // this is the vector equivalent of vr_a[k] = 1 << hash(k, hash1, hash2).abs()
             IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);
+
+            // load block
+            IntVector vr_b = IntVector.fromArray(SPECIES, block, i);
+            vr_a = vr_a.or(vr_b);
 
             // store the hashes back into the bits block
             vr_a.intoArray(block, i);
@@ -106,9 +110,9 @@ public class UFBF<T> extends BloomFilter<T> {
         int hash2 = (int) (hash64 >>> 32);
 
         // hashes needs to be positive, this could be achieved by either bitwise not or abs()
+        // TODO: fix comment below
         // if h1 & h2 > 0 then For any k > 0, h2 + k * h1 > 0, and no need for an expensive abs call
         hash1 = Math.abs(hash1);
-        hash2 = Math.abs(hash2);
 
         int[] block = bits.getBlock(hash1 % bits.blockCount());
 

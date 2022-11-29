@@ -14,7 +14,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
     /**
      * Constructor
-     * This creates a BloomFilter instance using the provided bits container
+     * This creates a BloomFilter instance using the provided expected insert count
      *
      * @param expectedInsertCount the expected number of add() calls
      */
@@ -25,6 +25,30 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 //        System.out.println("Load Factor: " + loadFactor);
 
         this.k = getOptimalNumberOfHashFunctions(expectedInsertCount, m);
+//        System.out.println("Optimal k: " + k);
+
+        this.bits = new BlockBitSet(m, k);
+        assert (bits.size() >= getOptimalSize(expectedInsertCount));
+        this.n = 0;
+    }
+
+    /**
+     * Constructor
+     * This creates a BloomFilter instance using the provided expected insert count and the multiple of k to round k to (eg: 8)
+     *
+     * @param km multiple of k to round k to
+     * @param expectedInsertCount the expected number of add() calls
+     */
+    public BloomFilter(int expectedInsertCount, int km) {
+        int m = getOptimalSize(expectedInsertCount);
+
+//        System.out.println("Optimal m: " + m + ", with expectedInsertCount: " + expectedInsertCount);
+//        float loadFactor = (float)expectedInsertCount / m;
+//        System.out.println("Load Factor: " + loadFactor);
+
+        this.k = (getOptimalNumberOfHashFunctions(expectedInsertCount, m) / km) * km;
+//        System.out.println("Optimal k: " + k);
+
         this.bits = new BlockBitSet(m, k);
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;
@@ -67,11 +91,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         for (int i=0; i<k; i++) {
             int pos = hash(i+1, hash1, hash2);
             // set the bit at pos in block[i] to true
-
             block[i] |= 1 << pos;
-//            if (block[i] == -1) {
-//                System.out.println("Bruh :/");
-//            }
         }
 
         // no need to call bits.setBlock() because block is a reference
