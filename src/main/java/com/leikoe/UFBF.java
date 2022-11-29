@@ -4,7 +4,7 @@ import com.leikoe.bitscontainers.BlockBitSet;
 import com.leikoe.hash.Murmur64;
 import jdk.incubator.vector.*;
 
-public class UFBF<T> extends NaiveBloomFilter<T> {
+public class UFBF<T> extends BloomFilter<T> {
 
     VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
 
@@ -12,7 +12,6 @@ public class UFBF<T> extends NaiveBloomFilter<T> {
     int upperBound;
 
     int[] ks;
-    IBitsBlocksContainer bits;
     IntVector vr_unit;
 
     /**
@@ -22,23 +21,13 @@ public class UFBF<T> extends NaiveBloomFilter<T> {
      * @param expectedInsertCount the expected number of add() calls
      */
     public UFBF(int expectedInsertCount) {
-        super(
-                new BlockBitSet(
-                        getOptimalSize(expectedInsertCount),
-                        getOptimalNumberOfHashFunctions(expectedInsertCount, getOptimalSize(expectedInsertCount))
-                ),
-                expectedInsertCount
-        );
-        k = ((IBitsBlocksContainer) super.bits).blockSize();
-        ks = new int[k];
+        super(expectedInsertCount);
+        ks = new int[this.k];
         for (int i=1; i<=k; i++) {
             ks[i-1] = i;
         }
 
         upperBound = SPECIES.loopBound(k);
-        this.bits = (IBitsBlocksContainer) super.bits;
-
-
         vr_unit = IntVector.broadcast(SPECIES, 1);
     }
 
@@ -69,8 +58,10 @@ public class UFBF<T> extends NaiveBloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        // hash1 needs to be positive, this could be achieved by either bitwise not or abs()
+        // hashes needs to be positive, this could be achieved by either bitwise not or abs()
+        // if h1 & h2 > 0 then For any k > 0, h2 + k * h1 > 0, and no need for an expensive abs call
         hash1 = Math.abs(hash1);
+        hash2 = Math.abs(hash2);
 
         // get the block of k ints
         int[] block = bits.getBlock(hash1 % bits.blockCount());
@@ -80,8 +71,8 @@ public class UFBF<T> extends NaiveBloomFilter<T> {
             // get the values of k as the seeds for hashing
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
 
-            // hash the seeds using hash1 and hash2 and get a positive result
-            IntVector vr_val = hash(z, hash1, hash2).abs();
+            // hash the seeds using hash1 and hash2
+            IntVector vr_val = hash(z, hash1, hash2);
 
             // this is the vector equivalent of vr_a[k] = 1 << hash(k, hash1, hash2).abs()
             IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);
@@ -114,8 +105,11 @@ public class UFBF<T> extends NaiveBloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-
+        // hashes needs to be positive, this could be achieved by either bitwise not or abs()
+        // if h1 & h2 > 0 then For any k > 0, h2 + k * h1 > 0, and no need for an expensive abs call
         hash1 = Math.abs(hash1);
+        hash2 = Math.abs(hash2);
+
         int[] block = bits.getBlock(hash1 % bits.blockCount());
 
         int i = 0;
@@ -123,8 +117,8 @@ public class UFBF<T> extends NaiveBloomFilter<T> {
             // get the values of k as the seeds for hashing
             IntVector z = IntVector.fromArray(SPECIES, ks, i);
 
-            // hash the seeds using hash1 and hash2 and get a positive result
-            IntVector vr_val = hash(z, hash1, hash2).abs();
+            // hash the seeds using hash1 and hash2
+            IntVector vr_val = hash(z, hash1, hash2);
 
             // this is the vector equivalent of vr_a[k] = 1 << hash(k, hash1, hash2).abs()
             IntVector vr_a = vr_unit.lanewise(VectorOperators.LSHL, vr_val);

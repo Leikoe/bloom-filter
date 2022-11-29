@@ -40,9 +40,10 @@ public final class GuavaLockFreeBitArray implements IBitsContainer {
     }
 
     /** Returns true if the bit changed value. */
-    boolean set(long bitIndex) {
+    @Override
+    public void set(int bitIndex) {
         if (get(bitIndex)) {
-            return false;
+            return;
         }
 
         int longIndex = (int) (bitIndex >>> LONG_ADDRESSABLE_BITS);
@@ -54,13 +55,12 @@ public final class GuavaLockFreeBitArray implements IBitsContainer {
             oldValue = data.get(longIndex);
             newValue = oldValue | mask;
             if (oldValue == newValue) {
-                return false;
+                return;
             }
         } while (!data.compareAndSet(longIndex, oldValue, newValue));
 
         // We turned the bit on, so increment bitCount.
         bitCount += 1;
-        return true;
     }
 
     boolean get(long i) {
@@ -89,11 +89,6 @@ public final class GuavaLockFreeBitArray implements IBitsContainer {
     /** Returns the number of {@code long}s in the underlying {@link AtomicLongArray}. */
     int dataLength() {
         return data.length();
-    }
-
-    @Override
-    public void set(int i) {
-        set(i);
     }
 
     @Override

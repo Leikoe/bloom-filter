@@ -350,6 +350,16 @@ this had a huge impact on performance
 |-----------------------------|-----------------|
 | ufbf.add() (cache friendly) | 943.710 us/op   |
 
+## Removing abs() calls
+
+after seeing the abs() calls in my add() and contains() functions for a while, seeing the first abs() call gave me and idea 
+```java
+hash1 = Math.abs(hash1);
+```
+
+since my hash function is hash2 + k * hash1, I know that if hash1 > 0 & hash2 >0, For any k > 0, hash2 + k * hash1 > 0, this eliminates the need for expesive abs calls (which even allocate in the Vector api too).
+
+
 ## BloomFilter optimization
 
 after seeing the impact on performance of a cache friendly design, I decided to rename BloomFilter to NaiveBloomFilter, and make a new BloomFilter class, which would use the cache friendly design of UFBF for a scalar implementation.

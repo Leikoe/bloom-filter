@@ -29,7 +29,7 @@ public class BloomFilterTest {
         TestUtils.fillBloomFilter(linkedListBloomFilter, nums);
 
         bloomFilter = TestUtils.makeExampleBloomFilter(12000);
-        TestUtils.fillBloomFilter(bloomFilter, nums);
+//        TestUtils.fillBloomFilter(bloomFilter, nums);
         ufbf = TestUtils.makeExampleUFBF(12000);
         TestUtils.fillBloomFilter(ufbf, nums);
     }
@@ -40,26 +40,26 @@ public class BloomFilterTest {
 
     @org.junit.Test
     public void add() {
-        if (!arrayBloomFilter.mightContain(78)) {
-            arrayBloomFilter.add(78);
-            assertTrue(arrayBloomFilter.mightContain(78));
-        }
-        if (!arrayListBloomFilter.mightContain(78)) {
-            arrayListBloomFilter.add(78);
-            assertTrue(arrayListBloomFilter.mightContain(78));
-        }
-        if (!linkedListBloomFilter.mightContain(78)) {
-            linkedListBloomFilter.add(78);
-            assertTrue(linkedListBloomFilter.mightContain(78));
-        }
+//        if (!arrayBloomFilter.mightContain(78)) {
+//            arrayBloomFilter.add(78);
+//            assertTrue(arrayBloomFilter.mightContain(78));
+//        }
+//        if (!arrayListBloomFilter.mightContain(78)) {
+//            arrayListBloomFilter.add(78);
+//            assertTrue(arrayListBloomFilter.mightContain(78));
+//        }
+//        if (!linkedListBloomFilter.mightContain(78)) {
+//            linkedListBloomFilter.add(78);
+//            assertTrue(linkedListBloomFilter.mightContain(78));
+//        }
         if (!bloomFilter.mightContain(78)) {
             bloomFilter.add(78);
             assertTrue(bloomFilter.mightContain(78));
         }
-        if (!ufbf.mightContain(78)) {
-            ufbf.add(78);
-            assertTrue(ufbf.mightContain(78));
-        }
+//        if (!ufbf.mightContain(78)) {
+//            ufbf.add(78);
+//            assertTrue(ufbf.mightContain(78));
+//        }
     }
 
     @org.junit.Test
@@ -91,6 +91,12 @@ public class BloomFilterTest {
     @org.junit.Test
     public void testError() {
         int[] testCases = {
+//                1,
+//                10,
+//                100,
+//                1_000,
+//                10_000,
+//                100_000,
                 250_000,
                 500_000,
                 750_000,
@@ -116,13 +122,18 @@ public class BloomFilterTest {
 
     public int getObservedFalsePositives(int n) {
         Random random = new Random();
-        IBloomFilter<Integer> bloomFilter = TestUtils.makeExampleBloomFilter(n);
+        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleBloomFilter(n);
 
         HashSet<Integer> addedItems = new HashSet<>();
         for (int i=0; i<n; i++) {
             Integer rndInt = random.nextInt();
             addedItems.add(rndInt);
             bloomFilter.add(rndInt);
+        }
+
+        // check that all were successfully added
+        for (Integer i: addedItems) {
+            assertTrue(bloomFilter.mightContain(i));
         }
 
         ArrayList<Integer> notAddedItems = new ArrayList<>();

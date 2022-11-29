@@ -7,9 +7,10 @@ import static com.leikoe.NaiveBloomFilter.getOptimalNumberOfHashFunctions;
 import static com.leikoe.NaiveBloomFilter.getOptimalSize;
 
 public class BloomFilter<T> implements IBloomFilter<T> {
-    IBitsBlocksContainer bits;
-    private int n;
-    private final int k;
+    // TODO: make private
+    public IBitsBlocksContainer bits;
+    protected int n;
+    protected final int k;
 
     /**
      * Constructor
@@ -19,6 +20,10 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      */
     public BloomFilter(int expectedInsertCount) {
         int m = getOptimalSize(expectedInsertCount);
+//        System.out.println("Optimal m: " + m + ", with expectedInsertCount: " + expectedInsertCount);
+//        float loadFactor = (float)expectedInsertCount / m;
+//        System.out.println("Load Factor: " + loadFactor);
+
         this.k = getOptimalNumberOfHashFunctions(expectedInsertCount, m);
         this.bits = new BlockBitSet(m, k);
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
@@ -51,7 +56,9 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        // hash1 needs to be positive, this could be achieved by either bitwise not or abs()
+        // hashes needs to be positive, this could be achieved by either bitwise not or abs()
+        // TODO: fix comment under
+        // if h1 & h2 > 0 then For any k > 0, h2 + k * h1 > 0, and no need for an expensive abs call
         hash1 = Math.abs(hash1);
 
         // get the block of k ints
@@ -59,12 +66,15 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
         for (int i=0; i<k; i++) {
             int pos = hash(i+1, hash1, hash2);
-            // same as for hash1
-            pos = Math.abs(pos);
             // set the bit at pos in block[i] to true
+
             block[i] |= 1 << pos;
+//            if (block[i] == -1) {
+//                System.out.println("Bruh :/");
+//            }
         }
 
+        // no need to call bits.setBlock() because block is a reference
         this.n++;
     }
 
@@ -80,7 +90,9 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
-        // hash1 needs to be positive, this could be achieved by either bitwise not or abs()
+        // hashes needs to be positive, this could be achieved by either bitwise not or abs()
+        // TODO: fix comment under
+        // if h1 & h2 > 0 then For any k > 0, h2 + k * h1 > 0, and no need for an expensive abs call
         hash1 = Math.abs(hash1);
 
         // get the block of k ints
@@ -88,10 +100,9 @@ public class BloomFilter<T> implements IBloomFilter<T> {
 
         for (int i=0; i<k; i++) {
             int pos = hash(i+1, hash1, hash2);
-            // same as for hash1
-            pos = Math.abs(pos);
             // if the bit at pos in block[i] is not set, return false
-            if ((block[i] & 1 << pos) == 0) {
+            // TODO: build int mask to use only one if (branch prediction optimization ?)
+            if ((block[i] & (1 << pos)) == 0) {
                 return false;
             }
         }
