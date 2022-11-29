@@ -45,7 +45,7 @@ public class BlockBitSet implements IBitsBlocksContainer {
 
     @Override
     public int[] getBlock(int i) {
-        return data[i / BLOCK_BIT_SIZE];
+        return data[i];
     }
 
     @Override
