@@ -364,7 +364,77 @@ since my hash function is hash2 + k * hash1, I know that if hash1 > 0 & hash2 >0
 
 after seeing the impact on performance of a cache friendly design, I decided to rename BloomFilter to NaiveBloomFilter, and make a new BloomFilter class, which would use the cache friendly design of UFBF for a scalar implementation.
 
+![add](./images/add_v6.png)
+![contains](./images/contains_v6.png)
 
+We can see (in orange) that the cache friendly implementation is way faster to add elements to than the naive implementation, it comes close to the vector implementation (UFBF in purple). We could think that given how close they are, jvm vectorized our scalar code, but after printing assembly produced by HotSpot, it's clear that it didn't.
+
+UFBF.add assembly
+```asm
+0x000000010aef0530:   dup	v16.4s, w0
+  0x000000010aef0534:   dup	v17.4s, w17
+  0x000000010aef0538:   mov	w29, wzr
+  0x000000010aef053c:   movi	v18.4s, #0x1f
+  0x000000010aef0540:   cmp	w29, w3
+  0x000000010aef0544:   b.cs	0x000000010aef05c4  // b.hs, b.nlast
+  0x000000010aef0548:   sbfiz	x12, x29, #2, #32
+  0x000000010aef054c:   add	x13, x4, x12
+  0x000000010aef0550:   ldr	q19, [x13, #16]
+  0x000000010aef0554:   add	x12, x2, x12
+  0x000000010aef0558:   ldr	q20, [x5, #16]
+  0x000000010aef055c:   mov	v21.16b, v17.16b
+  0x000000010aef0560:   mla	v21.4s, v19.4s, v16.4s
+  0x000000010aef0564:   ldr	q19, [x12, #16]
+  0x000000010aef0568:   and	v21.16b, v21.16b, v18.16b
+  0x000000010aef056c:   sshl	v20.4s, v20.4s, v21.4s
+  0x000000010aef0570:   cmp	w29, w6
+  0x000000010aef0574:   b.cs	0x000000010aef05e0  // b.hs, b.nlast
+  0x000000010aef0578:   orr	v19.16b, v20.16b, v19.16b
+  0x000000010aef057c:   cmp	w29, w19
+  0x000000010aef0580:   b.cs	0x000000010aef05fc  // b.hs, b.nlast
+  0x000000010aef0584:   ldr	x7, [x28, #896]
+  0x000000010aef0588:   str	q19, [x12, #16]
+```
+vs
+
+BloomFilter.add
+```asm
+  0x000000010c647e0c:   nop
+  0x000000010c647e10:   add	w11, w3, #0x1
+  0x000000010c647e14:   madd	w12, w11, w14, w15
+  0x000000010c647e18:   add	x4, x17, w3, sxtw #2
+  0x000000010c647e1c:   ldr	w11, [x4, #16]
+  0x000000010c647e20:   lsl	w13, w1, w12
+  0x000000010c647e24:   orr	w11, w11, w13
+  0x000000010c647e28:   add	w13, w3, #0x2
+  0x000000010c647e2c:   str	w11, [x4, #16]
+  0x000000010c647e30:   madd	w11, w13, w14, w15
+  0x000000010c647e34:   ldr	w13, [x4, #20]
+  0x000000010c647e38:   lsl	w11, w1, w11
+  0x000000010c647e3c:   orr	w11, w13, w11
+  0x000000010c647e40:   add	w13, w3, #0x3
+  0x000000010c647e44:   str	w11, [x4, #20]
+  0x000000010c647e48:   madd	w11, w13, w14, w15
+  0x000000010c647e4c:   ldr	w12, [x4, #24]
+  0x000000010c647e50:   lsl	w13, w1, w11
+  0x000000010c647e54:   orr	w12, w12, w13
+  0x000000010c647e58:   add	w3, w3, #0x4
+  0x000000010c647e5c:   str	w12, [x4, #24]
+  0x000000010c647e60:   madd	w13, w3, w14, w15
+  0x000000010c647e64:   ldr	w11, [x4, #28]
+  0x000000010c647e68:   lsl	w12, w1, w13
+  0x000000010c647e6c:   orr	w12, w11, w12
+  0x000000010c647e70:   str	w12, [x4, #28]
+  0x000000010c647e74:   cmp	w3, w2
+  0x000000010c647e78:   b.lt	0x000000010c647e10  // b.tstop
+```
+> note: This is running on an m1 mac, which uses the arm architecture, so asm isn't x86.
+ 
+v is an alias for q in arm asm, and q is the quad word register, when it's used, we know that simd is used.
+But when looking at the scalar implementation asm, we don't see any of those wide registers being used, our code wasn't vectorized.
+We can highlight the use of MADD, which is the fused multiply add instruction of arm, instead of the MLA insctruction (Multiply add) which operates on vector registers (as seen in the first snippet).
+
+Sadly, the membership check in scalar is much slower than the vector implementation. We can see that it's as slow as the naive approach.
 
 ## BitsContainer optimizations
 

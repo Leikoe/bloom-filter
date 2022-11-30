@@ -3,6 +3,50 @@ from math import log
 
 data = """
 Benchmark                                     (items)  Mode  Cnt     Score      Error  Units
+Bencher.arrayNaiveBloomFilterAdd                  100  avgt    5     1.356 ±    0.004  us/op
+Bencher.arrayNaiveBloomFilterAdd                 1000  avgt    5    24.745 ±    4.636  us/op
+Bencher.arrayNaiveBloomFilterAdd                10000  avgt    5   316.812 ±   19.447  us/op
+Bencher.arrayNaiveBloomFilterAdd               100000  avgt    5  3211.107 ±  112.279  us/op
+Bencher.arrayNaiveBloomFilterContains             100  avgt    5     0.556 ±    0.056  us/op
+Bencher.arrayNaiveBloomFilterContains            1000  avgt    5     5.587 ±    0.260  us/op
+Bencher.arrayNaiveBloomFilterContains           10000  avgt    5    96.779 ±    5.369  us/op
+Bencher.arrayNaiveBloomFilterContains          100000  avgt    5  1369.029 ±   37.333  us/op
+Bencher.bloomFilterAdd                            100  avgt    5     1.178 ±    0.007  us/op
+Bencher.bloomFilterAdd                           1000  avgt    5     9.958 ±    0.113  us/op
+Bencher.bloomFilterAdd                          10000  avgt    5    80.860 ±    1.696  us/op
+Bencher.bloomFilterAdd                         100000  avgt    5   900.933 ±    8.218  us/op
+Bencher.bloomFilterContains                       100  avgt    5     0.619 ±    0.017  us/op
+Bencher.bloomFilterContains                      1000  avgt    5     5.833 ±    0.041  us/op
+Bencher.bloomFilterContains                     10000  avgt    5    56.760 ±   38.589  us/op
+Bencher.bloomFilterContains                    100000  avgt    5  1382.041 ±   26.969  us/op
+Bencher.hashsetAdd                                100  avgt    5     1.174 ±    0.127  us/op
+Bencher.hashsetAdd                               1000  avgt    5    14.414 ±    0.548  us/op
+Bencher.hashsetAdd                              10000  avgt    5   135.490 ±    2.725  us/op
+Bencher.hashsetAdd                             100000  avgt    5  5064.750 ± 2307.996  us/op
+Bencher.hashsetContains                           100  avgt    5     0.443 ±    0.005  us/op
+Bencher.hashsetContains                          1000  avgt    5     4.444 ±    0.089  us/op
+Bencher.hashsetContains                         10000  avgt    5    41.661 ±   27.414  us/op
+Bencher.hashsetContains                        100000  avgt    5   901.771 ±   29.143  us/op
+Bencher.nativeBitSetNaiveBloomFilterAdd           100  avgt    5     3.631 ±    0.554  us/op
+Bencher.nativeBitSetNaiveBloomFilterAdd          1000  avgt    5    38.498 ±   24.935  us/op
+Bencher.nativeBitSetNaiveBloomFilterAdd         10000  avgt    5   363.404 ±    2.517  us/op
+Bencher.nativeBitSetNaiveBloomFilterAdd        100000  avgt    5  3795.377 ±   34.414  us/op
+Bencher.nativeBitSetNaiveBloomFilterContains      100  avgt    5     0.589 ±    0.084  us/op
+Bencher.nativeBitSetNaiveBloomFilterContains     1000  avgt    5     6.020 ±    0.088  us/op
+Bencher.nativeBitSetNaiveBloomFilterContains    10000  avgt    5   107.155 ±   10.255  us/op
+Bencher.nativeBitSetNaiveBloomFilterContains   100000  avgt    5  1422.956 ±   38.231  us/op
+Bencher.ubfbContains                              100  avgt    5     0.742 ±    0.016  us/op
+Bencher.ubfbContains                             1000  avgt    5     7.527 ±    0.205  us/op
+Bencher.ubfbContains                            10000  avgt    5    67.081 ±    1.636  us/op
+Bencher.ubfbContains                           100000  avgt    5   794.905 ±   15.074  us/op
+Bencher.ufbfAdd                                   100  avgt    5     0.782 ±    0.015  us/op
+Bencher.ufbfAdd                                  1000  avgt    5     7.603 ±    0.043  us/op
+Bencher.ufbfAdd                                 10000  avgt    5    66.888 ±    0.451  us/op
+Bencher.ufbfAdd                                100000  avgt    5   756.667 ±   12.733  us/op
+"""
+
+"""
+Benchmark                                     (items)  Mode  Cnt     Score      Error  Units
 Bencher.arrayNaiveBloomFilterAdd                  100  avgt    5     1.355 ±    0.013  us/op
 Bencher.arrayNaiveBloomFilterAdd                 1000  avgt    5    24.737 ±    4.720  us/op
 Bencher.arrayNaiveBloomFilterAdd                10000  avgt    5   314.588 ±    1.645  us/op

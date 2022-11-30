@@ -121,13 +121,29 @@ public class BloomFilter<T> implements IBloomFilter<T> {
         for (int i=0; i<k; i++) {
             int pos = hash(i+1, hash1, hash2);
             // if the bit at pos in block[i] is not set, return false
-            // TODO: build int mask to use only one if (branch prediction optimization ?)
-            if ((block[i] & (1 << pos)) == 0) {
+            int b = ~block[i];
+            int test = (1 << pos) & b;
+            if (test != 0) {
                 return false;
             }
+
+//            if ((block[i] & (1 << pos)) == 0) {
+//                return false;
+//            }
         }
 
         return true;
+    }
+
+    public static void main(String[] args) {
+        IBloomFilter<Integer> filter = new UFBF<>(200_000);
+        for (int i = 0; i < 200_000; i++) {
+            filter.add(69);
+        }
+    }
+
+    private static int add_s(int a, int b) {
+        return a + b;
     }
 
     @Override

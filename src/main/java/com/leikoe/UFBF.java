@@ -85,15 +85,6 @@ public class UFBF<T> extends BloomFilter<T> {
             vr_a.intoArray(block, i);
         }
 
-        // process the rest in scalar code
-        for (; i<k; i++) {
-            int pos = hash1 + ((i+1) * hash2);
-            // same as for hash1
-            pos = Math.abs(pos);
-            // set the bit at pos in block[i] to true
-            block[i] |= 1 << pos;
-        }
-
         this.n++;
     }
 
@@ -134,17 +125,6 @@ public class UFBF<T> extends BloomFilter<T> {
             IntVector vr_test = vr_a.and(vr_b);
             // if each bit set int vr_a isn't set in vr_b, it will return false
             if (vr_test.reduceLanes(VectorOperators.ADD) != 0) {
-                return false;
-            }
-        }
-
-        // process the rest in scalar code
-        for (; i<k; i++) {
-            int pos = hash1 + ((i+1) * hash2);
-            // same as for hash1
-            pos = Math.abs(pos);
-            // if the bit at pos in block[i] is not set, return false
-            if ((block[i] & 1 << pos) == 0) {
                 return false;
             }
         }
