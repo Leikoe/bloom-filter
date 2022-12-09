@@ -437,7 +437,21 @@ Our vector implementation compiles to multiple conditional branch instructions, 
 
 Sadly, the membership check in scalar is much slower than the vector implementation. We can see that it's as slow as the naive approach.
 
-With the PrintInlining option, we can see that our BloomFilter::hash function does in fact get inlined:
+With the PrintInlining option, we can see that our BloomFilter::hash function does in fact get inlined
+
+JVM options:
+```text
+-Xbatch
+-XX:-TieredCompilation
+-XX:+UnlockDiagnosticVMOptions
+
+// used to print assembly
+-XX:CompileCommand=print,*BloomFilter.add
+
+// used to print inlining
+-XX:CompileCommand="option ,*BloomFilter.add,PrintInlining"
+```
+
 ```text
 @ 94   com.leikoe.UFBF::hash (10 bytes)   inline (hot)
 ```
