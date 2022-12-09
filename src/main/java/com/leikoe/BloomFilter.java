@@ -7,8 +7,7 @@ import static com.leikoe.NaiveBloomFilter.getOptimalNumberOfHashFunctions;
 import static com.leikoe.NaiveBloomFilter.getOptimalSize;
 
 public class BloomFilter<T> implements IBloomFilter<T> {
-    // TODO: make private
-    public IBitsBlocksContainer bits;
+    protected IBitsBlocksContainer bits;
     protected int n;
     protected final int k;
 
@@ -20,13 +19,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      */
     public BloomFilter(int expectedInsertCount) {
         int m = getOptimalSize(expectedInsertCount);
-//        System.out.println("Optimal m: " + m + ", with expectedInsertCount: " + expectedInsertCount);
-//        float loadFactor = (float)expectedInsertCount / m;
-//        System.out.println("Load Factor: " + loadFactor);
-
         this.k = getOptimalNumberOfHashFunctions(expectedInsertCount, m);
-//        System.out.println("Optimal k: " + k);
-
         this.bits = new BlockBitSet(m, k);
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;
@@ -41,14 +34,7 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      */
     public BloomFilter(int expectedInsertCount, int km) {
         int m = getOptimalSize(expectedInsertCount);
-
-//        System.out.println("Optimal m: " + m + ", with expectedInsertCount: " + expectedInsertCount);
-//        float loadFactor = (float)expectedInsertCount / m;
-//        System.out.println("Load Factor: " + loadFactor);
-
         this.k = (getOptimalNumberOfHashFunctions(expectedInsertCount, m) / km) * km;
-//        System.out.println("Optimal k: " + k);
-
         this.bits = new BlockBitSet(m, k);
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;
@@ -69,14 +55,16 @@ public class BloomFilter<T> implements IBloomFilter<T> {
     }
 
     /**
-     * inserts a generic value into the filter
-     * this was implemented using the whitepaper "Ultra-Fast Bloom Filters using SIMD Techniques" by Jianyuan Lu
+     * Insert a value in the filter
+     * this was implemented using the white paper "Ultra-Fast Bloom Filters using SIMD Techniques" by Jianyuan Lu
      * (this is the scalar implementation of the hashing technique, see UFBF class for vector implementation)
      *
-     * @param value
+     * @param value the value to add to the filter
      */
     public void add(T value) {
         long hash64 = Murmur64.hash(value.hashCode());
+
+        // get the 32 high bits and the 32 low bits
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
@@ -102,11 +90,13 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      * Membership check function
      *
      * @param value the value to check membership for
-     * @return whether the value is in the bloomfilter or not
+     * @return whether the value is in the filter or not
      */
     @Override
     public boolean mightContain(T value) {
         long hash64 = Murmur64.hash(value.hashCode());
+
+        // get the 32 high bits and the 32 low bits
         int hash1 = (int) hash64;
         int hash2 = (int) (hash64 >>> 32);
 
@@ -126,26 +116,29 @@ public class BloomFilter<T> implements IBloomFilter<T> {
             if (test != 0) {
                 return false;
             }
-
-//            if ((block[i] & (1 << pos)) == 0) {
-//                return false;
-//            }
         }
 
         return true;
     }
 
+    /**
+     * Main function used to create a filter and add i > JIT_THRESHOLD elements, to extract machine code (asm) of the add method
+     * note: the jit compiler won't compile a function into machine code unless it runs more than JIT_THRESHOLD times
+     *
+     * @param args cli args
+     */
     public static void main(String[] args) {
-        IBloomFilter<Integer> filter = new UFBF<>(200_000);
+        IBloomFilter<Integer> filter = new BloomFilter<>(200_000);
         for (int i = 0; i < 200_000; i++) {
             filter.add(69);
         }
     }
 
-    private static int add_s(int a, int b) {
-        return a + b;
-    }
-
+    /**
+     * Get the size of the filter
+     *
+     * @return the number of elements in the filter
+     */
     @Override
     public int size() {
         return n;
