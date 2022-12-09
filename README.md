@@ -433,8 +433,21 @@ BloomFilter.add
 v is an alias for q in arm asm, and q is the quad word register, when it's used, we know that simd is used.
 But when looking at the scalar implementation asm, we don't see any of those wide registers being used, our code wasn't vectorized.
 We can highlight the use of MADD, which is the fused multiply add instruction of arm, instead of the MLA insctruction (Multiply add) which operates on vector registers (as seen in the first snippet).
+Our vector implementation compiles to multiple conditional branch instructions, which might be why its not a lot faster than the scalar code.
 
 Sadly, the membership check in scalar is much slower than the vector implementation. We can see that it's as slow as the naive approach.
+
+With the PrintInlining option, we can see that our BloomFilter::hash function does in fact get inlined:
+```text
+@ 94   com.leikoe.UFBF::hash (10 bytes)   inline (hot)
+```
+hashCode also gets inlined with Murmur64::hash too:
+```text
+@ 1   java.lang.Integer::hashCode (8 bytes)   inline (hot)
+...
+@ 5   com.leikoe.hash.Murmur64::hash (35 bytes)   inline (hot)
+```
+
 
 ## BitsContainer optimizations
 
