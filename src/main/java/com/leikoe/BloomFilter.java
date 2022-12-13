@@ -34,7 +34,8 @@ public class BloomFilter<T> implements IBloomFilter<T> {
      */
     public BloomFilter(int expectedInsertCount, int km) {
         int m = getOptimalSize(expectedInsertCount);
-        this.k = (getOptimalNumberOfHashFunctions(expectedInsertCount, m) / km) * km;
+        int k1 = Math.floorDiv(getOptimalNumberOfHashFunctions(expectedInsertCount, m), km) * km;
+        this.k = Math.max(k1, km);
         this.bits = new BlockBitSet(m, k);
         assert (bits.size() >= getOptimalSize(expectedInsertCount));
         this.n = 0;

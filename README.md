@@ -326,7 +326,6 @@ for (; i<k; i++) {
     if (pos < 0) {
         pos = ~pos;
     }
-//    block[i] |= 1 << pos;
     bits.set(pos % bits.size(), true);
 }
 ```
