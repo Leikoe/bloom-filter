@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9d546a6a-c52a-4620-8cd2-16ce8a637db6" name="Changes" comment="fixed block size rounding + README.md improvements">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/leikoe/Bencher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/leikoe/Bencher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/leikoe/UFBF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/leikoe/UFBF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/leikoe/BloomFilterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/leikoe/BloomFilterTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="module-info" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/README.md" root0="SKIP_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2GZZ1fSuEaGxQyVtM38d5qsTRFY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/leo/git/bloom-filter&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.39770114&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;0d570cb2-96df-43cc-80da-7f777e6d0afe&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/leikoe" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.leikoe" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.BloomFilterTest.testError">
+    <configuration name="BloomFilterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bloom-filter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.leikoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.leikoe" />
+      <option name="MAIN_CLASS_NAME" value="com.leikoe.BloomFilterTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BloomFilterTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bloom-filter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.leikoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.leikoe" />
+      <option name="MAIN_CLASS_NAME" value="com.leikoe.BloomFilterTest" />
+      <option name="METHOD_NAME" value="add" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea -XX:+UnlockDiagnosticVMOptions -XX:CompileCommand=print,BloomFilter.add" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BloomFilterTest.testError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bloom-filter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.leikoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.leikoe" />
+      <option name="MAIN_CLASS_NAME" value="com.leikoe.BloomFilterTest" />
+      <option name="METHOD_NAME" value="testError" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BloomFilterTest.testUFBF" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bloom-filter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.leikoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.leikoe" />
+      <option name="MAIN_CLASS_NAME" value="com.leikoe.BloomFilterTest" />
+      <option name="METHOD_NAME" value="testUFBF" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea -ea -XX:+UnlockDiagnosticVMOptions -XX:CompileCommand=print,BloomFilter.add -XX:+PrintCompilation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.leikoe in bloom-filter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bloom-filter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.leikoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.leikoe" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea --add-modules jdk.incubator.vector" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.BloomFilterTest.testError" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9d546a6a-c52a-4620-8cd2-16ce8a637db6" name="Changes" comment="" />
+      <created>1666597852778</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666597852778</updated>
+      <workItem from="1666597854560" duration="9480000" />
+      <workItem from="1666681929469" duration="16347000" />
+      <workItem from="1666722530407" duration="266000" />
+      <workItem from="1666722801448" duration="3079000" />
+      <workItem from="1666891259846" duration="55000" />
+      <workItem from="1667663266474" duration="1175000" />
+      <workItem from="1667751648306" duration="16067000" />
+      <workItem from="1667829571674" duration="4292000" />
+      <workItem from="1668802932711" duration="1770000" />
+      <workItem from="1668869591334" duration="922000" />
+      <workItem from="1669115608478" duration="2097000" />
+      <workItem from="1669136841291" duration="6976000" />
+      <workItem from="1669188042985" duration="5084000" />
+      <workItem from="1669280187035" duration="3424000" />
+      <workItem from="1669304879101" duration="2015000" />
+      <workItem from="1669584425529" duration="3714000" />
+      <workItem from="1669588160398" duration="32000" />
+      <workItem from="1669588916551" duration="1024000" />
+      <workItem from="1669589946087" duration="2584000" />
+      <workItem from="1669593474878" duration="382000" />
+      <workItem from="1669593864758" duration="321000" />
+      <workItem from="1669594198153" duration="1054000" />
+      <workItem from="1669595422577" duration="62000" />
+      <workItem from="1669595487771" duration="8533000" />
+      <workItem from="1669658132181" duration="678000" />
+      <workItem from="1669676484668" duration="5637000" />
+      <workItem from="1669718028375" duration="8000" />
+      <workItem from="1669728603673" duration="3350000" />
+      <workItem from="1669731964864" duration="17428000" />
+      <workItem from="1670164554423" duration="13000" />
+      <workItem from="1670180334517" duration="3201000" />
+      <workItem from="1670279835233" duration="202000" />
+      <workItem from="1670397971681" duration="6051000" />
+      <workItem from="1670950100009" duration="1610000" />
+      <workItem from="1671286751897" duration="136000" />
+    </task>
+    <task id="LOCAL-00036" summary="switched back to java hashes">
+      <created>1667751821711</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1667751821711</updated>
+    </task>
+    <task id="LOCAL-00037" summary="added BitSet to bits containers">
+      <created>1667755507954</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1667755507954</updated>
+    </task>
+    <task id="LOCAL-00038" summary="now allows for compiling a .jar, and doing the benchmarks natively">
+      <created>1667756636315</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1667756636315</updated>
+    </task>
+    <task id="LOCAL-00039" summary="updated README.md">
+      <created>1667756731823</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1667756731823</updated>
+    </task>
+    <task id="LOCAL-00040" summary="updated README.md">
+      <created>1667757214402</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1667757214402</updated>
+    </task>
+    <task id="LOCAL-00041" summary="added false positive test, it doesn't pass yet">
+      <created>1667759996006</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1667759996006</updated>
+    </task>
+    <task id="LOCAL-00042" summary="false positive test is one step closer to passing, now includes logging">
+      <created>1667760551361</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1667760551361</updated>
+    </task>
+    <task id="LOCAL-00043" summary="false positive test is now working (not passing, probably never will, it isn't meant to be a test)">
+      <created>1667782671015</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1667782671015</updated>
+    </task>
+    <task id="LOCAL-00044" summary="added new graphs to /images">
+      <created>1668730093458</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1668730093458</updated>
+    </task>
+    <task id="LOCAL-00045" summary="new benchmarks and discoveries in the README.md">
+      <created>1668731618422</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1668731618422</updated>
+    </task>
+    <task id="LOCAL-00046" summary="new benchmarks and discoveries in the README.md">
+      <created>1668870727484</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1668870727484</updated>
+    </task>
+    <task id="LOCAL-00047" summary="new benchmarks and discoveries in the README.md">
+      <created>1668870795309</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1668870795309</updated>
+    </task>
+    <task id="LOCAL-00048" summary="added new graphs to ./images/">
+      <created>1668870828904</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1668870828904</updated>
+    </task>
+    <task id="LOCAL-00049" summary="new improvements">
+      <created>1668874775789</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1668874775789</updated>
+    </task>
+    <task id="LOCAL-00050" summary="now beating java's HashSet performance">
+      <created>1668902712624</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1668902712625</updated>
+    </task>
+    <task id="LOCAL-00051" summary="new graphs">
+      <created>1668902724192</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1668902724192</updated>
+    </task>
+    <task id="LOCAL-00052" summary="swag">
+      <created>1669073182182</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1669073182182</updated>
+    </task>
+    <task id="LOCAL-00053" summary="insane add speed">
+      <created>1669077588982</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1669077588982</updated>
+    </task>
+    <task id="LOCAL-00054" summary="it workieeee">
+      <created>1669101934606</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1669101934606</updated>
+    </task>
+    <task id="LOCAL-00055" summary="refactoring + cleanup">
+      <created>1669102179548</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1669102179548</updated>
+    </task>
+    <task id="LOCAL-00056" summary="whelp this isn't as easy as I thought">
+      <created>1669115598870</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1669115598870</updated>
+    </task>
+    <task id="LOCAL-00057" summary="kinda working">
+      <created>1669136389014</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1669136389014</updated>
+    </task>
+    <task id="LOCAL-00058" summary="updated README.md">
+      <created>1669136478054</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1669136478054</updated>
+    </task>
+    <task id="LOCAL-00059" summary="fixed pom.xml">
+      <created>1669136956904</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1669136956904</updated>
+    </task>
+    <task id="LOCAL-00060" summary="working UFBF">
+      <created>1669142221596</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1669142221596</updated>
+    </task>
+    <task id="LOCAL-00061" summary="working UFBF">
+      <created>1669147681978</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1669147681978</updated>
+    </task>
+    <task id="LOCAL-00062" summary="removed some allocations in ufbf">
+      <created>1669150410775</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1669150410775</updated>
+    </task>
+    <task id="LOCAL-00063" summary="going fasterrrrrr (and allocating less while better readablity)">
+      <created>1669152292790</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1669152292790</updated>
+    </task>
+    <task id="LOCAL-00064" summary="fixed a bug in VectorizedBloomFilter which caused only k-4 hashes to be made and used">
+      <created>1669226902135</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1669226902135</updated>
+    </task>
+    <task id="LOCAL-00065" summary="better README.md">
+      <created>1669227788423</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1669227788423</updated>
+    </task>
+    <task id="LOCAL-00066" summary="docs for UFBF.java">
+      <created>1669229673477</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1669229673477</updated>
+    </task>
+    <task id="LOCAL-00067" summary="reformatting">
+      <created>1669584822960</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1669584822960</updated>
+    </task>
+    <task id="LOCAL-00068" summary="cleaned up BlockBitSet">
+      <created>1669585055262</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1669585055262</updated>
+    </task>
+    <task id="LOCAL-00069" summary="new BloomFilter">
+      <created>1669585844096</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1669585844096</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Bencher cleanup + refactoring">
+      <created>1669586318490</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1669586318491</updated>
+    </task>
+    <task id="LOCAL-00071" summary="new benchmarks">
+      <created>1669587117444</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1669587117444</updated>
+    </task>
+    <task id="LOCAL-00072" summary="test passing + benchmarks showing good performance accross the board">
+      <created>1669588426583</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1669588426583</updated>
+    </task>
+    <task id="LOCAL-00073" summary="cleanup + trying to make tests pass">
+      <created>1669589977945</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1669589977945</updated>
+    </task>
+    <task id="LOCAL-00074" summary="added intelliJ files">
+      <created>1669591109476</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1669591109476</updated>
+    </task>
+    <task id="LOCAL-00075" summary="fixed interfaces">
+      <created>1669591784300</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1669591784300</updated>
+    </task>
+    <task id="LOCAL-00076" summary="fixed a bug causing 100% false positive rate on filters using BlockBitSet">
+      <created>1669716114812</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1669716114812</updated>
+    </task>
+    <task id="LOCAL-00077" summary="cleanup">
+      <created>1669716138017</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1669716138017</updated>
+    </task>
+    <task id="LOCAL-00078" summary="all working with satisfying performance">
+      <created>1669718173753</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1669718173753</updated>
+    </task>
+    <task id="LOCAL-00079" summary="no free vectorization for the poor scalar BloomFilter :c">
+      <created>1669844897301</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1669844897301</updated>
+    </task>
+    <task id="LOCAL-00080" summary="added javadoc">
+      <created>1670581066660</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1670581066661</updated>
+    </task>
+    <task id="LOCAL-00081" summary="added javadoc">
+      <created>1670581452202</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1670581452203</updated>
+    </task>
+    <task id="LOCAL-00082" summary="added inlining info to README.md">
+      <created>1670581487573</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1670581487573</updated>
+    </task>
+    <task id="LOCAL-00083" summary="added jvm options">
+      <created>1670581626426</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1670581626426</updated>
+    </task>
+    <task id="LOCAL-00084" summary="fixed block size rounding + README.md improvements">
+      <created>1670950328405</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1670950328406</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.configurationType" implementationName="JUnit" />
+    <option featureType="com.intellij.configurationType" implementationName="Application" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="updated README.md" />
+    <MESSAGE value="fixed pom.xml" />
+    <MESSAGE value="working UFBF" />
+    <MESSAGE value="removed some allocations in ufbf" />
+    <MESSAGE value="going fasterrrrrr (and allocating less while better readablity)" />
+    <MESSAGE value="fixed a bug in VectorizedBloomFilter which caused only k-4 hashes to be made and used" />
+    <MESSAGE value="better README.md" />
+    <MESSAGE value="docs for UFBF.java" />
+    <MESSAGE value="reformatting" />
+    <MESSAGE value="cleaned up BlockBitSet" />
+    <MESSAGE value="new BloomFilter" />
+    <MESSAGE value="Bencher cleanup + refactoring" />
+    <MESSAGE value="new benchmarks" />
+    <MESSAGE value="test passing + benchmarks showing good performance accross the board" />
+    <MESSAGE value="cleanup + trying to make tests pass" />
+    <MESSAGE value="added intelliJ files" />
+    <MESSAGE value="fixed interfaces" />
+    <MESSAGE value="fixed a bug causing 100% false positive rate on filters using BlockBitSet" />
+    <MESSAGE value="cleanup" />
+    <MESSAGE value="all working with satisfying performance" />
+    <MESSAGE value="no free vectorization for the poor scalar BloomFilter :c" />
+    <MESSAGE value="added javadoc" />
+    <MESSAGE value="added inlining info to README.md" />
+    <MESSAGE value="added jvm options" />
+    <MESSAGE value="fixed block size rounding + README.md improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed block size rounding + README.md improvements" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.leikoe.bitscontainers.BlockBitSet" memberName="BLOCK_SIZE" />
+        <PinnedItemInfo parentTag="com.leikoe.bitscontainers.BlockBitSet" memberName="data" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/bloom_filter$make_graphs.coverage" NAME="make_graphs Coverage Results" MODIFIED="1669797609624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
