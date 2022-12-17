@@ -483,8 +483,8 @@ Replaced it by an hashset and now its blazingly fast :speed: .
 
 **and without linked list**
 
-![add - no linked list](./images/add_v5_-_no_linked_list.png)
-![contains - no linked list](./images/contains_v5_-_no_linked_list.png)
+![add - no linked list](./images/add_v6.png)
+![contains - no linked list](./images/contains_v6.png)
 
 When we look at the charts without the linked list, we can clearly see lines, which indicate a complexity of O(n), but when we add the linked list to the chart, it's a curve ! This indicates O(n^2), and the other lines look flat compared to it, even tho they are O(n).
 What's weird is, we know from textbooks that linked list random access is O(n), and array/array list random access is O(1), why are we getting O(n^2) and O(n) ?
