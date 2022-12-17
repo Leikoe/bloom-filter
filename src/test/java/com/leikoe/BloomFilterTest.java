@@ -40,26 +40,26 @@ public class BloomFilterTest {
 
     @org.junit.Test
     public void add() {
-//        if (!arrayBloomFilter.mightContain(78)) {
-//            arrayBloomFilter.add(78);
-//            assertTrue(arrayBloomFilter.mightContain(78));
-//        }
-//        if (!arrayListBloomFilter.mightContain(78)) {
-//            arrayListBloomFilter.add(78);
-//            assertTrue(arrayListBloomFilter.mightContain(78));
-//        }
-//        if (!linkedListBloomFilter.mightContain(78)) {
-//            linkedListBloomFilter.add(78);
-//            assertTrue(linkedListBloomFilter.mightContain(78));
-//        }
-//        if (!bloomFilter.mightContain(78)) {
+        if (!arrayBloomFilter.mightContain(78)) {
+            arrayBloomFilter.add(78);
+            assertTrue(arrayBloomFilter.mightContain(78));
+        }
+        if (!arrayListBloomFilter.mightContain(78)) {
+            arrayListBloomFilter.add(78);
+            assertTrue(arrayListBloomFilter.mightContain(78));
+        }
+        if (!linkedListBloomFilter.mightContain(78)) {
+            linkedListBloomFilter.add(78);
+            assertTrue(linkedListBloomFilter.mightContain(78));
+        }
+        if (!bloomFilter.mightContain(78)) {
             bloomFilter.add(78);
-//            assertTrue(bloomFilter.mightContain(78));
-//        }
-//        if (!ufbf.mightContain(78)) {
-//            ufbf.add(78);
-//            assertTrue(ufbf.mightContain(78));
-//        }
+            assertTrue(bloomFilter.mightContain(78));
+        }
+        if (!ufbf.mightContain(78)) {
+            ufbf.add(78);
+            assertTrue(ufbf.mightContain(78));
+        }
     }
 
     @org.junit.Test
@@ -76,16 +76,6 @@ public class BloomFilterTest {
         assertFalse(arrayListBloomFilter.mightContain(748));
         assertFalse(arrayListBloomFilter.mightContain(23));
         assertFalse(arrayListBloomFilter.mightContain(328));
-    }
-
-    @org.junit.Test
-    public void testUFBF() {
-        IBloomFilter<Integer> ufbf = TestUtils.makeExampleBloomFilter(100);
-        for (int i=0; i<100000; i++) {
-            int x = rnd.nextInt();
-            ufbf.add(x);
-//            assertTrue(ufbf.mightContain(x));
-        }
     }
 
     @org.junit.Test

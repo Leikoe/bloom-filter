@@ -48,7 +48,7 @@ public class UFBF<T> extends BloomFilter<T> {
 
     /**
      * inserts a generic value into the filter
-     * this was implemented using the whitepaper "Ultra-Fast Bloom Filters using SIMD Techniques" by Jianyuan Lu
+     * this was implemented using the white paper "Ultra-Fast Bloom Filters using SIMD Techniques" by Jianyuan Lu
      *
      * @param value
      */

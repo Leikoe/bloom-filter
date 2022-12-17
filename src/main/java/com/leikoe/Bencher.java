@@ -98,19 +98,19 @@ public class Bencher {
             bh.consume(nativeBitSetNaiveBloomFilter.mightContain(i));
         }
     }
-//    @Benchmark
+    @Benchmark
     public void guavaLockFreeBitArrayNaiveBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(guavaLockFreeBitArrayNaiveBloomFilter.mightContain(i));
         }
     }
-//    @Benchmark
+    @Benchmark
     public void arrayListNaiveBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(arrayListNaiveBloomFilter.mightContain(i));
         }
     }
-//    @Benchmark
+    @Benchmark
     public void linkedListNaiveBloomFilterContains(org.openjdk.jmh.infra.Blackhole bh) {
         for (int i: testValues) {
             bh.consume(linkedListNaiveBloomFilter.mightContain(i));
@@ -148,19 +148,19 @@ public class Bencher {
             nativeBitSetNaiveBloomFilterEmpty.add(i);
         }
     }
-//    @Benchmark
+    @Benchmark
     public void guavaLockFreeBitArrayNaiveBloomFilterAdd() {
         for (int i: testValues) {
             guavaLockFreeBitArrayNaiveBloomFilterEmpty.add(i);
         }
     }
-//    @Benchmark
+    @Benchmark
     public void arrayListNaiveBloomFilterAdd() {
         for (int i: testValues) {
             arrayListNaiveBloomFilterEmpty.add(i);
         }
     }
-//    @Benchmark
+    @Benchmark
     public void linkedListNaiveBloomFilterAdd() {
         for (int i: testValues) {
             linkedListNaiveBloomFilterEmpty.add(i);
@@ -202,9 +202,9 @@ public class Bencher {
         if (arrayListNaiveBloomFilterEmpty == null || arrayListNaiveBloomFilterEmpty.size() != 0) {
             arrayListNaiveBloomFilterEmpty = TestUtils.makeExampleArrayListBloomFilter(items);
         }
-//        if (linkedListNaiveBloomFilterEmpty == null || linkedListNaiveBloomFilterEmpty.size() != 0) {
-//            linkedListNaiveBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(items);
-//        }
+        if (linkedListNaiveBloomFilterEmpty == null || linkedListNaiveBloomFilterEmpty.size() != 0) {
+            linkedListNaiveBloomFilterEmpty = TestUtils.makeExampleLinkedListBloomFilter(items);
+        }
         if (hashsetEmpty == null || hashsetEmpty.size() != 0) {
             hashsetEmpty = new HashSet<>(items);
         }
@@ -258,12 +258,12 @@ public class Bencher {
                 arrayListNaiveBloomFilter.add(testValues.get(i));
             }
         }
-//        if (linkedListNaiveBloomFilter == null || linkedListNaiveBloomFilter.size() != items /2) {
-//            linkedListNaiveBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(items);
-//            for (int i = 0; i<testValues.size()/2; i++) {
-//                linkedListNaiveBloomFilter.add(testValues.get(i));
-//            }
-//        }
+        if (linkedListNaiveBloomFilter == null || linkedListNaiveBloomFilter.size() != items /2) {
+            linkedListNaiveBloomFilter = TestUtils.makeExampleLinkedListBloomFilter(items);
+            for (int i = 0; i<testValues.size()/2; i++) {
+                linkedListNaiveBloomFilter.add(testValues.get(i));
+            }
+        }
         if (hashset == null || hashset.size() != items /2) {
             hashset = new HashSet<>(items);
             for (int i=0; i<testValues.size()/2; i++) {
