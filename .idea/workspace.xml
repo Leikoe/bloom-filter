@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d546a6a-c52a-4620-8cd2-16ce8a637db6" name="Changes" comment="fixed block size rounding + README.md improvements">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/leikoe/Bencher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/leikoe/Bencher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/leikoe/UFBF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/leikoe/UFBF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/leikoe/BloomFilterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/leikoe/BloomFilterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
