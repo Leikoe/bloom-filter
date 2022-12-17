@@ -106,7 +106,7 @@ public class BloomFilterTest {
 
     public int getObservedFalsePositives(int n) {
         Random random = new Random();
-        BloomFilter<Integer> bloomFilter = TestUtils.makeExampleBloomFilter(n);
+        IBloomFilter<Integer> bloomFilter = TestUtils.makeExampleNativeBitSetBloomFilter(n);
 
         HashSet<Integer> addedItems = new HashSet<>();
         for (int i=0; i<n; i++) {
