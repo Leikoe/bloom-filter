@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9d546a6a-c52a-4620-8cd2-16ce8a637db6" name="Changes" comment="fixed block size rounding + README.md improvements">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/leikoe/BloomFilterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/leikoe/BloomFilterTest.java" afterDir="false" />
+    <list default="true" id="9d546a6a-c52a-4620-8cd2-16ce8a637db6" name="Changes" comment="changed false positive benchmark to use a naive bloom filter">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,13 +204,6 @@
       <workItem from="1670397971681" duration="6051000" />
       <workItem from="1670950100009" duration="1610000" />
       <workItem from="1671286751897" duration="136000" />
-    </task>
-    <task id="LOCAL-00036" summary="switched back to java hashes">
-      <created>1667751821711</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1667751821711</updated>
     </task>
     <task id="LOCAL-00037" summary="added BitSet to bits containers">
       <created>1667755507954</created>
@@ -549,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670950328406</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="changed false positive benchmark to use a naive bloom filter">
+      <created>1671287157714</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1671287157714</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,7 +570,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated README.md" />
     <MESSAGE value="fixed pom.xml" />
     <MESSAGE value="working UFBF" />
     <MESSAGE value="removed some allocations in ufbf" />
@@ -596,7 +594,8 @@
     <MESSAGE value="added inlining info to README.md" />
     <MESSAGE value="added jvm options" />
     <MESSAGE value="fixed block size rounding + README.md improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed block size rounding + README.md improvements" />
+    <MESSAGE value="changed false positive benchmark to use a naive bloom filter" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed false positive benchmark to use a naive bloom filter" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
